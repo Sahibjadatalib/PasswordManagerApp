@@ -1,11 +1,10 @@
-package com.example.passwordmanager.room.dao
+package com.example.passwordmanager.data.room.dao
 
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
-import com.example.passwordmanager.room.entity.LoginsItems
-import com.example.passwordmanager.room.entity.OthersItems
+import com.example.passwordmanager.data.room.entity.OthersItems
 import kotlinx.coroutines.flow.Flow
 
 @Dao

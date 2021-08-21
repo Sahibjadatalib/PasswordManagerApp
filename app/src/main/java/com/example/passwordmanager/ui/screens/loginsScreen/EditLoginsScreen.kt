@@ -1,4 +1,4 @@
-package com.example.passwordmanager.ui.screens
+package com.example.passwordmanager.ui.screens.loginsScreen
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -8,9 +8,11 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Scaffold
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.VpnKey
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -19,21 +21,28 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.passwordmanager.LoginsScreen
-import com.example.passwordmanager.ui.viewModel.MainViewModel
 import com.example.passwordmanager.model.loginsCategoryOptions
 import com.example.passwordmanager.ui.components.*
 import com.example.passwordmanager.ui.viewModel.LoginsViewModel
+import com.example.passwordmanager.ui.viewModel.MainViewModel
 import kotlinx.coroutines.launch
 
-
 @Composable
-fun NewLoginsScreen(
+fun EditLoginsDetails(
     viewModel: LoginsViewModel = hiltViewModel(),
     mainViewModel: MainViewModel,
     navController: NavController,
     navigateToAllLogins: () -> Unit,
+    itemId: Int,
     popUp: ()->Unit
 ) {
+
+    val itemById = viewModel.getItemById(itemId).observeAsState()
+
+    itemById.value?.title?.let { viewModel.setTitle(it) }
+    itemById.value?.category?.let { viewModel.setCategory(it) }
+    itemById.value?.userName?.let { viewModel.setUserName(it) }
+    itemById.value?.passWord?.let { viewModel.setPassword(it) }
 
     val scrollState = rememberScrollState()
 
@@ -51,10 +60,12 @@ fun NewLoginsScreen(
     Scaffold(
         topBar = {
             NewItemTopAppBar(
-                topAppBarTitle = LoginsScreen.NewLoginsItem.label,
-                onCancelIconClick = { popUp() },
+                topAppBarTitle = LoginsScreen.EditLoginsDetails.label,
+                onCancelIconClick = {
+                    popUp()
+                },
                 onDoneIconClick = {
-                    viewModel.insertLoginsItem(popUp, showSnackBar)
+                    viewModel.updateLoginsItem(itemId,showSnackBar, popUp)
                 }
             )
         },

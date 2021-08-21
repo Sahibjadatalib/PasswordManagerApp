@@ -12,18 +12,22 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.example.passwordmanager.LeafScreen
-import com.example.passwordmanager.MainViewModel
+import com.example.passwordmanager.ui.viewModel.MainViewModel
 import com.example.passwordmanager.ui.components.HomeTopAppBar
 import com.example.passwordmanager.ui.components.MyBottomBar
 import com.example.passwordmanager.ui.components.MyFloatingBtn
-import com.example.passwordmanager.ui.screens.cardsScreen.CardsViewModel
+import com.example.passwordmanager.ui.viewModel.CardsViewModel
+import com.example.passwordmanager.*
 
 @Composable
 fun CardsScreen(
     viewModel: CardsViewModel = hiltViewModel(),
     mainViewModel: MainViewModel,
-    navController: NavController
+    navController: NavController,
+    currentRoute: String,
+    navigateToAllLogins: ()->Unit,
+    navigateToAllCards: ()->Unit,
+    navigateToAllOthers: ()->Unit,
 ) {
 
     mainViewModel.setColorForStatusBar(MaterialTheme.colors.primaryVariant)
@@ -32,24 +36,28 @@ fun CardsScreen(
 
     Scaffold(
         topBar = {
-            HomeTopAppBar(
-                topAppBarTitle = LeafScreen.AllCards.label,
-                onMenuIconClick = {},
-                onSortIconClick = {},
-                onSearchIconClick = {}
-            )
+//            HomeTopAppBar(
+//                topAppBarTitle = CardsScreen.AllCards.label,
+//                onMenuIconClick = {},
+//                onSortIconClick = {},
+//                onSearchIconClick = {},
+//                onSwitchIconClick = {}
+//            )
         },
         floatingActionButton = {
             MyFloatingBtn(
-                navController = navController,
-                onClick = {navController.navigate(LeafScreen.NewCardsItem.route)}            )
+                onClick = {navController.navigate(CardsScreen.NewCardsItem.route)}            )
         },
         drawerContent = {
             //MyDrawer()
         },
         bottomBar = {
             MyBottomBar(
-                navController = navController
+                navController = navController,
+                currentRoute = currentRoute,
+                navigateToAllLogins = navigateToAllLogins,
+                navigateToAllCards = navigateToAllCards,
+                navigateToAllOthers = navigateToAllOthers,
             )
         },
         floatingActionButtonPosition = FabPosition.End,

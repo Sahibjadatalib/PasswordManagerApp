@@ -1,10 +1,10 @@
-package com.example.passwordmanager.ui.screens.cardsScreen
+package com.example.passwordmanager.ui.viewModel
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.passwordmanager.room.entity.LoginsItems
-import com.example.passwordmanager.repository.RoomsRepository
+import com.example.passwordmanager.data.room.entity.LoginsItems
+import com.example.passwordmanager.data.repository.RoomsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -55,7 +55,7 @@ class CardsViewModel @Inject constructor(
 
     fun getAllLoginsItems(){
         viewModelScope.launch {
-            repository.getAllLoginsItems
+            repository.getAllLoginsItems()
                 .catch { exception->
 
                 }

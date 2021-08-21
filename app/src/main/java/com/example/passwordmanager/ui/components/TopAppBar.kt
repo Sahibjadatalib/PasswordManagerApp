@@ -14,20 +14,23 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.passwordmanager.ui.theme.AmberA200
 
 @Composable
 fun HomeTopAppBar(
     topAppBarTitle: String,
-    onMenuIconClick: ()->Unit,
+    onMenuIconClick: () -> Unit,
     onSortIconClick: () -> Unit,
-    onSearchIconClick: () -> Unit
-){
+    onSearchIconClick: () -> Unit,
+    switchState: Boolean,
+    onSwitchIconClick: (Boolean)->Unit
+) {
 
     TopAppBar(
         title = { Text(text = topAppBarTitle) },
         backgroundColor = MaterialTheme.colors.background,
         navigationIcon = {
-            IconButton(onClick = {onMenuIconClick()}) {
+            IconButton(onClick = { onMenuIconClick() }) {
                 Icon(
                     tint = MaterialTheme.colors.primary,
                     imageVector = Icons.Filled.Menu,
@@ -36,6 +39,17 @@ fun HomeTopAppBar(
             }
         },
         actions = {
+
+            Switch(
+                checked = switchState,
+                onCheckedChange = { onSwitchIconClick(it)},
+                colors = SwitchDefaults.colors(
+                    checkedThumbColor = AmberA200,
+                    checkedTrackAlpha = AmberA200.blue,
+                    uncheckedThumbColor = MaterialTheme.colors.primary,
+                    uncheckedTrackAlpha = MaterialTheme.colors.primary.green
+                )
+            )
 
             IconButton(onClick = { onSortIconClick() }) {
                 Icon(
@@ -88,7 +102,7 @@ fun NewItemTopAppBar(
                 fontWeight = FontWeight.Bold
             )
 
-            IconButton(onClick = { onDoneIconClick()}) {
+            IconButton(onClick = { onDoneIconClick() }) {
                 Icon(
                     tint = Color.Green,
                     imageVector = Icons.Default.Done,
@@ -102,8 +116,55 @@ fun NewItemTopAppBar(
 
 
 @Composable
-fun IconsLibraryTopBar(
+fun DetailsTopAppBar(
+    topAppBarTitle: String,
+    onBackIconClick: () -> Unit,
+    onDeleteIconClick: () -> Unit,
+    onEditIconClick: () -> Unit
+) {
 
-){
+    TopAppBar(
+        backgroundColor = MaterialTheme.colors.background
+    ) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.Start,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            IconButton(onClick = { onBackIconClick() }) {
+                Icon(
+                    modifier = Modifier.weight(1f),
+                    tint = Color.Black,
+                    imageVector = Icons.Default.ArrowBackIos,
+                    contentDescription = ""
+                )
+            }
+
+            Text(
+                modifier = Modifier.weight(6f),
+                text = topAppBarTitle,
+                fontSize = MaterialTheme.typography.h6.fontSize,
+                fontWeight = FontWeight.Bold
+            )
+
+            IconButton(onClick = { onEditIconClick() }) {
+                Icon(
+                    modifier = Modifier.weight(1f),
+                    tint = MaterialTheme.colors.primary,
+                    imageVector = Icons.Default.Edit,
+                    contentDescription = ""
+                )
+            }
+
+            IconButton(onClick = { onDeleteIconClick() }) {
+                Icon(
+                    modifier = Modifier.weight(1f),
+                    tint = Color.Red,
+                    imageVector = Icons.Default.Delete,
+                    contentDescription = ""
+                )
+            }
+        }
+    }
 
 }

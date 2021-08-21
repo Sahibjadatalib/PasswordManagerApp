@@ -18,17 +18,20 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.passwordmanager.model.Category
+import com.example.passwordmanager.model.loginsCategoryOptions
 
 
 @Composable
 fun Category(
     modifier: Modifier = Modifier,
     categoryList: List<Category>,
-    selectedCategory: MutableState<String>
+    selectedCategory: Int,
+    setCategory: (Int)->Unit
 
 ) {
 
@@ -65,7 +68,7 @@ fun Category(
 
                 Text(
                     modifier = modifier.weight(3f),
-                    text = selectedCategory.value,
+                    text = categoryList[selectedCategory].title,
                     color = MaterialTheme.colors.primary,
                     fontSize = MaterialTheme.typography.h6.fontSize,
                     fontStyle = FontStyle.Normal,
@@ -92,15 +95,16 @@ fun Category(
 
                     Divider(color = Color.LightGray, thickness = 1.dp)
 
-                    categoryList.forEach { category ->
+                    for (category in categoryList) {
                         OptionsRow(
                             modifier = modifier,
                             category = category,
+                            categoryList = categoryList,
                             selectedCategory = selectedCategory,
+                            setCategory = setCategory,
                             expended = expended
                         )
                         Divider(color = Color.LightGray, thickness = 1.dp)
-
                     }
                 }
 
@@ -114,18 +118,19 @@ fun Category(
 @Composable
 fun OptionsRow(
     modifier: Modifier = Modifier,
+    categoryList: List<Category>,
     category: Category,
-    selectedCategory: MutableState<String>,
+    selectedCategory: Int,
+    setCategory: (Int)->Unit,
     expended: MutableState<Boolean>
 ) {
-
 
 
     Row(
         modifier = modifier
             .fillMaxWidth()
             .clickable {
-                selectedCategory.value = category.title
+                setCategory(category.index)
                 expended.value = false
             }
             .padding(16.dp),
@@ -143,8 +148,9 @@ fun OptionsRow(
             Icon(
                 modifier = modifier,
                 tint = category.tintColor,
-                imageVector = category.icon, contentDescription = ""
+                imageVector = categoryList[category.index].icon, contentDescription = ""
             )
+
         }
         Spacer(modifier = modifier.width(16.dp))
         Text(
@@ -154,8 +160,7 @@ fun OptionsRow(
             fontWeight = FontWeight.Normal,
             fontStyle = FontStyle.Normal
         )
-        //Spacer(modifier = modifier.width(200.dp))
-        if(selectedCategory.value == category.title) {
+        if (selectedCategory == categoryList.indexOf(category)) {
             Icon(
                 modifier = modifier.weight(1f),
                 imageVector = Icons.Default.Done, contentDescription = ""

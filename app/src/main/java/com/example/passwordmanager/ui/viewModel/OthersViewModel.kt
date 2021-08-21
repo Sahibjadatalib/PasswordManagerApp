@@ -1,8 +1,8 @@
-package com.example.passwordmanager.ui.screens.othersScreen
+package com.example.passwordmanager.ui.viewModel
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
-import com.example.passwordmanager.repository.RoomsRepository
+import com.example.passwordmanager.data.repository.RoomsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 

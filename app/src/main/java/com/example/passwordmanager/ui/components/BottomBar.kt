@@ -8,38 +8,59 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.example.passwordmanager.screensForBottomBar
+import com.example.passwordmanager.CardsScreen
+import com.example.passwordmanager.LoginsScreen
+import com.example.passwordmanager.OthersScreen
 
 @Composable
 fun MyBottomBar(
-    navController: NavController
+    navController: NavController,
+    currentRoute: String,
+    navigateToAllLogins: ()->Unit,
+    navigateToAllCards: ()->Unit,
+    navigateToAllOthers: ()->Unit,
 ) {
-
-
 
     BottomAppBar(
         modifier = Modifier.background(Color.White),
         backgroundColor = Color.White
     ) {
-        val navBackStackEntry by navController.currentBackStackEntryAsState()
-        val currentRoute = navBackStackEntry?.destination?.route
+//        val navBackStackEntry by navController.currentBackStackEntryAsState()
+//        val currentRoute = navBackStackEntry?.destination?.route
 
-        screensForBottomBar.forEach { screen ->
+        BottomNavigationItem(
+            icon = { Icon(imageVector = LoginsScreen.AllLogins.icon, contentDescription = "icon") },
+            label = { Text(text = LoginsScreen.AllLogins.label) },
+            selected = currentRoute == LoginsScreen.AllLogins.route,
+            selectedContentColor = MaterialTheme.colors.primary,
+            unselectedContentColor = MaterialTheme.colors.onBackground,
+            onClick = {navigateToAllLogins()}
 
-            BottomNavigationItem(
-                icon = { Icon(imageVector = screen.icon, contentDescription = "icon") },
-                label = { Text(text = screen.label) },
-                selected = currentRoute == screen.route,
-                selectedContentColor = MaterialTheme.colors.primary,
-                unselectedContentColor = MaterialTheme.colors.onBackground,
-                onClick = {
+        )
 
-                    navController.navigate(screen.route){
-                        popUpTo(screensForBottomBar.first().route)
-                        launchSingleTop = true
-                    }
-                }
-            )
-        }
+        BottomNavigationItem(
+            icon = { Icon(imageVector = CardsScreen.AllCards.icon, contentDescription = "icon") },
+            label = { Text(text = CardsScreen.AllCards.label) },
+            selected = currentRoute == CardsScreen.AllCards.route,
+            selectedContentColor = MaterialTheme.colors.primary,
+            unselectedContentColor = MaterialTheme.colors.onBackground,
+            onClick = {navigateToAllCards()}
+
+        )
+
+
+        BottomNavigationItem(
+            icon = { Icon(imageVector = OthersScreen.AllOthers.icon, contentDescription = "icon") },
+            label = { Text(text = OthersScreen.AllOthers.label) },
+            selected = currentRoute == OthersScreen.AllOthers.route,
+            selectedContentColor = MaterialTheme.colors.primary,
+            unselectedContentColor = MaterialTheme.colors.onBackground,
+            onClick = {navigateToAllOthers()}
+
+        )
+
+
+
+
     }
 }

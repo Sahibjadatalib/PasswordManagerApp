@@ -3,10 +3,10 @@ package com.example.passwordmanager.di
 import android.app.Application
 import android.content.Context
 import androidx.room.Room
-import com.example.passwordmanager.room.dao.CardsDao
-import com.example.passwordmanager.room.dao.LoginsDao
-import com.example.passwordmanager.room.dao.OthersDao
-import com.example.passwordmanager.room.database.AppsDatabase
+import com.example.passwordmanager.data.room.dao.CardsDao
+import com.example.passwordmanager.data.room.dao.LoginsDao
+import com.example.passwordmanager.data.room.dao.OthersDao
+import com.example.passwordmanager.data.room.database.AppsDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

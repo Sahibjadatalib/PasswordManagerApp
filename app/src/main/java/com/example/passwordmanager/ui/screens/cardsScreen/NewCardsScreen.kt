@@ -6,21 +6,16 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Scaffold
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.PersonOutline
-import androidx.compose.material.icons.filled.VpnKey
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.example.passwordmanager.LeafScreen
-import com.example.passwordmanager.MainViewModel
-import com.example.passwordmanager.model.CardsCategoryOptions
+import com.example.passwordmanager.CardsScreen
+import com.example.passwordmanager.ui.viewModel.MainViewModel
 import com.example.passwordmanager.ui.components.*
-import com.example.passwordmanager.ui.screens.cardsScreen.CardsViewModel
+import com.example.passwordmanager.ui.viewModel.CardsViewModel
 
 @Composable
 fun NewCardsScreen(
@@ -37,7 +32,7 @@ fun NewCardsScreen(
     Scaffold(
         topBar = {
             NewItemTopAppBar(
-                topAppBarTitle = LeafScreen.NewCardsItem.label,
+                topAppBarTitle = CardsScreen.NewCardsItem.label,
                 onCancelIconClick = {},
                 onDoneIconClick = {}
             )
@@ -55,15 +50,14 @@ fun NewCardsScreen(
             //title field
             TitleField(
                 text = viewModel.title.value,
-                onTextChange = { viewModel.title.value = it },
-                onTitleTrailingIconClick = {}
+                onTextChange = { viewModel.title.value = it }
             )
 
             //category
-            Category(
-                categoryList = CardsCategoryOptions,
-                selectedCategory = viewModel.category
-            )
+//            Category(
+//                categoryList = CardsCategoryOptions,
+//                selectedCategory = viewModel.category
+//            )
 
 
             AddFieldsBtn(

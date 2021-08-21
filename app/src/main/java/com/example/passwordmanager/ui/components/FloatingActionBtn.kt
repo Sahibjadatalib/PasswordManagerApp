@@ -9,7 +9,6 @@ import androidx.navigation.NavController
 
 @Composable
 fun MyFloatingBtn(
-    navController: NavController,
     onClick: () -> Unit
 ) {
 

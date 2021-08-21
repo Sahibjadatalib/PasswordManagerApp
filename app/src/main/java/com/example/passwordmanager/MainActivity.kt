@@ -8,7 +8,9 @@ import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
+import com.example.passwordmanager.AppNavGraph
 import com.example.passwordmanager.ui.theme.PasswordManagerTheme
+import com.example.passwordmanager.ui.viewModel.MainViewModel
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
 

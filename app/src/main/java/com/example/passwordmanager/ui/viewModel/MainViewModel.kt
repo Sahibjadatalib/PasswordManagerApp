@@ -1,4 +1,4 @@
-package com.example.passwordmanager
+package com.example.passwordmanager.ui.viewModel
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf

@@ -16,12 +16,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.example.passwordmanager.LeafScreen
-import com.example.passwordmanager.MainViewModel
-import com.example.passwordmanager.Screen
-import com.example.passwordmanager.model.OthersCategoryOptions
+import com.example.passwordmanager.OthersScreen
+import com.example.passwordmanager.ui.viewModel.MainViewModel
 import com.example.passwordmanager.ui.components.*
-import com.example.passwordmanager.ui.screens.othersScreen.OthersViewModel
+import com.example.passwordmanager.ui.viewModel.OthersViewModel
 
 @Composable
 fun NewOthersScreen(
@@ -37,7 +35,7 @@ fun NewOthersScreen(
     Scaffold(
         topBar = {
             NewItemTopAppBar(
-                topAppBarTitle = LeafScreen.AllOthers.label,
+                topAppBarTitle = OthersScreen.AllOthers.label,
                 onCancelIconClick = {},
                 onDoneIconClick = {}
             )
@@ -55,15 +53,14 @@ fun NewOthersScreen(
             //title field
             TitleField(
                 text = viewModel.title.value,
-                onTextChange = { viewModel.title.value = it },
-                onTitleTrailingIconClick = {}
+                onTextChange = { viewModel.title.value = it }
             )
 
             //category
-            Category(
-                categoryList = OthersCategoryOptions,
-                selectedCategory = viewModel.category
-            )
+//            Category(
+//                categoryList = OthersCategoryOptions,
+//                selectedCategory = viewModel.category
+//            )
 
 
 

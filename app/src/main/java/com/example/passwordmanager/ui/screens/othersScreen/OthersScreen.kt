@@ -9,17 +9,20 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.example.passwordmanager.LeafScreen
-import com.example.passwordmanager.MainViewModel
-import com.example.passwordmanager.Screen
+import com.example.passwordmanager.ui.viewModel.MainViewModel
 import com.example.passwordmanager.ui.components.*
-import com.example.passwordmanager.ui.screens.othersScreen.OthersViewModel
+import com.example.passwordmanager.ui.viewModel.OthersViewModel
+import com.example.passwordmanager.*
 
 @Composable
 fun OthersScreen(
     viewModel: OthersViewModel = hiltViewModel(),
     mainViewModel: MainViewModel,
-    navController: NavController
+    navController: NavController,
+    currentRoute: String,
+    navigateToAllLogins: ()->Unit,
+    navigateToAllCards: ()->Unit,
+    navigateToAllOthers: ()->Unit,
 ) {
 
     mainViewModel.setColorForStatusBar(MaterialTheme.colors.primaryVariant)
@@ -27,24 +30,28 @@ fun OthersScreen(
 
     Scaffold(
         topBar = {
-            HomeTopAppBar(
-                topAppBarTitle = LeafScreen.AllOthers.label,
-                onMenuIconClick = {},
-                onSortIconClick = {},
-                onSearchIconClick = {}
-            )
+//            HomeTopAppBar(
+//                topAppBarTitle = OthersScreen.AllOthers.label,
+//                onMenuIconClick = {},
+//                onSortIconClick = {},
+//                onSearchIconClick = {},
+//                onSwitchIconClick = {}
+//            )
         },
         floatingActionButton = {
             MyFloatingBtn(
-                navController = navController,
-                onClick = {navController.navigate(LeafScreen.NewOthersItem.route)}            )
+                onClick = {navController.navigate(OthersScreen.NewOthersItem.route)}            )
         },
         drawerContent = {
             //MyDrawer()
         },
         bottomBar = {
             MyBottomBar(
-                navController = navController
+                navController = navController,
+                currentRoute = currentRoute,
+                navigateToAllLogins = navigateToAllLogins,
+                navigateToAllCards = navigateToAllCards,
+                navigateToAllOthers = navigateToAllOthers,
             )
         },
         floatingActionButtonPosition = FabPosition.End,

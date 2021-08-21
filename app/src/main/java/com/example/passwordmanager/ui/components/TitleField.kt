@@ -24,8 +24,7 @@ import androidx.compose.ui.unit.dp
 fun TitleField(
     modifier: Modifier = Modifier,
     text: String,
-    onTextChange: (String) -> Unit,
-    onTitleTrailingIconClick: () -> Unit
+    onTextChange: (String) -> Unit
 ) {
     Surface(
         modifier = modifier
@@ -44,11 +43,6 @@ fun TitleField(
                 fontSize = MaterialTheme.typography.h5.fontSize,
                 fontWeight = FontWeight.Bold
             ),
-            trailingIcon = {
-                TitleTrailingIcon(
-                    onClick = { onTitleTrailingIconClick() }
-                )
-            },
             value = text,
             placeholder = {
                 Text(

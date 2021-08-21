@@ -1,4 +1,4 @@
-package com.example.passwordmanager
+package com.example.passwordmanager.application
 
 import android.app.Application
 import dagger.hilt.android.AndroidEntryPoint

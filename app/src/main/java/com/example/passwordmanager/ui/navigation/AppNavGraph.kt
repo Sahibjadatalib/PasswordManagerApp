@@ -9,72 +9,89 @@ import androidx.navigation.compose.NavHost
 import com.example.passwordmanager.ui.screens.cardsScreen.addCardsGraph
 import com.example.passwordmanager.ui.screens.loginsScreen.addLoginsGraph
 import com.example.passwordmanager.ui.screens.othersScreen.addOthersGraph
+import com.example.passwordmanager.ui.viewModel.MainViewModel
 
 sealed class Screen(
     val route: String
 ) {
 
-    object LoginsScreenRoot : Screen("logins_root")
-    object CardsScreenRoot : Screen("cards_root")
-    object OthersScreenRoot : Screen("others_root")
+    object LoginsScreenRoot : Screen("logins")
+    object CardsScreenRoot : Screen("cards")
+    object OthersScreenRoot : Screen("others")
 
 }
 
-sealed class LeafScreen(
+sealed class LoginsScreen(
     val route: String,
     val label: String,
     val icon: ImageVector
-) {
+){
 
-    object AllLogins : LeafScreen(
+    object AllLogins : LoginsScreen(
         "logins_screen",
         "Logins",
         Icons.Default.Language
     )
 
-    object NewLoginsItem : LeafScreen(
+    object NewLoginsItem : LoginsScreen(
         "new_logins_item",
         "New Item", Icons.Default.Language
     )
 
-    object LoginsIconsLibrary : LeafScreen(
-        "icons_library_logins",
-        "Icons Library", Icons.Default.Language
-    )
+    object LoginsDetails: LoginsScreen(
+        "logins_details_screen/{itemId}",
+        "Details",
+        Icons.Default.Details
+    ){
+        fun createRoute(itemId: String) = "logins_details_screen/${itemId}"
+    }
 
-    object AllCards : LeafScreen(
+    object EditLoginsDetails: LoginsScreen(
+        "logins_edit_screen/{itemId}",
+        "Edit Item",
+        Icons.Default.Details
+    ){
+        fun createRoute(itemId: String) = "logins_edit_screen/${itemId}"
+    }
+
+}
+
+sealed class CardsScreen(
+    val route: String,
+    val label: String,
+    val icon: ImageVector
+){
+
+    object AllCards : CardsScreen(
         "cards_screen", "Cards",
         Icons.Default.CreditCard
     )
 
-    object NewCardsItem : LeafScreen(
+    object NewCardsItem : CardsScreen(
         "new_cards_item", "New Item",
         Icons.Default.CreditCard
     )
+}
 
-    object AllOthers : LeafScreen(
+sealed class OthersScreen(
+    val route: String,
+    val label: String,
+    val icon: ImageVector
+){
+
+    object AllOthers : OthersScreen(
         "others_screen", "Others",
         Icons.Default.LinearScale
     )
 
-    object NewOthersItem : LeafScreen(
+    object NewOthersItem : OthersScreen(
         "new_others_item", "New Item",
-        Icons.Default.LinearScale
-    )
-
-    object OthersIconsLibrary : LeafScreen(
-        "icons_library_others",
-        "Icons Library",
         Icons.Default.LinearScale
     )
 
 }
 
-val screensForBottomBar = listOf(
-    LeafScreen.AllLogins,
-    LeafScreen.AllCards,
-    LeafScreen.AllOthers
-)
+
 
 
 @Composable
@@ -91,6 +108,7 @@ fun AppNavGraph(
         addLoginsGraph(mainViewModel, navController)
         addCardsGraph(mainViewModel, navController)
         addOthersGraph(mainViewModel, navController)
+
 
     }
 
