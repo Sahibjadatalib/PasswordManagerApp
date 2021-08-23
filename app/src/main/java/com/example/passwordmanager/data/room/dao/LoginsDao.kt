@@ -17,6 +17,9 @@ interface LoginsDao {
     @Query("SELECT * FROM loginsItems WHERE itemId =:itemId")
     fun getItemById(itemId: Int): Flow<LoginsItems>
 
+    @Query("SELECT * FROM loginsItems WHERE title LIKE '%'|| :searchQuery ||'%'")
+    fun getSearchedEntries(searchQuery: String): Flow<List<LoginsItems>>
+
     @Insert
     suspend fun insert(vararg loginsItems: LoginsItems)
 

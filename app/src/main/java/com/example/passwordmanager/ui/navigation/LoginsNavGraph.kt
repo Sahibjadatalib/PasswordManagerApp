@@ -78,6 +78,12 @@ private fun NavGraphBuilder.addAllLoginsGraph(
             }
         }
 
+        val navigateToLoginsEdit: (Int)->Unit = {itemId->
+            navController.navigate(LoginsScreen.EditLoginsDetails.createRoute(itemId.toString())){
+                popUpTo(LoginsScreen.AllLogins.route)
+            }
+        }
+
         val popUp: ()->Unit = {
             navController.navigateUp()
         }
@@ -92,6 +98,7 @@ private fun NavGraphBuilder.addAllLoginsGraph(
                 navigateToAllOthers = navigateToAllOthers,
                 navigateToLoginsDetails = navigateToLoginsDetails,
                 navigateToNewItem = navigateToNewItem,
+                navigateToLoginsEdit = navigateToLoginsEdit,
                 popUp = popUp
             )
         }

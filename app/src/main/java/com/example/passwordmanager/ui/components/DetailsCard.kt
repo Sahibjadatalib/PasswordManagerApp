@@ -46,7 +46,7 @@ fun DetailsCard(
         modifier = modifier
             .fillMaxWidth()
             .height(140.dp)
-            .padding(8.dp),
+            .padding(vertical = 16.dp, horizontal = 8.dp),
         color = MaterialTheme.colors.background,
         shape = RoundedCornerShape(8.dp),
         elevation = 4.dp

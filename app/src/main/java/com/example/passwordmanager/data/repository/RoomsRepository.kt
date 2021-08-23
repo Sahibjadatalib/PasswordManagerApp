@@ -31,6 +31,10 @@ class RoomsRepository @Inject constructor(
         return loginsDao.getItemById(itemId = itemId)
     }
 
+    fun getSearchedEntries(searchQuery: String): Flow<List<LoginsItems>>{
+        return loginsDao.getSearchedEntries(searchQuery = searchQuery)
+    }
+
     suspend fun deleteLoginsItem(itemId: Int) {
         loginsDao.delete(itemId = itemId)
     }

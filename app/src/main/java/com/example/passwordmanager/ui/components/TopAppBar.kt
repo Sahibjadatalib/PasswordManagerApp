@@ -21,7 +21,6 @@ fun HomeTopAppBar(
     topAppBarTitle: String,
     onMenuIconClick: () -> Unit,
     onSortIconClick: () -> Unit,
-    onSearchIconClick: () -> Unit,
     switchState: Boolean,
     onSwitchIconClick: (Boolean)->Unit
 ) {
@@ -46,8 +45,8 @@ fun HomeTopAppBar(
                 colors = SwitchDefaults.colors(
                     checkedThumbColor = AmberA200,
                     checkedTrackAlpha = AmberA200.blue,
-                    uncheckedThumbColor = MaterialTheme.colors.primary,
-                    uncheckedTrackAlpha = MaterialTheme.colors.primary.green
+                    uncheckedThumbColor = MaterialTheme.colors.secondary,
+                    uncheckedTrackAlpha = MaterialTheme.colors.secondary.red
                 )
             )
 
@@ -59,17 +58,9 @@ fun HomeTopAppBar(
                 )
             }
 
-            IconButton(onClick = { onSearchIconClick() }) {
-                Icon(
-                    tint = MaterialTheme.colors.primary,
-                    imageVector = Icons.Default.Search,
-                    contentDescription = "Search icon"
-                )
-            }
-
 
         },
-        elevation = 5.dp
+        elevation = 4.dp
     )
 }
 

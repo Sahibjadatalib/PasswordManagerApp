@@ -31,10 +31,18 @@ class LoginsViewModel @Inject constructor(
         _switch.value = bool
     }
 
+    private val _searchQuery = mutableStateOf("")
+    val searchQuery: State<String> = _searchQuery
+    fun setSearchQuery(newText: String){
+        _searchQuery.value = newText
+    }
+
     init {
 
         getAllLoginsItems()
         getAllFavoriteLoginsItems()
+
+        //getSearchedEntries()
 
     }
 
@@ -64,6 +72,8 @@ class LoginsViewModel @Inject constructor(
     fun setPassword(newText: String) {
         _password.value = newText
     }
+
+
 
 
     fun deleteLoginsItem(itemId: Int) {
@@ -178,6 +188,10 @@ class LoginsViewModel @Inject constructor(
     private val _resultsForFavorites = MutableStateFlow<List<LoginsItems>>(emptyList())
     val resultsForFavorites: StateFlow<List<LoginsItems>> = _resultsForFavorites
 
+    private val _resultsForSearch = MutableStateFlow<List<LoginsItems>>(emptyList())
+    val resultsForSearch: StateFlow<List<LoginsItems>> = _resultsForSearch
+
+
     private fun getAllFavoriteLoginsItems(){
         viewModelScope.launch {
             repository.getAllFavoriteEntries()
@@ -198,6 +212,19 @@ class LoginsViewModel @Inject constructor(
                 }
                 .collect {
                     _results.value = it
+                }
+        }
+    }
+
+    fun getSearchedEntries(){
+        viewModelScope.launch {
+
+            repository.getSearchedEntries(_searchQuery.value)
+                .catch { exception->
+                    exception.printStackTrace()
+                }
+                .collect {
+                    _resultsForSearch.value = it
                 }
         }
     }

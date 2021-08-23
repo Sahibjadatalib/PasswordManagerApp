@@ -1,17 +1,22 @@
 package com.example.passwordmanager.ui.screens.home
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.FabPosition
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
-import androidx.compose.material.rememberScaffoldState
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -32,6 +37,7 @@ fun LoginsScreen(
     navigateToAllCards: () -> Unit,
     navigateToAllOthers: () -> Unit,
     navigateToLoginsDetails: (Int) -> Unit,
+    navigateToLoginsEdit: (Int) -> Unit,
     navigateToNewItem: () -> Unit,
     popUp: () -> Unit
 ) {
@@ -40,12 +46,15 @@ fun LoginsScreen(
     val scaffoldState = rememberScaffoldState()
     val coroutineScope = rememberCoroutineScope()
 
-    val items = if (viewModel.switch.value) {
+    var items = if (viewModel.switch.value) {
         viewModel.resultsForFavorites.collectAsState()
     } else {
         viewModel.results.collectAsState()
     }
 
+    if(viewModel.searchQuery.value.isNotEmpty()){
+        items = viewModel.resultsForSearch.collectAsState()
+    }
 
     val scrollState = rememberScrollState()
 
@@ -62,7 +71,6 @@ fun LoginsScreen(
                 topAppBarTitle = LoginsScreen.AllLogins.label,
                 onMenuIconClick = {},
                 onSortIconClick = {},
-                onSearchIconClick = {},
                 switchState = viewModel.switch.value,
                 onSwitchIconClick = { viewModel.setSwitch(it) }
             )
@@ -103,23 +111,63 @@ fun LoginsScreen(
                     .verticalScroll(scrollState)
             ) {
 
-                items.value.forEach { item ->
-                    ItemsCard(
-                        title = item.title,
-                        text = item.userName!!,
-                        itemIcon = loginsCategoryOptions[item.category].icon,
-                        itemIconColor = loginsCategoryOptions[item.category].tintColor,
-                        onItemCardClick = {
-                            item.itemId?.let { id -> navigateToLoginsDetails(id) }
-                        },
-                        isFavorite = item.isFavorite,
-                        onStarIconsClick = {
-                            item.itemId?.let { id -> viewModel.updateIsFavorite(id, it) }
-                        }
-                    )
+                SearchBar(
+                    text = viewModel.searchQuery.value,
+                    onTextChange = {
+                        viewModel.setSearchQuery(it)
+                        viewModel.getSearchedEntries()
+                    }
+                )
 
+                Surface(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(8.dp),
+                    elevation = 4.dp,
+                    shape = RoundedCornerShape(8.dp)
+
+                ) {
+
+                    Column(
+                        verticalArrangement = Arrangement.Top,
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                    ) {
+
+                        items.value.forEach { item ->
+
+                            ItemsCard(
+                                title = item.title,
+                                text = item.userName!!,
+                                itemIcon = loginsCategoryOptions[item.category].icon,
+                                itemIconColor = loginsCategoryOptions[item.category].tintColor,
+                                onItemCardClick = {
+                                    item.itemId?.let { id -> navigateToLoginsDetails(id) }
+                                },
+                                isFavorite = item.isFavorite,
+                                onStarIconsClick = {
+                                    item.itemId?.let { id -> viewModel.updateIsFavorite(id, it) }
+                                },
+                                onEditMenuClick = { item.itemId?.let { id -> navigateToLoginsEdit(id) } },
+                                onDeleteMenuClick = {
+                                    item.itemId?.let { id ->
+                                        viewModel.deleteLoginsItem(
+                                            id
+                                        )
+                                    }
+                                }
+                            )
+
+                            Divider()
+
+
+                        }
+                    }
 
                 }
+
+
+
+                Spacer(modifier = Modifier.height(16.dp))
 
             }
 
@@ -142,5 +190,8 @@ fun LoginsScreen(
 
 
 }
+
+
+
 
 

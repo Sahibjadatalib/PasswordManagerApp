@@ -99,7 +99,7 @@ fun FieldsDetails(
         modifier = Modifier
             .fillMaxWidth()
             .wrapContentHeight()
-            .padding(8.dp),
+            .padding(top = 0.dp,bottom = 8.dp, start = 8.dp, end = 8.dp),
         color = Color.White,
         shape = RoundedCornerShape(8.dp),
         elevation = 4.dp
