@@ -50,6 +50,7 @@ fun TitleField(
                     fontSize = MaterialTheme.typography.h5.fontSize
                 )
             },
+            shape = RoundedCornerShape(8.dp),
             onValueChange = { onTextChange(it) },
             maxLines = 1,
             singleLine = true

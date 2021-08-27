@@ -71,6 +71,24 @@ sealed class CardsScreen(
         "new_cards_item", "New Item",
         Icons.Default.CreditCard
     )
+
+    object CardsDetails: CardsScreen(
+        "cards_details_screen/{itemId}",
+        "Details",
+        Icons.Default.Details
+    ){
+        fun createRoute(itemId: String) = "cards_details_screen/${itemId}"
+    }
+
+    object EditCardsDetails: CardsScreen(
+        "cards_edit_screen/{itemId}",
+        "Edit Item",
+        Icons.Default.Details
+    ){
+        fun createRoute(itemId: String) = "cards_edit_screen/${itemId}"
+    }
+
+
 }
 
 sealed class OthersScreen(
@@ -89,6 +107,22 @@ sealed class OthersScreen(
         Icons.Default.LinearScale
     )
 
+    object OthersDetails: OthersScreen(
+        "others_details_screen/{itemId}",
+        "Details",
+        Icons.Default.Details
+    ){
+        fun createRoute(itemId: String) = "others_details_screen/${itemId}"
+    }
+
+    object EditOthersDetails: CardsScreen(
+        "others_edit_screen/{itemId}",
+        "Edit Item",
+        Icons.Default.Details
+    ){
+        fun createRoute(itemId: String) = "others_edit_screen/${itemId}"
+    }
+
 }
 
 
@@ -102,7 +136,7 @@ fun AppNavGraph(
 
     NavHost(
         navController = navController,
-        startDestination = Screen.LoginsScreenRoot.route
+        startDestination = Screen.CardsScreenRoot.route
     ) {
 
         addLoginsGraph(mainViewModel, navController)

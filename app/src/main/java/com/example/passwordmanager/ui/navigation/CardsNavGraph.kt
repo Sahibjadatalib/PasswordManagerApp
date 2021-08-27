@@ -2,12 +2,16 @@ package com.example.passwordmanager.ui.screens.cardsScreen
 
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.navArgument
 import androidx.navigation.navigation
 import com.example.passwordmanager.*
 import com.example.passwordmanager.ui.viewModel.MainViewModel
 import com.example.passwordmanager.Screen
 import com.example.passwordmanager.ui.screens.home.CardsScreen
+import com.example.passwordmanager.ui.screens.loginsScreen.EditLoginsDetails
+import com.example.passwordmanager.ui.screens.loginsScreen.LoginsDetailsScreen
 import com.example.passwordmanager.ui.screens.newItem.NewCardsScreen
 
 fun NavGraphBuilder.addCardsGraph(
@@ -22,6 +26,9 @@ fun NavGraphBuilder.addCardsGraph(
 
         addAllCardsGraph(mainViewModel,navController)
         addNewCardsGraph(mainViewModel,navController)
+        addCardsDetailsGraph(mainViewModel, navController)
+        addEditCardsGraph(mainViewModel, navController)
+
     }
 }
 
@@ -60,6 +67,28 @@ private fun NavGraphBuilder.addAllCardsGraph(
             }
         }
 
+        val navigateToCardsDetails: (Int)->Unit = {itemId->
+            navController.navigate(CardsScreen.CardsDetails.createRoute(itemId.toString())){
+                popUpTo(LoginsScreen.AllLogins.route)
+            }
+        }
+
+        val navigateToNewItem: ()->Unit = {
+            navController.navigate(CardsScreen.NewCardsItem.route){
+                popUpTo(LoginsScreen.AllLogins.route)
+            }
+        }
+
+        val navigateToCardsEdit: (Int)->Unit = {itemId->
+            navController.navigate(CardsScreen.EditCardsDetails.createRoute(itemId.toString())){
+                popUpTo(LoginsScreen.AllLogins.route)
+            }
+        }
+
+        val popUp: ()->Unit = {
+            navController.navigateUp()
+        }
+
         if (currentRoute != null) {
             CardsScreen(
                 mainViewModel = mainViewModel,
@@ -68,6 +97,10 @@ private fun NavGraphBuilder.addAllCardsGraph(
                 navigateToAllLogins = navigateToAllLogins,
                 navigateToAllCards = navigateToAllCards,
                 navigateToAllOthers = navigateToAllOthers,
+                navigateToNewItem = navigateToNewItem,
+                navigateToCardsDetails = navigateToCardsDetails,
+                navigateToCardsEdit = navigateToCardsEdit,
+                popUp = popUp
             )
         }
 
@@ -82,10 +115,95 @@ private fun NavGraphBuilder.addNewCardsGraph(
         route = CardsScreen.NewCardsItem.route
     ) {
 
+        val navigateToAllLogins: () -> Unit = {
+            navController.navigate(CardsScreen.AllCards.route)
+        }
+
+        val popUp: ()->Unit = {
+            navController.navigateUp()
+        }
+
+        val itemId = it.arguments?.getInt("itemId")
+
         NewCardsScreen(
             mainViewModel = mainViewModel,
-            navController = navController
+            navController = navController,
+            popUp = popUp
         )
+
+    }
+}
+
+
+private fun NavGraphBuilder.addCardsDetailsGraph(
+    mainViewModel: MainViewModel,
+    navController: NavHostController
+) {
+    composable(
+        route = CardsScreen.CardsDetails.route,
+        arguments = listOf(
+            navArgument("itemId"){type = NavType.IntType}
+        )
+    ) {backStackEntry->
+
+        val itemId = backStackEntry.arguments?.getInt("itemId")
+
+        val navigateToAllLogins: () -> Unit = {
+            navController.navigate(CardsScreen.AllCards.route)
+        }
+
+        val navigateToEditScreen: (Int) -> Unit = {id->
+            navController.navigate(CardsScreen.EditCardsDetails.createRoute(id.toString()))
+        }
+
+        val popUp: () -> Unit = {
+            navController.navigateUp()
+        }
+
+        CardsDetailsScreen(
+            mainViewModel = mainViewModel,
+            navigateToAllLogins = navigateToAllLogins,
+            navigateToEditScreen = navigateToEditScreen,
+            popUp = popUp,
+            itemId = itemId ?: 0
+        )
+
+    }
+}
+
+private fun NavGraphBuilder.addEditCardsGraph(
+    mainViewModel: MainViewModel,
+    navController: NavHostController
+) {
+    composable(
+        route = CardsScreen.EditCardsDetails.route,
+        arguments = listOf(
+            navArgument("itemId"){
+                type = NavType.IntType
+            }
+        )
+    ) {
+
+        val navigateToAllLogins: () -> Unit = {
+            navController.navigate(CardsScreen.AllCards.route)
+        }
+
+        val popUp: ()->Unit = {
+            navController.navigateUp()
+        }
+
+        val itemId = it.arguments?.getInt("itemId")
+
+        if (itemId != null) {
+            EditCardsDetails(
+                mainViewModel = mainViewModel,
+                navController = navController,
+                navigateToAllLogins = navigateToAllLogins,
+                itemId = itemId,
+                popUp = popUp
+            )
+        }
+
 
     }
 }

@@ -1,13 +1,16 @@
 package com.example.passwordmanager.ui.components
 
+import android.os.Build
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -18,29 +21,56 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.widget.Placeholder
+import com.vanpra.composematerialdialogs.MaterialDialog
+import com.vanpra.composematerialdialogs.datetime.date.datepicker
+import java.time.format.DateTimeFormatter
 
 @Composable
 fun InputField(
     modifier: Modifier = Modifier,
     fieldTitle: String,
-    editIcon: ImageVector? = null,
-    minusIcon: ImageVector? = null,
-    onMinusIconClick: ()->Unit,
     text: String,
-    keyboardType: KeyboardType,
-    onTextChange: (String)->Unit,
+    keyboardOptions: KeyboardOptions,
+    onTextChange: (String) -> Unit,
     leadingIcon: ImageVector,
     placeholderText: String,
     trailingIcon: ImageVector? = null,
-){
+    isReadableOnly: Boolean? = false
+) {
+
+    val dialog = remember { MaterialDialog() }
+
+    dialog.build(buttons = {
+        positiveButton("OK")
+        negativeButton("Cancel")
+    }) {
+        datepicker { date ->
+            val formattedDate = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                date.format(
+                    DateTimeFormatter.ofPattern("MM/yy")
+                )
+            } else {
+                TODO("VERSION.SDK_INT < O")
+            }
+
+            onTextChange(formattedDate.toString())
+        }
+    }
+
     Surface(
         modifier = modifier
             .fillMaxWidth()
             .padding(8.dp),
-        shape = RoundedCornerShape(4.dp),
+        shape = RoundedCornerShape(8.dp),
         elevation = 4.dp
     ) {
-        Column {
+        Column(
+            modifier = Modifier.clickable {
+                if(isReadableOnly == true){
+                    dialog.show()
+                }
+            }
+        ) {
             Row(
                 horizontalArrangement = Arrangement.Start,
                 verticalAlignment = Alignment.CenterVertically
@@ -53,39 +83,34 @@ fun InputField(
                     fontSize = MaterialTheme.typography.h6.fontSize,
                     fontWeight = FontWeight.Bold
                 )
-                if(editIcon!=null){
-                    IconButton(onClick = { /*TODO*/ }) {
-                        Icon(modifier = modifier.weight(1f),
-                            imageVector = editIcon, contentDescription = "")
-                    }
-                }
-
-                if(minusIcon!=null){
-                    IconButton(onClick = { onMinusIconClick() }) {
-                        Icon(
-                            tint = Color.Red,
-                            modifier = modifier.weight(1f),
-                            imageVector = minusIcon, contentDescription = "")
-                    }
-                }
 
 
             }
-            OutlinedTextField(
-                modifier = modifier
-                    .padding(8.dp)
-                    .fillMaxWidth()
-                    .background(MaterialTheme.colors.background),
-                leadingIcon = { Icon(
-                    tint = MaterialTheme.colors.primary,
-                    imageVector = leadingIcon, contentDescription = "")},
-                placeholder = {Text(placeholderText)},
-                value = text, 
-                onValueChange = {onTextChange(it)},
-                keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
-                maxLines = 1,
-                singleLine = true
-            )
+
+            if (isReadableOnly != null) {
+                OutlinedTextField(
+                    modifier = modifier
+                        .padding(8.dp)
+                        .fillMaxWidth()
+                        .background(MaterialTheme.colors.background),
+                    leadingIcon = {
+                        Icon(
+                            tint = MaterialTheme.colors.primary,
+                            imageVector = leadingIcon, contentDescription = ""
+                        )
+                    },
+                    placeholder = { Text(placeholderText) },
+                    value = text,
+                    onValueChange = { onTextChange(it) },
+                    keyboardOptions = keyboardOptions,
+                    maxLines = 1,
+                    shape = RoundedCornerShape(8.dp),
+                    singleLine = true,
+                    readOnly = isReadableOnly
+                )
+            }
+
+
         }
     }
 }

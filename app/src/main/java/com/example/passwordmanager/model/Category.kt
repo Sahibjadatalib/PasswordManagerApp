@@ -24,20 +24,22 @@ data class Category(
 //    Category(Icons.Default.Audiotrack, PinkA200,"Music"),
 //)
 //
-//val CardsCategoryOptions = listOf(
-//    Category(Icons.Filled.AttachMoney, LightGreenA400,"Credit"),
-//    Category(Icons.Filled.AccountBalance, Blue700Dark,"Debit"),
-//    Category(Icons.Default.PermIdentity, Color.Green,"Identity"),
-//    Category(Icons.Filled.DirectionsCar, AmberA200,"License"),
-//    Category(Icons.Filled.HealthAndSafety, CyanA200,"Health"),
-//    Category(Icons.Filled.Book, DeepOrangeA700,"Library"),
-//    Category(Icons.Filled.FitnessCenter, Color.DarkGray,"Gym"),
-//    Category(Icons.Filled.Train, CyanA200,"Transit"),
-//    Category(Icons.Filled.Favorite, DeepOrangeA700,"Membership"),
-//    Category(Icons.Filled.CardGiftcard, Color.DarkGray,"Gift"),
-//    Category(Icons.Filled.Flag, Color.DarkGray,"Immigration"),
-//
-//    )
+
+
+val cardsCategoryOptions = listOf(
+    Category(0,Icons.Filled.AttachMoney, LightGreenA400,"Credit"),
+    Category(1,Icons.Filled.AccountBalance, Blue700Dark,"Debit"),
+    Category(2,Icons.Default.PermIdentity, Color.Green,"Identity"),
+    Category(3,Icons.Filled.DirectionsCar, AmberA200,"License"),
+    Category(4,Icons.Filled.HealthAndSafety, CyanA200,"Health"),
+    Category(5,Icons.Filled.Book, DeepOrangeA700,"Library"),
+    Category(6,Icons.Filled.FitnessCenter, Color.DarkGray,"Gym"),
+    Category(7,Icons.Filled.Train, CyanA200,"Transit"),
+    Category(8,Icons.Filled.Favorite, DeepOrangeA700,"Membership"),
+    Category(9,Icons.Filled.CardGiftcard, Color.DarkGray,"Gift"),
+    Category(10,Icons.Filled.Flag, Color.DarkGray,"Immigration"),
+
+    )
 
 val loginsCategoryOptions = listOf(
     Category(0,Icons.Filled.Person, LightGreenA400,"Personal"),
@@ -49,15 +51,4 @@ val loginsCategoryOptions = listOf(
     Category(6,Icons.Filled.MoreHoriz, Color.DarkGray,"Other"),
 
 )
-
-//val loginsCategoryOptions = listOf(
-//    Category(R.drawable.ic_menu_black_24dp, LightGreenA400, "Personal"),
-//    Category(R.drawable.ic_menu_black_24dp, Blue700Dark, "Work"),
-//    Category(R.drawable.ic_more_vert_black_24dp, Color.Green, "Finance"),
-//    Category(R.drawable.password, AmberA200, "Shopping"),
-//    Category(R.drawable.ic_language_black_24dp, CyanA200, "Travel"),
-//    Category(R.drawable.ic_search_black_24dp, DeepOrangeA700, "Social"),
-//    Category(R.drawable.ic_person_black_24dp, Color.DarkGray, "Other"),
-//
-//    )
 

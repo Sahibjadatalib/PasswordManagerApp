@@ -7,24 +7,14 @@ import androidx.room.PrimaryKey
 data class CardsItems(
 
     @PrimaryKey(autoGenerate = true)
-    val itemId: Long,
+    val itemId: Int? = null,
+    val isFavorite: Boolean = false,
     val title: String,
-    val category: String,
-    val cardNumber: Long?,
+    val category: Int,
+    val cardNumber: String?,
     val cardHolderName: String?,
-    val pinNumber: Long?,
-    val cvv: Long?,
+    val pinNumber: String?,
+    val cvv: String,
     val issueDate: String?,
-    val expiryDate: String?,
-
-    val userNameExtra: String?,
-    val passWordExtra: String,
-    val webSite: String?,
-    val email: String?,
-    val number: Long?,
-    val pin: Long?,
-    val dateDDMMYYYY: String?,
-    val dateMMYY: String?,
-    val text: String?,
-    val multiLineText: String?
+    val expiryDate: String?
 )

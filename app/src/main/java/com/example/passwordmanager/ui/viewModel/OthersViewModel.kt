@@ -1,58 +1,44 @@
 package com.example.passwordmanager.ui.viewModel
 
+import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
-import com.example.passwordmanager.data.repository.RoomsRepository
+import com.example.passwordmanager.data.repository.LoginsRoomRepository
+import com.example.passwordmanager.data.repository.OthersRoomRepository
+import com.example.passwordmanager.data.room.entity.LoginsItems
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
 
 @HiltViewModel
 class OthersViewModel @Inject constructor(
-    private val repository: RoomsRepository
+    private val repository: OthersRoomRepository
 ): ViewModel() {
 
-    val title = mutableStateOf("")
-    val category = mutableStateOf("Note")
-    val description = mutableStateOf("")
-    val macAddress = mutableStateOf("")
-    val userName = mutableStateOf("")
-    val password = mutableStateOf("")
-    val website = mutableStateOf("")
-    val email = mutableStateOf("")
-    val number = mutableStateOf("")
-    val pinNumberExtra = mutableStateOf("")
-    val dateDDMMYYYY = mutableStateOf("")
-    val dateMMYY = mutableStateOf("")
-    val text = mutableStateOf("")
-    val multiLineText = mutableStateOf("")
+    private val _results = MutableStateFlow<List<LoginsItems>>(emptyList())
+    val results: StateFlow<List<LoginsItems>> = _results
 
-    val openDialog = mutableStateOf(false)
-    fun setOpenDialog(){
-        openDialog.value = true
-    }
-    fun resetOpenDialog(){
-        openDialog.value = false
+    private val _resultsForFavorites = MutableStateFlow<List<LoginsItems>>(emptyList())
+    val resultsForFavorites: StateFlow<List<LoginsItems>> = _resultsForFavorites
+
+    private val _resultsForSearch = MutableStateFlow<List<LoginsItems>>(emptyList())
+    val resultsForSearch: StateFlow<List<LoginsItems>> = _resultsForSearch
+
+    private val _switch = mutableStateOf(false)
+    var switch: State<Boolean> = _switch
+    fun setSwitch(newText: Boolean) {
+        _switch.value = newText
     }
 
-//    fun insertLoginsItem(loginsItems: LoginsItems){
-//        viewModelScope.launch {
-//            repository.insertLoginsItem(loginsItems)
-//        }
-//    }
-//
-//    private val _results = MutableStateFlow<List<LoginsItems>>(emptyList())
-//    val results: StateFlow<List<LoginsItems>> = _results
-//
-//    fun getAllLoginsItems(){
-//        viewModelScope.launch {
-//            repository.getAllLoginsItems()
-//                .catch { exception->
-//
-//                }
-//                .collect {
-//                    _results.value = it
-//                }
-//        }
-//    }
+    private val _searchQuery = mutableStateOf("")
+    val searchQuery: State<String> = _searchQuery
+    fun setSearchQuery(newText: String){
+        _searchQuery.value = newText
+    }
 
+    init {
+
+
+    }
 }

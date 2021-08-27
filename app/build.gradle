@@ -112,4 +112,9 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.3.1"
     implementation 'androidx.compose.runtime:runtime-livedata:1.1.0-alpha02'
 
+    //compose material dialogues
+    implementation "io.github.vanpra.compose-material-dialogs:core:0.5.1"
+    implementation "io.github.vanpra.compose-material-dialogs:datetime:0.5.1"
+    implementation "io.github.vanpra.compose-material-dialogs:color:0.5.1"
+
 }

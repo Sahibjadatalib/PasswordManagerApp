@@ -1,23 +1,24 @@
 package com.example.passwordmanager.ui.screens.home
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.FabPosition
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.passwordmanager.ui.viewModel.MainViewModel
-import com.example.passwordmanager.ui.components.HomeTopAppBar
-import com.example.passwordmanager.ui.components.MyBottomBar
-import com.example.passwordmanager.ui.components.MyFloatingBtn
 import com.example.passwordmanager.ui.viewModel.CardsViewModel
 import com.example.passwordmanager.*
+import com.example.passwordmanager.model.cardsCategoryOptions
+import com.example.passwordmanager.model.loginsCategoryOptions
+import com.example.passwordmanager.ui.components.*
 
 @Composable
 fun CardsScreen(
@@ -25,28 +26,46 @@ fun CardsScreen(
     mainViewModel: MainViewModel,
     navController: NavController,
     currentRoute: String,
-    navigateToAllLogins: ()->Unit,
-    navigateToAllCards: ()->Unit,
-    navigateToAllOthers: ()->Unit,
+    navigateToAllLogins: () -> Unit,
+    navigateToAllCards: () -> Unit,
+    navigateToAllOthers: () -> Unit,
+    navigateToNewItem: () -> Unit,
+    navigateToCardsDetails: (Int) -> Unit,
+    navigateToCardsEdit: (Int) -> Unit,
+    popUp: () -> Unit
 ) {
 
     mainViewModel.setColorForStatusBar(MaterialTheme.colors.primaryVariant)
 
 
+    val scaffoldState = rememberScaffoldState()
+    val coroutineScope = rememberCoroutineScope()
+
+    var items = if (viewModel.switch.value) {
+        viewModel.resultsForFavorites.collectAsState()
+    } else {
+        viewModel.results.collectAsState()
+    }
+
+    if(viewModel.searchQuery.value.isNotEmpty()){
+        items = viewModel.resultsForSearch.collectAsState()
+    }
+
+    val scrollState = rememberScrollState()
+
 
     Scaffold(
         topBar = {
-//            HomeTopAppBar(
-//                topAppBarTitle = CardsScreen.AllCards.label,
-//                onMenuIconClick = {},
-//                onSortIconClick = {},
-//                onSearchIconClick = {},
-//                onSwitchIconClick = {}
-//            )
+            HomeTopAppBar(
+                topAppBarTitle = CardsScreen.AllCards.label,
+                onMenuIconClick = {},
+                switchState = viewModel.switch.value,
+                onSwitchIconClick = { viewModel.setSwitch(it) }
+            )
         },
         floatingActionButton = {
             MyFloatingBtn(
-                onClick = {navController.navigate(CardsScreen.NewCardsItem.route)}            )
+                onClick = { navigateToNewItem() })
         },
         drawerContent = {
             //MyDrawer()
@@ -67,12 +86,82 @@ fun CardsScreen(
         Column(
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(bottom = 48.dp)
+                .verticalScroll(scrollState)
         ) {
 
-            Text(text = "cards screen")
+            SearchBar(
+                text = viewModel.searchQuery.value,
+                onTextChange = {
+                    viewModel.setSearchQuery(it)
+                    viewModel.getSearchedEntries()
+                }
+            )
+
+            Surface(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp),
+                elevation = 4.dp,
+                shape = RoundedCornerShape(8.dp)
+
+            ) {
+
+                Column(
+                    verticalArrangement = Arrangement.Top,
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                ) {
+
+                    items.value.forEach { item ->
+
+                        ItemsCard(
+                            title = item.title,
+                            text = item.cardNumber!!,
+                            itemIcon = cardsCategoryOptions[item.category].icon,
+                            itemIconColor = cardsCategoryOptions[item.category].tintColor,
+                            onItemCardClick = {
+                                item.itemId?.let { id -> navigateToCardsDetails(id) }
+                            },
+                            isFavorite = item.isFavorite,
+                            onStarIconsClick = {
+                                item.itemId?.let { id -> viewModel.updateIsFavorite(id, it) }
+                            },
+                            onEditMenuClick = { item.itemId?.let { id -> navigateToCardsEdit(id) } },
+                            onDeleteMenuClick = {
+                                item.itemId?.let { id ->
+                                    viewModel.deleteCardsItem(
+                                        id
+                                    )
+                                }
+                            }
+                        )
+
+                        Divider()
+
+
+                    }
+                }
+
+            }
+
+
+
+            Spacer(modifier = Modifier.height(90.dp))
 
         }
+
+    }
+
+    Box(modifier = Modifier.fillMaxSize()) {
+        DefaultSnackbar(
+            snackbarHostState = scaffoldState.snackbarHostState,
+            onDismiss = {
+                scaffoldState.snackbarHostState.currentSnackbarData?.dismiss()
+            },
+            modifier = Modifier.align(Alignment.BottomCenter)
+        )
     }
 
 }

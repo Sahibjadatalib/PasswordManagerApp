@@ -1,8 +1,6 @@
 package com.example.passwordmanager.ui.components
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
@@ -20,7 +18,6 @@ import com.example.passwordmanager.ui.theme.AmberA200
 fun HomeTopAppBar(
     topAppBarTitle: String,
     onMenuIconClick: () -> Unit,
-    onSortIconClick: () -> Unit,
     switchState: Boolean,
     onSwitchIconClick: (Boolean)->Unit
 ) {
@@ -49,14 +46,8 @@ fun HomeTopAppBar(
                     uncheckedTrackAlpha = MaterialTheme.colors.secondary.red
                 )
             )
-
-            IconButton(onClick = { onSortIconClick() }) {
-                Icon(
-                    tint = MaterialTheme.colors.primary,
-                    imageVector = Icons.Default.Sort,
-                    contentDescription = "Sort icon"
-                )
-            }
+            
+            Spacer(modifier = Modifier.width(8.dp))
 
 
         },

@@ -7,7 +7,7 @@ import com.example.passwordmanager.data.room.entity.LoginsItems
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class RoomsRepository @Inject constructor(
+class LoginsRoomRepository @Inject constructor(
     private val loginsDao: LoginsDao,
     private val cardsDao: CardsDao,
     private val othersDao: OthersDao
@@ -16,8 +16,6 @@ class RoomsRepository @Inject constructor(
     suspend fun insertLoginsItem(loginsItems: LoginsItems) {
         loginsDao.insert(loginsItems)
     }
-
-//    val getAllLoginsItems: Flow<List<LoginsItems>> get() = loginsDao.getAllEntries()
 
     fun getAllLoginsItems(): Flow<List<LoginsItems>> {
         return loginsDao.getAllEntries()

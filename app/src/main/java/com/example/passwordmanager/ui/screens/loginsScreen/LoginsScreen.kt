@@ -58,19 +58,12 @@ fun LoginsScreen(
 
     val scrollState = rememberScrollState()
 
-    val showSnackBar: (String, String) -> Unit = { message, action ->
-        coroutineScope.launch {
-            scaffoldState.snackbarHostState.showSnackbar(message, action)
-        }
-    }
-
 
     Scaffold(
         topBar = {
             HomeTopAppBar(
                 topAppBarTitle = LoginsScreen.AllLogins.label,
                 onMenuIconClick = {},
-                onSortIconClick = {},
                 switchState = viewModel.switch.value,
                 onSwitchIconClick = { viewModel.setSwitch(it) }
             )
@@ -167,7 +160,7 @@ fun LoginsScreen(
 
 
 
-                Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(90.dp))
 
             }
 

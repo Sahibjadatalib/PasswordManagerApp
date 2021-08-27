@@ -8,22 +8,12 @@ import androidx.room.PrimaryKey
 data class OthersItems(
 
     @PrimaryKey(autoGenerate = true)
-    val itemId: Long,
+    val itemId: Int? = null,
+    val isFavorite: Boolean? = false,
     val title: String,
     val category: String,
     val userName: String?,
     val passWord: String?,
-    val MACAddress: String?,
-    val description: String?,
-
-    val userNameExtra: String?,
-    val passWordExtra: String,
-    val webSite: String?,
-    val email: String?,
-    val number: Long?,
-    val pin: Long?,
-    val dateDDMMYYYY: String?,
-    val dateMMYY: String?,
-    val text: String?,
-    val multiLineText: String?
+    val macAddress: String?,
+    val description: String?
 )

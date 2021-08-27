@@ -1,19 +1,11 @@
 package com.example.passwordmanager.ui.viewModel
 
-import android.content.ContentResolver
 import android.content.Context
-import android.net.Uri
 import androidx.compose.runtime.State
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.*
-import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavController
-import com.example.passwordmanager.R
-import com.example.passwordmanager.model.loginsCategoryOptions
-import com.example.passwordmanager.data.repository.RoomsRepository
+import com.example.passwordmanager.data.repository.LoginsRoomRepository
 import com.example.passwordmanager.data.room.entity.LoginsItems
-import com.example.passwordmanager.model.Category
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -21,9 +13,19 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginsViewModel @Inject constructor(
-    private val repository: RoomsRepository,
+    private val repository: LoginsRoomRepository,
     private val context: Context
 ) : ViewModel() {
+
+
+    private val _results = MutableStateFlow<List<LoginsItems>>(emptyList())
+    val results: StateFlow<List<LoginsItems>> = _results
+
+    private val _resultsForFavorites = MutableStateFlow<List<LoginsItems>>(emptyList())
+    val resultsForFavorites: StateFlow<List<LoginsItems>> = _resultsForFavorites
+
+    private val _resultsForSearch = MutableStateFlow<List<LoginsItems>>(emptyList())
+    val resultsForSearch: StateFlow<List<LoginsItems>> = _resultsForSearch
 
     private val _switch = mutableStateOf(false)
     var switch: State<Boolean> = _switch
@@ -41,8 +43,6 @@ class LoginsViewModel @Inject constructor(
 
         getAllLoginsItems()
         getAllFavoriteLoginsItems()
-
-        //getSearchedEntries()
 
     }
 
@@ -182,14 +182,7 @@ class LoginsViewModel @Inject constructor(
 
     }
 
-    private val _results = MutableStateFlow<List<LoginsItems>>(emptyList())
-    val results: StateFlow<List<LoginsItems>> = _results
 
-    private val _resultsForFavorites = MutableStateFlow<List<LoginsItems>>(emptyList())
-    val resultsForFavorites: StateFlow<List<LoginsItems>> = _resultsForFavorites
-
-    private val _resultsForSearch = MutableStateFlow<List<LoginsItems>>(emptyList())
-    val resultsForSearch: StateFlow<List<LoginsItems>> = _resultsForSearch
 
 
     private fun getAllFavoriteLoginsItems(){

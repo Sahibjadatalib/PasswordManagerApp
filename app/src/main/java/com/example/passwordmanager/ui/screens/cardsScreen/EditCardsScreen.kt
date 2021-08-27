@@ -1,4 +1,4 @@
-package com.example.passwordmanager.ui.screens.loginsScreen
+package com.example.passwordmanager.ui.screens.cardsScreen
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -9,8 +9,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Scaffold
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.VpnKey
+import androidx.compose.material.icons.filled.*
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
@@ -25,26 +24,31 @@ import androidx.navigation.NavController
 import com.example.passwordmanager.LoginsScreen
 import com.example.passwordmanager.model.loginsCategoryOptions
 import com.example.passwordmanager.ui.components.*
+import com.example.passwordmanager.ui.viewModel.CardsViewModel
 import com.example.passwordmanager.ui.viewModel.LoginsViewModel
 import com.example.passwordmanager.ui.viewModel.MainViewModel
 import kotlinx.coroutines.launch
 
 @Composable
-fun EditLoginsDetails(
-    viewModel: LoginsViewModel = hiltViewModel(),
+fun EditCardsDetails(
+    viewModel: CardsViewModel = hiltViewModel(),
     mainViewModel: MainViewModel,
     navController: NavController,
     navigateToAllLogins: () -> Unit,
     itemId: Int,
-    popUp: () -> Unit
+    popUp: ()->Unit
 ) {
 
     val itemById = viewModel.getItemById(itemId).observeAsState()
 
     itemById.value?.title?.let { viewModel.setTitle(it) }
     itemById.value?.category?.let { viewModel.setCategory(it) }
-    itemById.value?.userName?.let { viewModel.setUserName(it) }
-    itemById.value?.passWord?.let { viewModel.setPassword(it) }
+    itemById.value?.cardNumber?.let { viewModel.setCardNumber(it) }
+    itemById.value?.cardHolderName?.let { viewModel.setCardHolderName(it) }
+    itemById.value?.pinNumber?.let { viewModel.setPinNumber(it) }
+    itemById.value?.cvv?.let { viewModel.setCVVNumber(it) }
+    itemById.value?.issueDate?.let { viewModel.setIssueDate(it) }
+    itemById.value?.expiryDate?.let { viewModel.setExpiryDate(it) }
 
     val scrollState = rememberScrollState()
 
@@ -67,7 +71,7 @@ fun EditLoginsDetails(
                     popUp()
                 },
                 onDoneIconClick = {
-                    viewModel.updateLoginsItem(itemId, showSnackBar, popUp)
+                    viewModel.updateCardsItem(itemId, showSnackBar, popUp)
                 }
             )
         },
@@ -91,37 +95,91 @@ fun EditLoginsDetails(
             Category(
                 categoryList = loginsCategoryOptions,
                 selectedCategory = viewModel.category.value,
-                setCategory = { viewModel.setCategory(it) }
+                setCategory = {viewModel.setCategory(it)}
             )
 
+
             InputField(
-                fieldTitle = "Username",
-                text = viewModel.userName.value,
+                fieldTitle = "Card No.",
+                text = viewModel.cardNumber.value,
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Number,
                     imeAction = ImeAction.Next
                 ),
-                onTextChange = { viewModel.setUserName(it) },
+                onTextChange = { viewModel.setCardNumber(it) },
+                leadingIcon = Icons.Default.Pin,
+                placeholderText = "Card No..."
+            )
+
+            InputField(
+                fieldTitle = "Cardholder Name",
+                text = viewModel.cardHolderName.value,
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Text,
+                    imeAction = ImeAction.Next
+                ), onTextChange = { viewModel.setCardHolderName(it) },
                 leadingIcon = Icons.Default.Person,
-                placeholderText = "username"
+                placeholderText = "Cardholder Name..."
             )
 
+            if (viewModel.category.value == 0 || viewModel.category.value == 1) {
+
+                InputField(
+                    fieldTitle = "PIN",
+                    text = viewModel.pinNumber.value,
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Number,
+                        imeAction = ImeAction.Next
+                    ), onTextChange = { viewModel.setPinNumber(it) },
+                    leadingIcon = Icons.Default.Dialpad,
+                    placeholderText = "PIN..."
+                )
+
+                InputField(
+                    fieldTitle = "CVV",
+                    text = viewModel.cvvNumber.value,
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Number,
+                        imeAction = ImeAction.Next
+                    ), onTextChange = { viewModel.setCVVNumber(it) },
+                    leadingIcon = Icons.Default.Dialpad,
+                    placeholderText = "cvv..."
+                )
+
+            }
+
             InputField(
-                fieldTitle = "Password",
-                text = viewModel.password.value,
+                fieldTitle = "Issue Date",
+                text = viewModel.issueDate.value,
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Number,
                     imeAction = ImeAction.Next
                 ),
-                onTextChange = { viewModel.setPassword(it) },
-                leadingIcon = Icons.Default.VpnKey,
-                placeholderText = "password"
+                onTextChange = { viewModel.setIssueDate(it) },
+                leadingIcon = Icons.Default.CalendarToday,
+                placeholderText = "Click to choose a date",
+                isReadableOnly = true
             )
+
+            InputField(
+                fieldTitle = "Expiry Date",
+                text = viewModel.expiryDate.value,
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Number,
+                    imeAction = ImeAction.Next
+                ),
+                onTextChange = { viewModel.setExpiryDate(it) },
+                leadingIcon = Icons.Default.CalendarToday,
+                placeholderText = "Click to choose a date",
+                isReadableOnly = true
+            )
+
+
 
         }
     }
 
-    Box(modifier = Modifier.fillMaxSize()) {
+    Box(modifier = Modifier.fillMaxSize()){
         DefaultSnackbar(
             snackbarHostState = scaffoldState.snackbarHostState,
             onDismiss = {
@@ -133,7 +191,3 @@ fun EditLoginsDetails(
 
 
 }
-
-
-
-

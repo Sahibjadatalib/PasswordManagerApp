@@ -130,7 +130,10 @@ fun PopUpMenu(
             expanded = expanded,
             onDismissRequest = { expanded = false }) {
 
-            DropdownMenuItem(onClick = { onEditMenuClick() }) {
+            DropdownMenuItem(onClick = {
+                onEditMenuClick()
+                expanded = false
+            }) {
                 Row(
                     modifier = modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,
@@ -147,7 +150,10 @@ fun PopUpMenu(
 
             Divider()
 
-            DropdownMenuItem(onClick = { onDeleteMenuClick() }) {
+            DropdownMenuItem(onClick = {
+                onDeleteMenuClick()
+                expanded = false
+            }) {
                 Row(
                     modifier = modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,

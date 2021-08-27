@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Scaffold
 import androidx.compose.material.icons.Icons
@@ -15,6 +16,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -83,20 +85,22 @@ fun NewLoginsScreen(
 
             InputField(
                 fieldTitle = "Username",
-                onMinusIconClick = { /*TODO*/ },
                 text = viewModel.userName.value,
-                keyboardType = KeyboardType.Text,
-                onTextChange = { viewModel.setUserName(it) },
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Number,
+                    imeAction = ImeAction.Next
+                ),                onTextChange = { viewModel.setUserName(it) },
                 leadingIcon = Icons.Default.Person,
                 placeholderText = "username"
             )
 
             InputField(
                 fieldTitle = "Password",
-                onMinusIconClick = { /*TODO*/ },
                 text = viewModel.password.value,
-                keyboardType = KeyboardType.Password,
-                onTextChange = { viewModel.setPassword(it) },
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Number,
+                    imeAction = ImeAction.Next
+                ),                onTextChange = { viewModel.setPassword(it) },
                 leadingIcon = Icons.Default.VpnKey,
                 placeholderText = "password"
             )

@@ -45,7 +45,7 @@ fun Category(
                 animationSpec = tween(durationMillis = 300, easing = LinearOutSlowInEasing)
             )
             .padding(top = 16.dp, bottom = 8.dp, start = 8.dp, end = 8.dp),
-        shape = RoundedCornerShape(4.dp),
+        shape = RoundedCornerShape(8.dp),
         elevation = 4.dp
 
     ) {
@@ -95,7 +95,8 @@ fun Category(
 
                     Divider(color = Color.LightGray, thickness = 1.dp)
 
-                    for (category in categoryList) {
+                    categoryList.forEach { category->
+
                         OptionsRow(
                             modifier = modifier,
                             category = category,

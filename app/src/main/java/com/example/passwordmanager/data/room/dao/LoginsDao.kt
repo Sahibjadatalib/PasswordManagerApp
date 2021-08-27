@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface LoginsDao {
 
-    @Query("SELECT * FROM loginsItems")
+    @Query("SELECT * FROM loginsItems ORDER BY title ASC")
     fun getAllEntries(): Flow<List<LoginsItems>>
 
     @Query("SELECT * FROM loginsItems WHERE isFavorite = 1")
