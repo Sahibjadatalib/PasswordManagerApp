@@ -26,8 +26,6 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.passwordmanager.model.Category
-import com.example.passwordmanager.model.ExtraField
-import com.example.passwordmanager.model.extraFieldsList
 import kotlinx.coroutines.selects.selectUnbiased
 
 

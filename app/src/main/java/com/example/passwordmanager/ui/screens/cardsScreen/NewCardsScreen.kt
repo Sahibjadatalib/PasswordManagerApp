@@ -136,7 +136,7 @@ fun NewCardsScreen(
 
             }
 
-            InputField(
+            PickerInputField(
                 fieldTitle = "Issue Date",
                 text = viewModel.issueDate.value,
                 keyboardOptions = KeyboardOptions(
@@ -145,11 +145,10 @@ fun NewCardsScreen(
                 ),
                 onTextChange = { viewModel.setIssueDate(it) },
                 leadingIcon = Icons.Default.CalendarToday,
-                placeholderText = "Click to choose a date",
-                isReadableOnly = true
+                placeholderText = "Click to choose a date"
             )
 
-            InputField(
+            PickerInputField(
                 fieldTitle = "Expiry Date",
                 text = viewModel.expiryDate.value,
                 keyboardOptions = KeyboardOptions(
@@ -158,8 +157,7 @@ fun NewCardsScreen(
                 ),
                 onTextChange = { viewModel.setExpiryDate(it) },
                 leadingIcon = Icons.Default.CalendarToday,
-                placeholderText = "Click to choose a date",
-                isReadableOnly = true
+                placeholderText = "Click to choose a date"
             )
 
 

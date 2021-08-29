@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">PasswordManager</string>
+    <string name="disclaimer">
+
+        Password manager app is a offline app and we do not store your data on our server.
+        \n\nAll your data is saved offline in your device.
+        \n\nAs this app stores all your important data in your device only
+        so once you forgot your master password there is no way to get your data back
+        \n\nSet a strong but easy to remember password.
+
+
+    </string>
 </resources>

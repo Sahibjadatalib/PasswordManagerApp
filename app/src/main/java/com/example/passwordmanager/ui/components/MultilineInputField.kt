@@ -1,36 +1,22 @@
 package com.example.passwordmanager.ui.components
 
-import android.os.Build
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.focus.FocusDirection
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import androidx.constraintlayout.widget.Placeholder
-import com.vanpra.composematerialdialogs.MaterialDialog
-import com.vanpra.composematerialdialogs.datetime.date.datepicker
-import java.time.format.DateTimeFormatter
 
 @Composable
-fun InputField(
+fun MultilineInputField(
     modifier: Modifier = Modifier,
     fieldTitle: String,
     text: String,
@@ -43,6 +29,7 @@ fun InputField(
     maxLine: Int = 1,
     singleLine: Boolean = true
 ) {
+
 
     val focusManager = LocalFocusManager.current
 
@@ -74,6 +61,7 @@ fun InputField(
                 modifier = modifier
                     .padding(8.dp)
                     .fillMaxWidth()
+                    .height(300.dp)
                     .background(MaterialTheme.colors.background),
                 leadingIcon = {
                     Icon(
@@ -99,4 +87,6 @@ fun InputField(
 
         }
     }
+
+
 }

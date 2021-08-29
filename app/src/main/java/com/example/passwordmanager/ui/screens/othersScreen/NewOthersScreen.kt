@@ -86,7 +86,7 @@ fun NewOthersScreen(
 
             if(viewModel.category.value == 0){
 
-                InputField(
+                MultilineInputField(
                     fieldTitle = "Description",
                     text = viewModel.description.value,
                     keyboardOptions = KeyboardOptions.Default.copy(

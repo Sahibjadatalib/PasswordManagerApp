@@ -21,6 +21,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.passwordmanager.model.Category
 import com.example.passwordmanager.model.loginsCategoryOptions
@@ -59,7 +60,7 @@ fun Category(
                 horizontalArrangement = Arrangement.Start
             ) {
                 Text(
-                    modifier = modifier.weight(7f),
+                    modifier = modifier.weight(5f),
                     text = "Category",
                     fontSize = MaterialTheme.typography.h6.fontSize,
                     fontStyle = FontStyle.Normal,
@@ -72,7 +73,8 @@ fun Category(
                     color = MaterialTheme.colors.primary,
                     fontSize = MaterialTheme.typography.h6.fontSize,
                     fontStyle = FontStyle.Normal,
-                    fontWeight = FontWeight.Normal
+                    fontWeight = FontWeight.Normal,
+                    textAlign = TextAlign.End
                 )
 
                 IconButton(
@@ -139,20 +141,13 @@ fun OptionsRow(
         horizontalArrangement = Arrangement.Start
     ) {
 
-        Card(
-            modifier = modifier
-                .width(32.dp)
-                .height(32.dp)
-                .weight(1f),
-            elevation = 5.dp
-        ) {
-            Icon(
-                modifier = modifier,
-                tint = category.tintColor,
-                imageVector = categoryList[category.index].icon, contentDescription = ""
-            )
 
-        }
+        Icon(
+            modifier = modifier,
+            tint = category.tintColor,
+            imageVector = categoryList[category.index].icon, contentDescription = ""
+        )
+
         Spacer(modifier = modifier.width(16.dp))
         Text(
             modifier = modifier.weight(8f),

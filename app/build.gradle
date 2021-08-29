@@ -117,4 +117,7 @@ dependencies {
     implementation "io.github.vanpra.compose-material-dialogs:datetime:0.5.1"
     implementation "io.github.vanpra.compose-material-dialogs:color:0.5.1"
 
+    //datastore-preferences
+    implementation("androidx.datastore:datastore-preferences:1.0.0")
+
 }
