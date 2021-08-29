@@ -26,6 +26,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.passwordmanager.LoginsScreen
 import com.example.passwordmanager.model.loginsCategoryOptions
+import com.example.passwordmanager.model.othersCategoryOptions
 import com.example.passwordmanager.ui.components.*
 import com.example.passwordmanager.ui.viewModel.LoginsViewModel
 import com.example.passwordmanager.ui.viewModel.MainViewModel
@@ -94,7 +95,7 @@ fun EditOthersDetails(
             )
 
             Category(
-                categoryList = loginsCategoryOptions,
+                categoryList = othersCategoryOptions,
                 selectedCategory = viewModel.category.value,
                 setCategory = { viewModel.setCategory(it) }
             )

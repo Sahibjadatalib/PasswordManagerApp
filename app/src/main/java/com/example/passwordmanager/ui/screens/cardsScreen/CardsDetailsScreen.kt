@@ -126,7 +126,7 @@ fun FieldsDetails(
             if(cardNumber.isNotEmpty()){
 
                 Row(
-                    modifier = Modifier.padding(16.dp),
+                    modifier = Modifier.padding(4.dp),
                     horizontalArrangement = Arrangement.Start,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
@@ -156,7 +156,7 @@ fun FieldsDetails(
             if(cardHolderName.isNotEmpty()){
 
                 Row(
-                    modifier = Modifier.padding(16.dp),
+                    modifier = Modifier.padding(4.dp),
                     horizontalArrangement = Arrangement.Start,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
@@ -186,7 +186,7 @@ fun FieldsDetails(
             if(pin.isNotEmpty()){
 
                 Row(
-                    modifier = Modifier.padding(16.dp),
+                    modifier = Modifier.padding(4.dp),
                     horizontalArrangement = Arrangement.Start,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
@@ -216,7 +216,7 @@ fun FieldsDetails(
             if(cvv.isNotEmpty()){
 
                 Row(
-                    modifier = Modifier.padding(16.dp),
+                    modifier = Modifier.padding(4.dp),
                     horizontalArrangement = Arrangement.Start,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
@@ -246,7 +246,7 @@ fun FieldsDetails(
             if(issueDate.isNotEmpty()){
 
                 Row(
-                    modifier = Modifier.padding(16.dp),
+                    modifier = Modifier.padding(4.dp),
                     horizontalArrangement = Arrangement.Start,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
@@ -276,7 +276,7 @@ fun FieldsDetails(
             if(expiryDate.isNotEmpty()){
 
                 Row(
-                    modifier = Modifier.padding(16.dp),
+                    modifier = Modifier.padding(4.dp),
                     horizontalArrangement = Arrangement.Start,
                     verticalAlignment = Alignment.CenterVertically
                 ) {

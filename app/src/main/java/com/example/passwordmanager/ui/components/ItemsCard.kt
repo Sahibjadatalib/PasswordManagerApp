@@ -15,7 +15,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -33,27 +36,39 @@ fun ItemsCard(
     isFavorite: Boolean,
     onStarIconsClick: (Boolean) -> Unit,
     onItemCardClick: () -> Unit,
-    onEditMenuClick: ()-> Unit,
-    onDeleteMenuClick: ()->Unit
+    onEditMenuClick: () -> Unit,
+    onDeleteMenuClick: () -> Unit
 ) {
 
     var favorite by remember { mutableStateOf(isFavorite) }
 
     Row(
-        modifier = modifier.clickable {
-            onItemCardClick()
-        }.padding(16.dp),
+        modifier = modifier
+            .clickable {
+                onItemCardClick()
+            }
+            .padding(4.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceEvenly
     ) {
 
+        Surface(
+            modifier = Modifier.wrapContentSize().padding(8.dp),
+            shape = RoundedCornerShape(8.dp),
+            color = itemIconColor.copy(alpha = 0.25f)
+        ) {
 
-        Icon(
-            modifier = Modifier.size(48.dp),
-            tint = itemIconColor,
-            imageVector = itemIcon,
-            contentDescription = ""
-        )
+            Icon(
+                modifier = Modifier.padding(8.dp).size(32.dp),
+                tint = itemIconColor,
+                imageVector = itemIcon,
+                contentDescription = ""
+            )
+
+
+        }
+
+
 
         Spacer(modifier = Modifier.width(16.dp))
 
@@ -102,7 +117,6 @@ fun ItemsCard(
         )
 
 
-
     }
 
 }
@@ -110,9 +124,9 @@ fun ItemsCard(
 @Composable
 fun PopUpMenu(
     modifier: Modifier = Modifier,
-    onDeleteMenuClick: ()->Unit,
-    onEditMenuClick: ()->Unit
-){
+    onDeleteMenuClick: () -> Unit,
+    onEditMenuClick: () -> Unit
+) {
 
     var expanded by remember { mutableStateOf(false) }
 

@@ -45,7 +45,7 @@ fun DetailsCard(
     Surface(
         modifier = modifier
             .fillMaxWidth()
-            .height(140.dp)
+            .wrapContentHeight()
             .padding(vertical = 16.dp, horizontal = 8.dp),
         color = MaterialTheme.colors.background,
         shape = RoundedCornerShape(8.dp),
@@ -53,7 +53,7 @@ fun DetailsCard(
     ) {
 
         Row(
-            modifier = modifier.padding(bottom = 16.dp),
+            modifier = modifier.padding(bottom = 16.dp, top = 16.dp),
             horizontalArrangement = Arrangement.SpaceEvenly,
             verticalAlignment = Alignment.Bottom
         ) {

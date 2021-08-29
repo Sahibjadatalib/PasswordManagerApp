@@ -115,7 +115,7 @@ fun FieldsDetails(
 
             if(description.isNotEmpty()){
                 Row(
-                    modifier = Modifier.padding(16.dp),
+                    modifier = Modifier.padding(4.dp),
                     horizontalArrangement = Arrangement.Start,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
@@ -148,7 +148,7 @@ fun FieldsDetails(
             if(userName.isNotEmpty()){
 
                 Row(
-                    modifier = Modifier.padding(16.dp),
+                    modifier = Modifier.padding(4.dp),
                     horizontalArrangement = Arrangement.Start,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
@@ -177,7 +177,7 @@ fun FieldsDetails(
             if(password.isNotEmpty()){
 
                 Row(
-                    modifier = Modifier.padding(16.dp),
+                    modifier = Modifier.padding(4.dp),
                     horizontalArrangement = Arrangement.Start,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
@@ -206,7 +206,7 @@ fun FieldsDetails(
             if(macAddress.isNotEmpty()){
 
                 Row(
-                    modifier = Modifier.padding(16.dp),
+                    modifier = Modifier.padding(4.dp),
                     horizontalArrangement = Arrangement.Start,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
