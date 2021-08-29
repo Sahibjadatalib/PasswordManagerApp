@@ -3,6 +3,7 @@ package com.example.passwordmanager.ui.components
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Icon
 import androidx.compose.material.OutlinedTextField
@@ -12,6 +13,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
@@ -20,8 +22,9 @@ import androidx.compose.ui.unit.dp
 fun SearchBar(
     text: String,
     onTextChange: (String)->Unit,
-
 ){
+
+    val focusManager = LocalFocusManager.current
 
     Surface(
         modifier = Modifier
@@ -44,10 +47,11 @@ fun SearchBar(
             shape = RoundedCornerShape(8.dp),
             singleLine = true,
             maxLines = 1,
-            keyboardOptions = KeyboardOptions(
+            keyboardOptions = KeyboardOptions.Default.copy(
                 keyboardType = KeyboardType.Text,
                 imeAction = ImeAction.Search
-            )
+            ),
+            keyboardActions = KeyboardActions(onSearch = {focusManager.clearFocus()})
 
         )
     }

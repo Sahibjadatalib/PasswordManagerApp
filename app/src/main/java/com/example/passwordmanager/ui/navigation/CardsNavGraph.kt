@@ -69,19 +69,19 @@ private fun NavGraphBuilder.addAllCardsGraph(
 
         val navigateToCardsDetails: (Int)->Unit = {itemId->
             navController.navigate(CardsScreen.CardsDetails.createRoute(itemId.toString())){
-                popUpTo(LoginsScreen.AllLogins.route)
+                popUpTo(CardsScreen.AllCards.route)
             }
         }
 
         val navigateToNewItem: ()->Unit = {
             navController.navigate(CardsScreen.NewCardsItem.route){
-                popUpTo(LoginsScreen.AllLogins.route)
+                popUpTo(CardsScreen.AllCards.route)
             }
         }
 
         val navigateToCardsEdit: (Int)->Unit = {itemId->
             navController.navigate(CardsScreen.EditCardsDetails.createRoute(itemId.toString())){
-                popUpTo(LoginsScreen.AllLogins.route)
+                popUpTo(CardsScreen.AllCards.route)
             }
         }
 

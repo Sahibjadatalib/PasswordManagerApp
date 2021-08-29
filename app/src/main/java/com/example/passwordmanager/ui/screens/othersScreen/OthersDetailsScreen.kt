@@ -1,19 +1,21 @@
-package com.example.passwordmanager.ui.screens.loginsScreen
+package com.example.passwordmanager.ui.screens.othersScreen
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Computer
+import androidx.compose.material.icons.filled.Note
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.VpnKey
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -23,13 +25,13 @@ import com.example.passwordmanager.ui.components.DetailsCard
 import com.example.passwordmanager.ui.components.DetailsTopAppBar
 import com.example.passwordmanager.ui.viewModel.LoginsViewModel
 import com.example.passwordmanager.ui.viewModel.MainViewModel
-import kotlinx.coroutines.flow.collect
+import com.example.passwordmanager.ui.viewModel.OthersViewModel
 
 @Composable
-fun LoginsDetailsScreen(
-    viewModel: LoginsViewModel = hiltViewModel(),
+fun OthersDetailsScreen(
+    viewModel: OthersViewModel = hiltViewModel(),
     mainViewModel: MainViewModel,
-    navigateToAllLogins: () -> Unit,
+    navigateToAllOthers: () -> Unit,
     navigateToEditScreen: (Int) -> Unit,
     popUp: () -> Unit,
     itemId: Int
@@ -44,7 +46,7 @@ fun LoginsDetailsScreen(
                 DetailsTopAppBar(
                     topAppBarTitle = it,
                     onDeleteIconClick = {
-                        viewModel.deleteLoginsItem(itemId)
+                        viewModel.deleteOthersItem(itemId)
                         popUp()
                     },
                     onBackIconClick = {popUp()},
@@ -63,9 +65,9 @@ fun LoginsDetailsScreen(
                 itemById.value?.passWord?.length?.let { passwordLen ->
                     itemById.value?.isFavorite?.let { isFavorite ->
                         DetailsCard(
-                            category = loginsCategoryOptions[category].title,
-                            itemIcon = loginsCategoryOptions[category].icon,
-                            itemIconTint = loginsCategoryOptions[category].tintColor,
+                            category = othersCategoryOptions[category].title,
+                            itemIcon = othersCategoryOptions[category].icon,
+                            itemIconTint = othersCategoryOptions[category].tintColor,
                             passStrength = passwordLen,
                             isFavorite = isFavorite,
                             onStarIconClick = {
@@ -76,8 +78,10 @@ fun LoginsDetailsScreen(
             }
 
             FieldsDetails(
+                description = itemById.value?.description.toString(),
                 userName = itemById.value?.userName.toString(),
-                password = itemById.value?.passWord.toString()
+                password = itemById.value?.passWord.toString(),
+                macAddress = itemById.value?.macAddress.toString()
             )
 
         }
@@ -89,14 +93,16 @@ fun LoginsDetailsScreen(
 
 @Composable
 fun FieldsDetails(
+    description: String,
     userName: String,
-    password: String
+    password: String,
+    macAddress: String
 ) {
     Surface(
         modifier = Modifier
             .fillMaxWidth()
             .wrapContentHeight()
-            .padding(top = 0.dp,bottom = 8.dp, start = 8.dp, end = 8.dp),
+            .padding(top = 0.dp, bottom = 8.dp, start = 8.dp, end = 8.dp),
         color = Color.White,
         shape = RoundedCornerShape(8.dp),
         elevation = 4.dp
@@ -106,6 +112,38 @@ fun FieldsDetails(
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.Start
         ) {
+
+            if(description.isNotEmpty()){
+                Row(
+                    modifier = Modifier.padding(16.dp),
+                    horizontalArrangement = Arrangement.Start,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    val scrollState = rememberScrollState()
+
+                    Icon(
+                        modifier = Modifier
+                            .size(64.dp)
+                            .padding(16.dp),
+                        imageVector = Icons.Default.Note, contentDescription = ""
+                    )
+
+                    Column(
+                        modifier = Modifier.verticalScroll(scrollState)
+                    ) {
+                        Text(
+                            text = "Description",
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.Light
+                        )
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Text(text = description)
+                    }
+
+                }
+
+                Divider()
+            }
 
             if(userName.isNotEmpty()){
 
@@ -131,12 +169,9 @@ fun FieldsDetails(
                         Text(text = userName)
                     }
 
-
-
                 }
 
                 Divider()
-
             }
 
             if(password.isNotEmpty()){
@@ -165,8 +200,37 @@ fun FieldsDetails(
 
                 }
 
+                Divider()
             }
 
+            if(macAddress.isNotEmpty()){
+
+                Row(
+                    modifier = Modifier.padding(16.dp),
+                    horizontalArrangement = Arrangement.Start,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        modifier = Modifier
+                            .size(64.dp)
+                            .padding(16.dp),
+                        imageVector = Icons.Default.Computer, contentDescription = ""
+                    )
+
+                    Column {
+                        Text(
+                            text = "Mac Address",
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.Light
+                        )
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Text(text = macAddress)
+                    }
+
+                }
+
+                Divider()
+            }
 
 
         }

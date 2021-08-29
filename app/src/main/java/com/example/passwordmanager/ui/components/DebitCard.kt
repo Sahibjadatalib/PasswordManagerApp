@@ -36,7 +36,7 @@ fun DebitCard(
     Surface(
         modifier = Modifier
             .fillMaxWidth()
-            .height(200.dp)
+            .height(230.dp)
             .padding(horizontal = 8.dp, vertical = 16.dp),
         color = cardsCategoryOptions[cardCategory].tintColor,
         shape = RoundedCornerShape(8.dp),
@@ -44,7 +44,7 @@ fun DebitCard(
     ) {
 
         Column(
-            modifier = Modifier.padding(8.dp),
+            modifier = Modifier.padding(16.dp),
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.Start,
 
@@ -81,7 +81,7 @@ fun DebitCard(
 
             }
 
-            Spacer(modifier = Modifier.height(4.dp))
+            Spacer(modifier = Modifier.height(16.dp))
 
             Text(
                 text = cardNumber,

@@ -1,4 +1,4 @@
-package com.example.passwordmanager.ui.screens.loginsScreen
+package com.example.passwordmanager.ui.screens.othersScreen
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -9,6 +9,8 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Scaffold
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Computer
+import androidx.compose.material.icons.filled.Note
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.VpnKey
 import androidx.compose.material.rememberScaffoldState
@@ -27,14 +29,15 @@ import com.example.passwordmanager.model.loginsCategoryOptions
 import com.example.passwordmanager.ui.components.*
 import com.example.passwordmanager.ui.viewModel.LoginsViewModel
 import com.example.passwordmanager.ui.viewModel.MainViewModel
+import com.example.passwordmanager.ui.viewModel.OthersViewModel
 import kotlinx.coroutines.launch
 
 @Composable
-fun EditLoginsDetails(
-    viewModel: LoginsViewModel = hiltViewModel(),
+fun EditOthersDetails(
+    viewModel: OthersViewModel = hiltViewModel(),
     mainViewModel: MainViewModel,
     navController: NavController,
-    navigateToAllLogins: () -> Unit,
+    navigateToAllOthers: () -> Unit,
     itemId: Int,
     popUp: () -> Unit
 ) {
@@ -45,6 +48,8 @@ fun EditLoginsDetails(
     itemById.value?.category?.let { viewModel.setCategory(it) }
     itemById.value?.userName?.let { viewModel.setUserName(it) }
     itemById.value?.passWord?.let { viewModel.setPassword(it) }
+    itemById.value?.macAddress?.let { viewModel.setMacAddress(it) }
+    itemById.value?.description?.let { viewModel.setDescription(it) }
 
     val scrollState = rememberScrollState()
 
@@ -67,7 +72,7 @@ fun EditLoginsDetails(
                     popUp()
                 },
                 onDoneIconClick = {
-                    viewModel.updateLoginsItem(itemId, showSnackBar, popUp)
+                    viewModel.updateOthersItem(itemId, showSnackBar, popUp)
                 }
             )
         },
@@ -94,29 +99,80 @@ fun EditLoginsDetails(
                 setCategory = { viewModel.setCategory(it) }
             )
 
-            InputField(
-                fieldTitle = "Username",
-                text = viewModel.userName.value,
-                keyboardOptions = KeyboardOptions.Default.copy(
-                    imeAction = ImeAction.Next,
-                    keyboardType = KeyboardType.Text
-                ),
-                onTextChange = { viewModel.setUserName(it) },
-                leadingIcon = Icons.Default.Person,
-                placeholderText = "username"
-            )
+            if(viewModel.category.value == 0){
 
-            InputField(
-                fieldTitle = "Password",
-                text = viewModel.password.value,
-                keyboardOptions = KeyboardOptions.Default.copy(
-                    imeAction = ImeAction.Done,
-                    keyboardType = KeyboardType.Password
-                ),
-                onTextChange = { viewModel.setPassword(it) },
-                leadingIcon = Icons.Default.VpnKey,
-                placeholderText = "password"
-            )
+                InputField(
+                    fieldTitle = "Description",
+                    text = viewModel.description.value,
+                    keyboardOptions = KeyboardOptions.Default.copy(
+                        imeAction = ImeAction.Done,
+                        keyboardType = KeyboardType.Text
+                    ),
+                    onTextChange = { viewModel.setDescription(it) },
+                    leadingIcon = Icons.Default.Note,
+                    placeholderText = "Type here your note",
+                    maxLine = 100,
+                    singleLine = false
+                )
+
+            }
+
+            if(viewModel.category.value == 1){
+
+                InputField(
+                    fieldTitle = "Password",
+                    text = viewModel.password.value,
+                    keyboardOptions = KeyboardOptions.Default.copy(
+                        imeAction = ImeAction.Next,
+                        keyboardType = KeyboardType.Password
+                    ),
+                    onTextChange = { viewModel.setPassword(it) },
+                    leadingIcon = Icons.Default.VpnKey,
+                    placeholderText = "password"
+                )
+
+                InputField(
+                    fieldTitle = "MAC Address",
+                    text = viewModel.macAddress.value,
+                    keyboardOptions = KeyboardOptions.Default.copy(
+                        imeAction = ImeAction.Done,
+                        keyboardType = KeyboardType.Text
+                    ),
+                    onTextChange = { viewModel.setMacAddress(it) },
+                    leadingIcon = Icons.Default.Computer,
+                    placeholderText = "mac address"
+                )
+
+            }
+
+            if(viewModel.category.value == 2){
+
+                InputField(
+                    fieldTitle = "Username",
+                    text = viewModel.userName.value,
+                    keyboardOptions = KeyboardOptions.Default.copy(
+                        imeAction = ImeAction.Next,
+                        keyboardType = KeyboardType.Text
+                    ),
+                    onTextChange = { viewModel.setUserName(it) },
+                    leadingIcon = Icons.Default.Person,
+                    placeholderText = "username"
+                )
+
+
+                InputField(
+                    fieldTitle = "Password",
+                    text = viewModel.password.value,
+                    keyboardOptions = KeyboardOptions.Default.copy(
+                        imeAction = ImeAction.Done,
+                        keyboardType = KeyboardType.Password
+                    ),
+                    onTextChange = { viewModel.setPassword(it) },
+                    leadingIcon = Icons.Default.VpnKey,
+                    placeholderText = "password"
+                )
+
+            }
 
         }
     }
@@ -133,7 +189,3 @@ fun EditLoginsDetails(
 
 
 }
-
-
-
-

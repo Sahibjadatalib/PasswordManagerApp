@@ -136,7 +136,7 @@ fun AppNavGraph(
 
     NavHost(
         navController = navController,
-        startDestination = Screen.CardsScreenRoot.route
+        startDestination = Screen.LoginsScreenRoot.route
     ) {
 
         addLoginsGraph(mainViewModel, navController)

@@ -22,6 +22,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.passwordmanager.LoginsScreen
+import com.example.passwordmanager.model.cardsCategoryOptions
 import com.example.passwordmanager.model.loginsCategoryOptions
 import com.example.passwordmanager.ui.components.*
 import com.example.passwordmanager.ui.viewModel.CardsViewModel
@@ -93,7 +94,7 @@ fun EditCardsDetails(
             )
 
             Category(
-                categoryList = loginsCategoryOptions,
+                categoryList = cardsCategoryOptions,
                 selectedCategory = viewModel.category.value,
                 setCategory = {viewModel.setCategory(it)}
             )
@@ -102,9 +103,9 @@ fun EditCardsDetails(
             InputField(
                 fieldTitle = "Card No.",
                 text = viewModel.cardNumber.value,
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Number,
-                    imeAction = ImeAction.Next
+                keyboardOptions = KeyboardOptions.Default.copy(
+                    imeAction = ImeAction.Next,
+                    keyboardType = KeyboardType.Number
                 ),
                 onTextChange = { viewModel.setCardNumber(it) },
                 leadingIcon = Icons.Default.Pin,
@@ -114,10 +115,11 @@ fun EditCardsDetails(
             InputField(
                 fieldTitle = "Cardholder Name",
                 text = viewModel.cardHolderName.value,
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Text,
-                    imeAction = ImeAction.Next
-                ), onTextChange = { viewModel.setCardHolderName(it) },
+                keyboardOptions = KeyboardOptions.Default.copy(
+                    imeAction = ImeAction.Next,
+                    keyboardType = KeyboardType.Text
+                ),
+                onTextChange = { viewModel.setCardHolderName(it) },
                 leadingIcon = Icons.Default.Person,
                 placeholderText = "Cardholder Name..."
             )
@@ -127,10 +129,11 @@ fun EditCardsDetails(
                 InputField(
                     fieldTitle = "PIN",
                     text = viewModel.pinNumber.value,
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Number,
-                        imeAction = ImeAction.Next
-                    ), onTextChange = { viewModel.setPinNumber(it) },
+                    keyboardOptions = KeyboardOptions.Default.copy(
+                        imeAction = ImeAction.Next,
+                        keyboardType = KeyboardType.Number
+                    ),
+                    onTextChange = { viewModel.setPinNumber(it) },
                     leadingIcon = Icons.Default.Dialpad,
                     placeholderText = "PIN..."
                 )
@@ -138,10 +141,11 @@ fun EditCardsDetails(
                 InputField(
                     fieldTitle = "CVV",
                     text = viewModel.cvvNumber.value,
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Number,
-                        imeAction = ImeAction.Next
-                    ), onTextChange = { viewModel.setCVVNumber(it) },
+                    keyboardOptions = KeyboardOptions.Default.copy(
+                        imeAction = ImeAction.Done,
+                        keyboardType = KeyboardType.Number
+                    ),
+                    onTextChange = { viewModel.setCVVNumber(it) },
                     leadingIcon = Icons.Default.Dialpad,
                     placeholderText = "cvv..."
                 )
@@ -152,8 +156,8 @@ fun EditCardsDetails(
                 fieldTitle = "Issue Date",
                 text = viewModel.issueDate.value,
                 keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Number,
-                    imeAction = ImeAction.Next
+                    keyboardType = KeyboardType.Text,
+                    imeAction = ImeAction.None
                 ),
                 onTextChange = { viewModel.setIssueDate(it) },
                 leadingIcon = Icons.Default.CalendarToday,
@@ -165,8 +169,8 @@ fun EditCardsDetails(
                 fieldTitle = "Expiry Date",
                 text = viewModel.expiryDate.value,
                 keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Number,
-                    imeAction = ImeAction.Next
+                    keyboardType = KeyboardType.Text,
+                    imeAction = ImeAction.None
                 ),
                 onTextChange = { viewModel.setExpiryDate(it) },
                 leadingIcon = Icons.Default.CalendarToday,

@@ -123,162 +123,190 @@ fun FieldsDetails(
             horizontalAlignment = Alignment.Start
         ) {
 
-            Row(
-                modifier = Modifier.padding(16.dp),
-                horizontalArrangement = Arrangement.Start,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Icon(
-                    modifier = Modifier
-                        .size(64.dp)
-                        .padding(16.dp),
-                    imageVector = Icons.Default.Pin, contentDescription = ""
-                )
+            if(cardNumber.isNotEmpty()){
 
-                Column {
-                    Text(
-                        text = "Card No.",
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.Light
+                Row(
+                    modifier = Modifier.padding(16.dp),
+                    horizontalArrangement = Arrangement.Start,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        modifier = Modifier
+                            .size(64.dp)
+                            .padding(16.dp),
+                        imageVector = Icons.Default.Pin, contentDescription = ""
                     )
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Text(text = cardNumber)
+
+                    Column {
+                        Text(
+                            text = "Card No.",
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.Light
+                        )
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Text(text = cardNumber)
+                    }
+
                 }
+
+                Divider()
 
             }
 
-            Divider()
+            if(cardHolderName.isNotEmpty()){
 
-            Row(
-                modifier = Modifier.padding(16.dp),
-                horizontalArrangement = Arrangement.Start,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Icon(
-                    modifier = Modifier
-                        .size(64.dp)
-                        .padding(16.dp),
-                    imageVector = Icons.Default.Person, contentDescription = ""
-                )
-
-                Column {
-                    Text(
-                        text = "CardHolder Name",
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.Light
+                Row(
+                    modifier = Modifier.padding(16.dp),
+                    horizontalArrangement = Arrangement.Start,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        modifier = Modifier
+                            .size(64.dp)
+                            .padding(16.dp),
+                        imageVector = Icons.Default.Person, contentDescription = ""
                     )
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Text(text = cardHolderName)
+
+                    Column {
+                        Text(
+                            text = "CardHolder Name",
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.Light
+                        )
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Text(text = cardHolderName)
+                    }
+
                 }
+
+                Divider()
 
             }
 
-            Divider()
+            if(pin.isNotEmpty()){
 
-            Row(
-                modifier = Modifier.padding(16.dp),
-                horizontalArrangement = Arrangement.Start,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Icon(
-                    modifier = Modifier
-                        .size(64.dp)
-                        .padding(16.dp),
-                    imageVector = Icons.Default.Dialpad, contentDescription = ""
-                )
-
-                Column {
-                    Text(
-                        text = "PIN",
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.Light
+                Row(
+                    modifier = Modifier.padding(16.dp),
+                    horizontalArrangement = Arrangement.Start,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        modifier = Modifier
+                            .size(64.dp)
+                            .padding(16.dp),
+                        imageVector = Icons.Default.Dialpad, contentDescription = ""
                     )
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Text(text = pin)
+
+                    Column {
+                        Text(
+                            text = "PIN",
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.Light
+                        )
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Text(text = pin)
+                    }
+
                 }
+
+                Divider()
 
             }
 
-            Divider()
+            if(cvv.isNotEmpty()){
 
-            Row(
-                modifier = Modifier.padding(16.dp),
-                horizontalArrangement = Arrangement.Start,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Icon(
-                    modifier = Modifier
-                        .size(64.dp)
-                        .padding(16.dp),
-                    imageVector = Icons.Default.Dialpad, contentDescription = ""
-                )
-
-                Column {
-                    Text(
-                        text = "CVV",
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.Light
+                Row(
+                    modifier = Modifier.padding(16.dp),
+                    horizontalArrangement = Arrangement.Start,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        modifier = Modifier
+                            .size(64.dp)
+                            .padding(16.dp),
+                        imageVector = Icons.Default.Dialpad, contentDescription = ""
                     )
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Text(text = cvv)
+
+                    Column {
+                        Text(
+                            text = "CVV",
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.Light
+                        )
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Text(text = cvv)
+                    }
+
                 }
+
+                Divider()
 
             }
 
-            Divider()
+            if(issueDate.isNotEmpty()){
 
-            Row(
-                modifier = Modifier.padding(16.dp),
-                horizontalArrangement = Arrangement.Start,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Icon(
-                    modifier = Modifier
-                        .size(64.dp)
-                        .padding(16.dp),
-                    imageVector = Icons.Default.CalendarToday, contentDescription = ""
-                )
-
-                Column {
-                    Text(
-                        text = "Issue Date",
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.Light
+                Row(
+                    modifier = Modifier.padding(16.dp),
+                    horizontalArrangement = Arrangement.Start,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        modifier = Modifier
+                            .size(64.dp)
+                            .padding(16.dp),
+                        imageVector = Icons.Default.CalendarToday, contentDescription = ""
                     )
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Text(text = issueDate)
+
+                    Column {
+                        Text(
+                            text = "Issue Date",
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.Light
+                        )
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Text(text = issueDate)
+                    }
+
                 }
+
+                Divider()
 
             }
 
-            Divider()
+            if(expiryDate.isNotEmpty()){
 
-
-            Row(
-                modifier = Modifier.padding(16.dp),
-                horizontalArrangement = Arrangement.Start,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Icon(
-                    modifier = Modifier
-                        .size(64.dp)
-                        .padding(16.dp),
-                    imageVector = Icons.Default.CalendarToday, contentDescription = ""
-                )
-
-                Column {
-                    Text(
-                        text = "Expiry Date",
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.Light
+                Row(
+                    modifier = Modifier.padding(16.dp),
+                    horizontalArrangement = Arrangement.Start,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        modifier = Modifier
+                            .size(64.dp)
+                            .padding(16.dp),
+                        imageVector = Icons.Default.CalendarToday, contentDescription = ""
                     )
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Text(text = expiryDate)
+
+                    Column {
+                        Text(
+                            text = "Expiry Date",
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.Light
+                        )
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Text(text = expiryDate)
+                    }
+
                 }
+
+                Divider()
 
             }
 
-            Divider()
+
+
+
+
 
         }
 

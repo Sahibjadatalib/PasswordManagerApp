@@ -14,7 +14,7 @@ import com.example.passwordmanager.util.MyTypeConverter
 
 @Database(
     entities = [LoginsItems::class, CardsItems::class, OthersItems::class],
-    version = 3,
+    version = 4,
     exportSchema = false
 )
 @TypeConverters(MyTypeConverter::class)

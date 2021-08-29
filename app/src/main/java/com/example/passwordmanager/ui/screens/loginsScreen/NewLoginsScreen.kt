@@ -34,7 +34,7 @@ fun NewLoginsScreen(
     mainViewModel: MainViewModel,
     navController: NavController,
     navigateToAllLogins: () -> Unit,
-    popUp: ()->Unit
+    popUp: () -> Unit
 ) {
 
     val scrollState = rememberScrollState()
@@ -80,16 +80,17 @@ fun NewLoginsScreen(
             Category(
                 categoryList = loginsCategoryOptions,
                 selectedCategory = viewModel.category.value,
-                setCategory = {viewModel.setCategory(it)}
+                setCategory = { viewModel.setCategory(it) }
             )
 
             InputField(
                 fieldTitle = "Username",
                 text = viewModel.userName.value,
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Number,
-                    imeAction = ImeAction.Next
-                ),                onTextChange = { viewModel.setUserName(it) },
+                keyboardOptions = KeyboardOptions.Default.copy(
+                    imeAction = ImeAction.Next,
+                    keyboardType = KeyboardType.Text
+                ),
+                onTextChange = { viewModel.setUserName(it) },
                 leadingIcon = Icons.Default.Person,
                 placeholderText = "username"
             )
@@ -97,10 +98,11 @@ fun NewLoginsScreen(
             InputField(
                 fieldTitle = "Password",
                 text = viewModel.password.value,
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Number,
-                    imeAction = ImeAction.Next
-                ),                onTextChange = { viewModel.setPassword(it) },
+                keyboardOptions = KeyboardOptions.Default.copy(
+                    imeAction = ImeAction.Done,
+                    keyboardType = KeyboardType.Password
+                ),
+                onTextChange = { viewModel.setPassword(it) },
                 leadingIcon = Icons.Default.VpnKey,
                 placeholderText = "password"
             )
@@ -108,7 +110,7 @@ fun NewLoginsScreen(
         }
     }
 
-    Box(modifier = Modifier.fillMaxSize()){
+    Box(modifier = Modifier.fillMaxSize()) {
         DefaultSnackbar(
             snackbarHostState = scaffoldState.snackbarHostState,
             onDismiss = {

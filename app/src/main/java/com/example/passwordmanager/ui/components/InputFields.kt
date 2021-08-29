@@ -7,6 +7,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
@@ -15,9 +16,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.widget.Placeholder
@@ -35,10 +39,13 @@ fun InputField(
     leadingIcon: ImageVector,
     placeholderText: String,
     trailingIcon: ImageVector? = null,
-    isReadableOnly: Boolean? = false
+    isReadableOnly: Boolean = false,
+    maxLine: Int = 1,
+    singleLine: Boolean = true
 ) {
 
     val dialog = remember { MaterialDialog() }
+    val focusManager = LocalFocusManager.current
 
     dialog.build(buttons = {
         positiveButton("OK")
@@ -66,7 +73,7 @@ fun InputField(
     ) {
         Column(
             modifier = Modifier.clickable {
-                if(isReadableOnly == true){
+                if (isReadableOnly == true) {
                     dialog.show()
                 }
             }
@@ -87,28 +94,31 @@ fun InputField(
 
             }
 
-            if (isReadableOnly != null) {
-                OutlinedTextField(
-                    modifier = modifier
-                        .padding(8.dp)
-                        .fillMaxWidth()
-                        .background(MaterialTheme.colors.background),
-                    leadingIcon = {
-                        Icon(
-                            tint = MaterialTheme.colors.primary,
-                            imageVector = leadingIcon, contentDescription = ""
-                        )
-                    },
-                    placeholder = { Text(placeholderText) },
-                    value = text,
-                    onValueChange = { onTextChange(it) },
-                    keyboardOptions = keyboardOptions,
-                    maxLines = 1,
-                    shape = RoundedCornerShape(8.dp),
-                    singleLine = true,
-                    readOnly = isReadableOnly
-                )
-            }
+            OutlinedTextField(
+                modifier = modifier
+                    .padding(8.dp)
+                    .fillMaxWidth()
+                    .background(MaterialTheme.colors.background),
+                leadingIcon = {
+                    Icon(
+                        tint = MaterialTheme.colors.primary,
+                        imageVector = leadingIcon, contentDescription = ""
+                    )
+                },
+                placeholder = { Text(placeholderText) },
+                value = text,
+                onValueChange = { onTextChange(it) },
+                keyboardOptions = keyboardOptions,
+                keyboardActions = KeyboardActions(
+                    onDone = { focusManager.clearFocus() },
+                    onNext = {focusManager.moveFocus(focusDirection = FocusDirection.Down)},
+                    onPrevious = {focusManager.moveFocus(focusDirection = FocusDirection.Up)}
+                ),
+                maxLines = maxLine,
+                shape = RoundedCornerShape(8.dp),
+                singleLine = singleLine,
+                readOnly = isReadableOnly
+            )
 
 
         }

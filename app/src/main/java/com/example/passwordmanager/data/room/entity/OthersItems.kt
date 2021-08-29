@@ -9,9 +9,9 @@ data class OthersItems(
 
     @PrimaryKey(autoGenerate = true)
     val itemId: Int? = null,
-    val isFavorite: Boolean? = false,
+    val isFavorite: Boolean = false,
     val title: String,
-    val category: String,
+    val category: Int,
     val userName: String?,
     val passWord: String?,
     val macAddress: String?,

@@ -18,18 +18,18 @@ data class Category(
     val title: String
 )
 
-//val OthersCategoryOptions = listOf(
-//    Category(Icons.Filled.Description, LightGreenA400,"Note"),
-//    Category(Icons.Filled.Computer, Blue700Dark,"Computer"),
-//    Category(Icons.Default.Audiotrack, PinkA200,"Music"),
-//)
-//
+val othersCategoryOptions = listOf(
+    Category(0,Icons.Filled.Description, LightGreenA400,"Note"),
+    Category(1,Icons.Filled.Computer, Blue700Dark,"Computer"),
+    Category(2,Icons.Default.Audiotrack, PinkA200,"Music"),
+)
+
 
 
 val cardsCategoryOptions = listOf(
     Category(0,Icons.Filled.AttachMoney, LightGreenA400,"Credit"),
     Category(1,Icons.Filled.AccountBalance, Blue700Dark,"Debit"),
-    Category(2,Icons.Default.PermIdentity, Color.Green,"Identity"),
+    Category(2,Icons.Filled.Person, Color.Green,"Identity"),
     Category(3,Icons.Filled.DirectionsCar, AmberA200,"License"),
     Category(4,Icons.Filled.HealthAndSafety, CyanA200,"Health"),
     Category(5,Icons.Filled.Book, DeepOrangeA700,"Library"),
