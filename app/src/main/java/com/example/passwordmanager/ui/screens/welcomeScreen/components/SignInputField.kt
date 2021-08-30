@@ -1,4 +1,4 @@
-package com.example.passwordmanager.ui.components
+package com.example.passwordmanager.ui.screens.welcomeScreen.components
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.fillMaxWidth

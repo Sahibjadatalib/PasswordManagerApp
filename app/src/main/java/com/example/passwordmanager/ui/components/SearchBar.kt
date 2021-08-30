@@ -1,14 +1,13 @@
 package com.example.passwordmanager.ui.components
 
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.Icon
-import androidx.compose.material.OutlinedTextField
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
@@ -31,8 +30,8 @@ fun SearchBar(
             .fillMaxWidth()
             .padding(top = 16.dp, bottom = 16.dp, start = 8.dp, end = 8.dp),
         elevation = 4.dp,
-        shape = RoundedCornerShape(8.dp)
-
+        shape = RoundedCornerShape(32.dp),
+        border = BorderStroke(1.dp,MaterialTheme.colors.primary)
     ) {
         OutlinedTextField(
             value = text,
@@ -44,7 +43,7 @@ fun SearchBar(
                 )
             },
             placeholder = { Text("Search") },
-            shape = RoundedCornerShape(8.dp),
+            shape = RoundedCornerShape(32.dp),
             singleLine = true,
             maxLines = 1,
             keyboardOptions = KeyboardOptions.Default.copy(

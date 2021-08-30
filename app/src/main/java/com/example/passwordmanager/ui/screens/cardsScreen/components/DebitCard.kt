@@ -1,4 +1,4 @@
-package com.example.passwordmanager.ui.components
+package com.example.passwordmanager.ui.screens.cardsScreen.components
 
 import android.graphics.fonts.FontStyle
 import androidx.compose.foundation.background

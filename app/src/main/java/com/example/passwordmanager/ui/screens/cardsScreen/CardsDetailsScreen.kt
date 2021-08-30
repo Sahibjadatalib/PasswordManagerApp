@@ -9,8 +9,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -18,15 +16,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.passwordmanager.model.cardsCategoryOptions
-import com.example.passwordmanager.model.loginsCategoryOptions
-import com.example.passwordmanager.ui.components.DebitCard
-import com.example.passwordmanager.ui.components.DetailsCard
+import com.example.passwordmanager.ui.screens.cardsScreen.components.DebitCard
 import com.example.passwordmanager.ui.components.DetailsTopAppBar
 import com.example.passwordmanager.ui.viewModel.CardsViewModel
-import com.example.passwordmanager.ui.viewModel.LoginsViewModel
 import com.example.passwordmanager.ui.viewModel.MainViewModel
-import java.lang.StringBuilder
 
 @Composable
 fun CardsDetailsScreen(

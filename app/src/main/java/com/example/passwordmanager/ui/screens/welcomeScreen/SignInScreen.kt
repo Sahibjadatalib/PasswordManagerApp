@@ -1,31 +1,18 @@
 package com.example.passwordmanager.ui.screens.welcomeScreen
 
-import android.graphics.Paint
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Announcement
-import androidx.compose.material.icons.filled.Done
-import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusManager
-import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.passwordmanager.ui.components.DefaultSnackbar
-import com.example.passwordmanager.ui.components.SignInputField
+import com.example.passwordmanager.ui.screens.welcomeScreen.components.SignInputField
 import com.example.passwordmanager.ui.viewModel.WelcomeViewModel
 import kotlinx.coroutines.launch
 
@@ -76,7 +63,7 @@ fun SignInScreen(
                 style = MaterialTheme.typography.body1.copy(fontSize = 20.sp)
             )
 
-            Spacer(modifier = Modifier.height(164.dp))
+            Spacer(modifier = Modifier.height(120.dp))
 
             SignInputField(
                 value = viewModel.masterPassword.value,
