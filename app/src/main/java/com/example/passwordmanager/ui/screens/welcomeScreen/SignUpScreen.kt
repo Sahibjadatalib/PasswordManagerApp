@@ -6,6 +6,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Announcement
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -16,12 +17,14 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.passwordmanager.ui.components.DefaultSnackbar
 import com.example.passwordmanager.ui.screens.welcomeScreen.components.SignInputField
 import com.example.passwordmanager.ui.screens.welcomeScreen.components.DisclaimerDialog
+import com.example.passwordmanager.ui.viewModel.MainViewModel
 import com.example.passwordmanager.ui.viewModel.WelcomeViewModel
 import kotlinx.coroutines.launch
 
 @Composable
 fun SignUpScreen(
     modifier: Modifier = Modifier,
+    mainViewModel: MainViewModel,
     viewModel: WelcomeViewModel = hiltViewModel(),
     navigateToLoginsScreen: () -> Unit
 ) {
@@ -61,7 +64,7 @@ fun SignUpScreen(
             style = MaterialTheme.typography.body1.copy(fontSize = 20.sp)
         )
 
-        Spacer(modifier = Modifier.height(64.dp))
+        Spacer(modifier = Modifier.height(32.dp))
 
         TextButton(
             modifier = modifier
@@ -93,6 +96,11 @@ fun SignUpScreen(
         SignInputField(value = viewModel.confirmMasterPassword.value,
             onValueChange = {viewModel.setConfirmMasterPassword(it)},
             placeholder = "Confirm Master Password"
+        )
+
+        SignInputField(value = viewModel.passwordHint.value,
+            onValueChange = {viewModel.setPasswordHint(it)},
+            placeholder = "hint"
         )
 
 

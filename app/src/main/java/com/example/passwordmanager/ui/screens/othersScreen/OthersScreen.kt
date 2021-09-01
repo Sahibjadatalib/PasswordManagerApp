@@ -32,6 +32,7 @@ fun OthersScreen(
     navigateToOthersDetails: (Int)->Unit,
     navigateToNewItem: ()->Unit,
     navigateToOthersEdit: (Int)->Unit,
+    navigateToSettings: ()->Unit,
     popUp: ()->Unit
 ) {
 
@@ -59,7 +60,8 @@ fun OthersScreen(
                 topAppBarTitle = OthersScreen.AllOthers.label,
                 onMenuIconClick = {},
                 switchState = viewModel.switch.value,
-                onSwitchIconClick = { viewModel.setSwitch(it) }
+                onSwitchIconClick = { viewModel.setSwitch(it) },
+                onSettingsIconClick = {navigateToSettings()}
             )
         },
         floatingActionButton = {

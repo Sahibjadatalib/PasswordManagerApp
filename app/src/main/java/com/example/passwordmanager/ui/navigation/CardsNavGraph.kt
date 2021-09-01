@@ -85,6 +85,14 @@ private fun NavGraphBuilder.addAllCardsGraph(
             }
         }
 
+        val navigateToSettings: ()->Unit = {
+            navController.navigate(SettingsScreen.Settings.route){
+                popUpTo(SettingsScreen.Settings.route){
+                    inclusive = true
+                }
+            }
+        }
+
         val popUp: ()->Unit = {
             navController.navigateUp()
         }
@@ -100,6 +108,7 @@ private fun NavGraphBuilder.addAllCardsGraph(
                 navigateToNewItem = navigateToNewItem,
                 navigateToCardsDetails = navigateToCardsDetails,
                 navigateToCardsEdit = navigateToCardsEdit,
+                navigateToSettings = navigateToSettings,
                 popUp = popUp
             )
         }

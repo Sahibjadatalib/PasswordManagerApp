@@ -84,6 +84,14 @@ private fun NavGraphBuilder.addAllLoginsGraph(
             }
         }
 
+        val navigateToSettings: ()->Unit = {
+            navController.navigate(SettingsScreen.Settings.route){
+                popUpTo(SettingsScreen.Settings.route){
+                    inclusive = true
+                }
+            }
+        }
+
         val popUp: ()->Unit = {
             navController.navigateUp()
         }
@@ -99,6 +107,7 @@ private fun NavGraphBuilder.addAllLoginsGraph(
                 navigateToLoginsDetails = navigateToLoginsDetails,
                 navigateToNewItem = navigateToNewItem,
                 navigateToLoginsEdit = navigateToLoginsEdit,
+                navigateToSettings = navigateToSettings,
                 popUp = popUp
             )
         }

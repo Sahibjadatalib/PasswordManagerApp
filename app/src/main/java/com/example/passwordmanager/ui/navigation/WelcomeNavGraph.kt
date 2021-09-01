@@ -46,6 +46,7 @@ private fun NavGraphBuilder.addSignUpGraph(
         }
 
         SignUpScreen(
+            mainViewModel = mainViewModel,
             navigateToLoginsScreen = navigateToLoginsScreen
         )
     }
@@ -77,6 +78,7 @@ private fun NavGraphBuilder.addSignInGraph(
         }
 
         SignInScreen(
+            mainViewModel = mainViewModel,
             navigateToLoginsScreen = navigateToLoginsScreen,
             navigateToSignUpScreen = navigateToSignUpScreen
         )

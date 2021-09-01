@@ -3,7 +3,12 @@ package com.example.passwordmanager.ui.screens.welcomeScreen
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Help
+import androidx.compose.material.icons.filled.HelpOutline
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -12,13 +17,16 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.passwordmanager.ui.components.DefaultSnackbar
+import com.example.passwordmanager.ui.screens.welcomeScreen.components.HintDialog
 import com.example.passwordmanager.ui.screens.welcomeScreen.components.SignInputField
+import com.example.passwordmanager.ui.viewModel.MainViewModel
 import com.example.passwordmanager.ui.viewModel.WelcomeViewModel
 import kotlinx.coroutines.launch
 
 @Composable
 fun SignInScreen(
     modifier: Modifier = Modifier,
+    mainViewModel: MainViewModel,
     viewModel: WelcomeViewModel = hiltViewModel(),
     navigateToLoginsScreen: () -> Unit,
     navigateToSignUpScreen: () -> Unit
@@ -33,10 +41,9 @@ fun SignInScreen(
         }
     }
 
-    if(viewModel.storedMasterPassword.value?.isEmpty() == true){
+    if (viewModel.storedMasterPassword.value.isEmpty()) {
         navigateToSignUpScreen()
-    }
-    else{
+    } else {
 
         Column(
             modifier = modifier
@@ -54,7 +61,6 @@ fun SignInScreen(
                 style = MaterialTheme.typography.h4
             )
 
-
             Spacer(modifier = Modifier.height(16.dp))
 
             Text(
@@ -65,9 +71,16 @@ fun SignInScreen(
 
             Spacer(modifier = Modifier.height(120.dp))
 
+            IconButton(onClick = { viewModel.setHintDialog(true) }) {
+                Icon(
+                    tint = MaterialTheme.colors.primary,
+                    imageVector = Icons.Default.Help, contentDescription = ""
+                )
+            }
+
             SignInputField(
                 value = viewModel.masterPassword.value,
-                onValueChange = {viewModel.setMasterPassword(it)},
+                onValueChange = { viewModel.setMasterPassword(it) },
                 placeholder = "Master Password"
             )
 
@@ -104,6 +117,15 @@ fun SignInScreen(
                 },
                 modifier = Modifier.align(Alignment.BottomCenter)
             )
+        }
+
+        if (viewModel.hintDialog.value) {
+
+            HintDialog(
+                onDismiss = { viewModel.setHintDialog(false) },
+                hint = viewModel.storedHint.value
+            )
+
         }
 
     }

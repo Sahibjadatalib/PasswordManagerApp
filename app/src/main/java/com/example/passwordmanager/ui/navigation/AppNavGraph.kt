@@ -6,6 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
+import com.example.passwordmanager.ui.navigation.addSettingsGraph
 import com.example.passwordmanager.ui.navigation.addWelcomeGraph
 import com.example.passwordmanager.ui.screens.cardsScreen.addCardsGraph
 import com.example.passwordmanager.ui.screens.loginsScreen.addLoginsGraph
@@ -20,6 +21,7 @@ sealed class Screen(
     object LoginsScreenRoot : Screen("logins")
     object CardsScreenRoot : Screen("cards")
     object OthersScreenRoot : Screen("others")
+    object SettingsScreenRoot: Screen("settings")
 
 }
 
@@ -143,7 +145,17 @@ sealed class OthersScreen(
 
 }
 
-
+sealed class SettingsScreen(
+    val route: String,
+    val label: String,
+    val icon: ImageVector
+){
+    object Settings: SettingsScreen(
+        "setting_screen",
+        "Settings",
+        Icons.Default.Settings
+    )
+}
 
 
 @Composable
@@ -162,6 +174,7 @@ fun AppNavGraph(
         addLoginsGraph(mainViewModel, navController)
         addCardsGraph(mainViewModel, navController)
         addOthersGraph(mainViewModel, navController)
+        addSettingsGraph(mainViewModel, navController)
 
 
     }

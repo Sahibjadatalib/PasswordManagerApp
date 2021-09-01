@@ -83,6 +83,14 @@ private fun NavGraphBuilder.addAllOthersGraph(
             }
         }
 
+        val navigateToSettings: ()->Unit = {
+            navController.navigate(SettingsScreen.Settings.route){
+                popUpTo(SettingsScreen.Settings.route){
+                    inclusive = true
+                }
+            }
+        }
+
         val popUp: ()->Unit = {
             navController.navigateUp()
         }
@@ -98,6 +106,7 @@ private fun NavGraphBuilder.addAllOthersGraph(
                 navigateToOthersDetails = navigateToOthersDetails,
                 navigateToNewItem = navigateToNewItem,
                 navigateToOthersEdit = navigateToOthersEdit,
+                navigateToSettings = navigateToSettings,
                 popUp = popUp
             )
         }
@@ -147,6 +156,7 @@ private fun NavGraphBuilder.addOthersDetailsGraph(
         val navigateToEditScreen: (Int) -> Unit = {id->
             navController.navigate(OthersScreen.EditOthersDetails.createRoute(id.toString()))
         }
+
 
         val popUp: () -> Unit = {
             navController.navigateUp()

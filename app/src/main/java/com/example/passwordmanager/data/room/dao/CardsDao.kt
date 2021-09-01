@@ -56,4 +56,6 @@ interface CardsDao {
     @Query("UPDATE cardsItems SET isFavorite =:isFavorite WHERE itemId =:itemId")
     suspend fun updateIsFavorite(isFavorite: Boolean, itemId: Int)
 
+    @Query("DELETE from cardsItems")
+    suspend fun deleteAllCards()
 }

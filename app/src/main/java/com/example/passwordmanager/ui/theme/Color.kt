@@ -15,12 +15,14 @@ val ErrorRed = Color(0xFFB00020)
 
 //colors for icons
 val PinkA200 = Color(0xFFFF4081)
-val TealA200 = Color(0xFF64FFDA)
-val CyanA200 = Color(0xFF18FFFF)
-val YellowA200 = Color(0xFFFFFF00)
-val AmberA200 = Color(0xFFFFD740)
-val LightGreenA400 = Color(0xFF76FF03)
+val TealA700 = Color(0xFF00BFA5)
+val CyanA700 = Color(0xFF00B8D4)
+val YellowA700 = Color(0xFFFFD600)
+val AmberA700 = Color(0xFFFFAB00)
+val GreenA700 = Color(0xFF00C853)
 val OrangeA200 = Color(0xFFFFAB40)
-val DeepOrangeA700 = Color(0xFFdd2c00)
+val OrangeA700 = Color(0xFFFF6D00)
+val PurpleA700 = Color(0xFFAA00FF)
+
 
 val OffWhite = Color(0xFFf5f7ff)

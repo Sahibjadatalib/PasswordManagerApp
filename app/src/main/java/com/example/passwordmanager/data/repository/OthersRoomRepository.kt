@@ -66,4 +66,8 @@ class OthersRoomRepository @Inject constructor(
         )
     }
 
+    suspend fun deleteAllOthers(){
+        othersDao.deleteAllOthers()
+    }
+
 }

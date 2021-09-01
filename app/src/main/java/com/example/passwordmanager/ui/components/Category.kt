@@ -119,7 +119,7 @@ fun Category(
 
 
 @Composable
-fun OptionsRow(
+private fun OptionsRow(
     modifier: Modifier = Modifier,
     categoryList: List<Category>,
     category: Category,

@@ -39,6 +39,7 @@ fun LoginsScreen(
     navigateToLoginsDetails: (Int) -> Unit,
     navigateToLoginsEdit: (Int) -> Unit,
     navigateToNewItem: () -> Unit,
+    navigateToSettings: ()->Unit,
     popUp: () -> Unit
 ) {
 
@@ -65,7 +66,8 @@ fun LoginsScreen(
                 topAppBarTitle = LoginsScreen.AllLogins.label,
                 onMenuIconClick = {},
                 switchState = viewModel.switch.value,
-                onSwitchIconClick = { viewModel.setSwitch(it) }
+                onSwitchIconClick = { viewModel.setSwitch(it) },
+                onSettingsIconClick = {navigateToSettings()}
             )
         },
         scaffoldState = scaffoldState,

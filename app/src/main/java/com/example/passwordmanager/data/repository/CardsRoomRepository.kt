@@ -68,4 +68,8 @@ class CardsRoomRepository @Inject constructor(
         )
     }
 
+    suspend fun deleteAllCards(){
+        cardsDao.deleteAllCards()
+    }
+
 }

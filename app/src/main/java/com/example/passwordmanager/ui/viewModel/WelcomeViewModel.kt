@@ -3,14 +3,16 @@ package com.example.passwordmanager.ui.viewModel
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.passwordmanager.data.dataStore.PreferenceStorage
+import com.example.passwordmanager.data.room.entity.LoginsItems
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -41,12 +43,29 @@ class WelcomeViewModel @Inject constructor(
     }
 
 
-    private val _storedMasterPassword: MutableState<String?> = mutableStateOf(null)
-    val storedMasterPassword: State<String?> = _storedMasterPassword
+    private val _passwordHint = mutableStateOf("")
+    val passwordHint: State<String> = _passwordHint
+    fun setPasswordHint(newValue: String){
+        _passwordHint.value = newValue
+    }
+
+
+    private val _hintDialog = mutableStateOf(false)
+    val hintDialog: State<Boolean> = _hintDialog
+    fun setHintDialog(newValue: Boolean){
+        _hintDialog.value = newValue
+    }
+
+    private val _storedHint = MutableStateFlow("")
+    val storedHint: StateFlow<String> = _storedHint
+
+    private var _storedMasterPassword = MutableStateFlow("")
+    val storedMasterPassword: StateFlow<String> = _storedMasterPassword
 
 
     init {
         retrieveMasterPassword()
+        retrievePasswordHint()
     }
 
 
@@ -60,6 +79,7 @@ class WelcomeViewModel @Inject constructor(
                 && _masterPassword.value.isNotEmpty()
             ){
                 preferenceStorage.setMasterPassword(_masterPassword.value)
+                preferenceStorage.setPasswordHint(_passwordHint.value)
                 navigateToLoginsScreen()
             }
             else{
@@ -83,12 +103,29 @@ class WelcomeViewModel @Inject constructor(
         }
     }
 
-    fun retrieveMasterPassword(){
+
+
+    private fun retrieveMasterPassword(){
         viewModelScope.launch {
-            val result = preferenceStorage.masterPassword.firstOrNull()
-            result?.let {
-                _storedMasterPassword.value = result
-            }
+            preferenceStorage.masterPassword
+                .catch {
+
+                }
+                .collect {
+                    _storedMasterPassword.value = it
+                }
+        }
+    }
+
+    private fun retrievePasswordHint(){
+        viewModelScope.launch {
+            preferenceStorage.passwordHint
+                .catch {
+
+                }
+                .collect {
+                    _storedHint.value = it
+                }
         }
     }
     

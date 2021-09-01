@@ -27,7 +27,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.passwordmanager.ui.theme.AmberA200
+import com.example.passwordmanager.ui.theme.AmberA700
 
 @Composable
 fun DetailsCard(
@@ -110,7 +110,7 @@ fun DetailsCard(
 
                     Icon(
                         modifier = Modifier.size(64.dp),
-                        tint = if(favorite) AmberA200 else Color.Gray,
+                        tint = if(favorite) AmberA700 else Color.Gray,
                         imageVector = Icons.Rounded.Star, contentDescription = ""
                     )
 

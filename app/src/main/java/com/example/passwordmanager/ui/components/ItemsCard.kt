@@ -23,7 +23,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.example.passwordmanager.ui.theme.AmberA200
+import com.example.passwordmanager.ui.theme.AmberA700
 import kotlin.math.exp
 
 @Composable
@@ -104,7 +104,7 @@ fun ItemsCard(
             }) {
 
             Icon(
-                tint = if (isFavorite) AmberA200 else Color.Gray,
+                tint = if (isFavorite) AmberA700 else Color.Gray,
                 imageVector = Icons.Rounded.StarOutline,
                 contentDescription = ""
             )

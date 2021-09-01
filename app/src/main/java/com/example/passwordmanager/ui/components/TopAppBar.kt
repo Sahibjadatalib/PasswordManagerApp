@@ -12,40 +12,49 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.example.passwordmanager.ui.theme.AmberA200
+import com.example.passwordmanager.ui.theme.AmberA700
 
 @Composable
 fun HomeTopAppBar(
     topAppBarTitle: String,
     onMenuIconClick: () -> Unit,
     switchState: Boolean,
-    onSwitchIconClick: (Boolean)->Unit
+    onSwitchIconClick: (Boolean)->Unit,
+    onSettingsIconClick: ()->Unit
 ) {
 
     TopAppBar(
         title = { Text(text = topAppBarTitle) },
         backgroundColor = MaterialTheme.colors.background,
-        navigationIcon = {
-            IconButton(onClick = { onMenuIconClick() }) {
-                Icon(
-                    tint = MaterialTheme.colors.primary,
-                    imageVector = Icons.Filled.Menu,
-                    contentDescription = "Hamburger icon"
-                )
-            }
-        },
+//        navigationIcon = {
+//            IconButton(onClick = { onMenuIconClick() }) {
+//                Icon(
+//                    tint = MaterialTheme.colors.primary,
+//                    imageVector = Icons.Filled.Menu,
+//                    contentDescription = "Hamburger icon"
+//                )
+//            }
+//        },
         actions = {
 
             Switch(
                 checked = switchState,
                 onCheckedChange = { onSwitchIconClick(it)},
                 colors = SwitchDefaults.colors(
-                    checkedThumbColor = AmberA200,
-                    checkedTrackAlpha = AmberA200.blue,
+                    checkedThumbColor = AmberA700,
+                    checkedTrackAlpha = AmberA700.blue,
                     uncheckedThumbColor = MaterialTheme.colors.secondary,
                     uncheckedTrackAlpha = MaterialTheme.colors.secondary.red
                 )
             )
+            
+            Spacer(modifier = Modifier.width(8.dp))
+            
+            IconButton(onClick = { onSettingsIconClick() }) {
+                Icon(
+                    tint = MaterialTheme.colors.secondary,
+                    imageVector = Icons.Default.Settings, contentDescription = "")
+            }
             
             Spacer(modifier = Modifier.width(8.dp))
 
@@ -148,5 +157,27 @@ fun DetailsTopAppBar(
             }
         }
     }
+
+}
+
+@Composable
+fun SettingsTopAppBar(
+    onBackBtnClick: ()->Unit
+) {
+
+    TopAppBar(
+        title = { Text(text = "Settings") },
+        backgroundColor = MaterialTheme.colors.background,
+        navigationIcon = {
+            IconButton(onClick = { onBackBtnClick() }) {
+                Icon(
+                    tint = MaterialTheme.colors.primary,
+                    imageVector = Icons.Filled.ArrowBackIos,
+                    contentDescription = ""
+                )
+            }
+        },
+        elevation = 4.dp
+    )
 
 }

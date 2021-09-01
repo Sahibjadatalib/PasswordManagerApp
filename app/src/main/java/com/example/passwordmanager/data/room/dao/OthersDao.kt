@@ -54,5 +54,7 @@ interface OthersDao {
     @Query("UPDATE othersItems SET isFavorite =:isFavorite WHERE itemId =:itemId")
     suspend fun updateIsFavorite(isFavorite: Boolean, itemId: Int)
 
+    @Query("DELETE from othersItems")
+    suspend fun deleteAllOthers()
 
 }

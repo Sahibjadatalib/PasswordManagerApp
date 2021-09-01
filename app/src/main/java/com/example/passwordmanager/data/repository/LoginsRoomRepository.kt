@@ -63,5 +63,9 @@ class LoginsRoomRepository @Inject constructor(
         )
     }
 
+    suspend fun deleteAllLogins(){
+        loginsDao.deleteAllLogins()
+    }
+
 
 }

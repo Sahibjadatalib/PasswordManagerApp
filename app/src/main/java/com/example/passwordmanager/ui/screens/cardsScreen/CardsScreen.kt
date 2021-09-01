@@ -32,6 +32,7 @@ fun CardsScreen(
     navigateToNewItem: () -> Unit,
     navigateToCardsDetails: (Int) -> Unit,
     navigateToCardsEdit: (Int) -> Unit,
+    navigateToSettings: ()->Unit,
     popUp: () -> Unit
 ) {
 
@@ -60,7 +61,8 @@ fun CardsScreen(
                 topAppBarTitle = CardsScreen.AllCards.label,
                 onMenuIconClick = {},
                 switchState = viewModel.switch.value,
-                onSwitchIconClick = { viewModel.setSwitch(it) }
+                onSwitchIconClick = { viewModel.setSwitch(it) },
+                onSettingsIconClick = {navigateToSettings()}
             )
         },
         floatingActionButton = {

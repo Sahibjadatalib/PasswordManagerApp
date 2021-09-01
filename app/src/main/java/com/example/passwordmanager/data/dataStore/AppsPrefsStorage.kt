@@ -32,6 +32,13 @@ class AppsPrefsStorage @Inject constructor(
         myDataStore.setValue(PreferenceKeys.USER_MASTER_PASSWORD,newPassword)
     }
 
+    override val passwordHint: Flow<String>
+        get() = myDataStore.getValue(PreferenceKeys.USER_PASSWORD_HINT,"")
+
+    override suspend fun setPasswordHint(newHint: String) {
+        myDataStore.setValue(PreferenceKeys.USER_PASSWORD_HINT,newHint)
+    }
+
     private fun<T> DataStore<Preferences>.getValue(
         key: Preferences.Key<T>,
         defaultValue: T
@@ -63,6 +70,7 @@ class AppsPrefsStorage @Inject constructor(
 
     private object PreferenceKeys{
         val USER_MASTER_PASSWORD = stringPreferencesKey("user_master_password")
+        val USER_PASSWORD_HINT = stringPreferencesKey("user_password_hint")
     }
 
 }

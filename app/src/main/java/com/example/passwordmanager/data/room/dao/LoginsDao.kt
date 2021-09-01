@@ -45,7 +45,7 @@ interface LoginsDao {
     @Query("UPDATE loginsItems SET isFavorite =:isFavorite WHERE itemId =:itemId")
     suspend fun updateIsFavorite(isFavorite: Boolean, itemId: Int)
 
-
-
+    @Query("DELETE from loginsItems")
+    suspend fun deleteAllLogins()
 
 }
