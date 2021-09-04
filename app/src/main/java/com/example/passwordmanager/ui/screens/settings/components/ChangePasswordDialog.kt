@@ -1,17 +1,12 @@
 package com.example.passwordmanager.ui.screens.settings.components
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.VpnKey
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -19,8 +14,8 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.passwordmanager.ui.components.MyOutlinedTextField
+import com.example.passwordmanager.ui.theme.Theme
 
 @Composable
 fun ChangePasswordDialog(
@@ -36,78 +31,84 @@ fun ChangePasswordDialog(
 
     val focusManager = LocalFocusManager.current
 
-    AlertDialog(
-        modifier = Modifier,
-        onDismissRequest = {
-            onDismiss()
-        },
-        shape = RoundedCornerShape(8.dp),
-        text = {
+    Surface(
+        elevation = Theme.elevation.large
+    ) {
 
-            Column(
-                modifier = Modifier,
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Top
-            ) {
+        AlertDialog(
+            modifier = Modifier,
+            onDismissRequest = {
+                onDismiss()
+            },
+            shape = RoundedCornerShape(8.dp),
+            text = {
 
-                Text(
-                    modifier = Modifier.padding(4.dp),
-                    text = "Change your master password",
-                    style = TextStyle(
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.Black,
+                Column(
+                    modifier = Modifier,
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Top
+                ) {
+
+                    Text(
+                        modifier = Modifier.padding(4.dp),
+                        text = "Change your master password",
+                        style = TextStyle(
+                            fontSize = 18.sp,
+                            fontWeight = FontWeight.Black,
+                        )
                     )
-                )
 
-                Spacer(modifier = Modifier.height(8.dp))
+                    Spacer(modifier = Modifier.height(8.dp))
 
-                MyOutlinedTextField(
-                    placeholderText = "current password",
-                    value = currentPassword,
-                    onValueChange = { onCurrentPasswordChange(it) },
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Password,
-                        imeAction = ImeAction.Next
+                    MyOutlinedTextField(
+                        placeholderText = "current password",
+                        value = currentPassword,
+                        onValueChange = { onCurrentPasswordChange(it) },
+                        keyboardOptions = KeyboardOptions(
+                            keyboardType = KeyboardType.Password,
+                            imeAction = ImeAction.Next
+                        )
                     )
-                )
 
 
-                MyOutlinedTextField(
-                    placeholderText = "new password",
-                    value = newPassword,
-                    onValueChange = { onNewPasswordChange(it) },
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Password,
-                        imeAction = ImeAction.Next
+                    MyOutlinedTextField(
+                        placeholderText = "new password",
+                        value = newPassword,
+                        onValueChange = { onNewPasswordChange(it) },
+                        keyboardOptions = KeyboardOptions(
+                            keyboardType = KeyboardType.Password,
+                            imeAction = ImeAction.Next
+                        )
                     )
-                )
 
 
-                MyOutlinedTextField(
-                    placeholderText = "confirm new password",
-                    value = confirmNewPassword,
-                    onValueChange = { onConfirmNewPassword(it) },
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Password,
-                        imeAction = ImeAction.Done
+                    MyOutlinedTextField(
+                        placeholderText = "confirm new password",
+                        value = confirmNewPassword,
+                        onValueChange = { onConfirmNewPassword(it) },
+                        keyboardOptions = KeyboardOptions(
+                            keyboardType = KeyboardType.Password,
+                            imeAction = ImeAction.Done
+                        )
                     )
-                )
 
+                }
+
+
+            },
+            confirmButton = {
+                Button(onClick = { onSaveClick() }) {
+                    Text(text = "Save")
+                }
+            },
+            dismissButton = {
+                Button(onClick = { onDismiss() }) {
+                    Text(text = "Cancel")
+                }
             }
 
+        )
 
-        },
-        confirmButton = {
-            Button(onClick = { onSaveClick() }) {
-                Text(text = "Save")
-            }
-        },
-        dismissButton = {
-            Button(onClick = { onDismiss() }) {
-                Text(text = "Cancel")
-            }
-        }
-
-    )
+    }
 
 }

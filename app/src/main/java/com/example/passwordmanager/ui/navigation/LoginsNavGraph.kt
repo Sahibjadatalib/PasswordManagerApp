@@ -1,5 +1,6 @@
 package com.example.passwordmanager.ui.screens.loginsScreen
 
+import androidx.compose.material.ScaffoldState
 import androidx.compose.material.rememberScaffoldState
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
@@ -10,13 +11,16 @@ import androidx.navigation.navigation
 import com.example.passwordmanager.*
 import com.example.passwordmanager.ui.viewModel.MainViewModel
 import com.example.passwordmanager.Screen
+import com.example.passwordmanager.ui.navigation.MainActions
 import com.example.passwordmanager.ui.screens.NewLoginsScreen
 import com.example.passwordmanager.ui.screens.home.LoginsScreen
 
 
 fun NavGraphBuilder.addLoginsGraph(
     mainViewModel: MainViewModel,
-    navController: NavHostController
+    navController: NavHostController,
+    scaffoldState: ScaffoldState,
+    actions: MainActions
 ) {
 
     navigation(

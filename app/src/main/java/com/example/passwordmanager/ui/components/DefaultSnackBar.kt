@@ -7,6 +7,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.example.passwordmanager.ui.theme.Theme
 
 @Composable
 fun DefaultSnackbar(
@@ -29,7 +30,7 @@ fun DefaultSnackbar(
                             Text(
                                 text = actionLabel,
                                 style = MaterialTheme.typography.body2,
-                                color = Color.White
+                                color = Theme.colors.onPrimary
                             )
                         }
                     }
@@ -39,7 +40,7 @@ fun DefaultSnackbar(
                 Text(
                     text = data.message,
                     style = MaterialTheme.typography.body2,
-                    color = Color.White
+                    color = Theme.colors.onPrimary
                 )
             }
         },

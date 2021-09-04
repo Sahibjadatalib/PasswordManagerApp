@@ -11,9 +11,15 @@ data class Settings(
     val icon: ImageVector,
     val title: String,
     val subtitle: String? = null,
-    val switch: ImageVector? = null,
-    val titleColor: Color = Color.Black,
     val iconColor: Color = Color.LightGray
+)
+
+val generalSettings = listOf(
+    Settings(
+        0,
+        Icons.Default.Lightbulb,
+        "Change Theme",
+    )
 )
 
 val helpsAndAboutSettings = listOf(
@@ -59,7 +65,6 @@ val securitySettings = listOf(
         1,
         Icons.Default.HelpOutline,
         "Change hint for master password",
-        "hint",
         iconColor = GreenA700
     )
 )
@@ -70,7 +75,6 @@ val dangerZoneSettings = listOf(
         Icons.Default.DeleteForever,
         "Delete data",
         "Delete all logins, cards and others data. This will not delete your settings or master password",
-        titleColor = Color.Red,
         iconColor = Color.Red
 
     ),
@@ -79,7 +83,8 @@ val dangerZoneSettings = listOf(
         Icons.Default.RestartAlt,
         "Reset app",
         "Delete of data, settings, master password and reset the app",
-        titleColor = Color.Red,
         iconColor = Color.Red
     )
 )
+
+

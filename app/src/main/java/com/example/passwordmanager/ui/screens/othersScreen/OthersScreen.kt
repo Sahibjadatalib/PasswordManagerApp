@@ -39,6 +39,9 @@ fun OthersScreen(
     mainViewModel.setColorForStatusBar(MaterialTheme.colors.primaryVariant)
 
 
+    mainViewModel.setCurrentScreen(OthersScreen.AllOthers.route)
+
+
     val scaffoldState = rememberScaffoldState()
     val coroutineScope = rememberCoroutineScope()
 

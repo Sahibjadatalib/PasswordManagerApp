@@ -6,6 +6,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.passwordmanager.data.dataStore.PreferenceStorage
 import com.example.passwordmanager.data.repository.CardsRoomRepository
 import com.example.passwordmanager.data.repository.LoginsRoomRepository
@@ -85,8 +86,17 @@ class SettingsViewModel @Inject constructor(
     }
 
 
+    private val _themeSwitch = mutableStateOf(false)
+    val themeSwitch: State<Boolean> = _themeSwitch
+
+    private val _storedAppTheme = MutableStateFlow(false)
+    val storedAppTheme: StateFlow<Boolean> = _storedAppTheme
+
+
+
     init {
         getCurrentHint()
+        retrieveTheme()
     }
 
     fun changePassword(
@@ -145,6 +155,38 @@ class SettingsViewModel @Inject constructor(
             }
 
         }
+    }
+
+    fun changeTheme(switchState: Boolean){
+
+        viewModelScope.launch {
+
+            try {
+                _themeSwitch.value = switchState
+                preferenceStorage.setAppTheme(_themeSwitch.value)
+            }catch (e:Exception){
+                e.printStackTrace()
+            }
+
+        }
+
+    }
+
+    private fun retrieveTheme(){
+
+        viewModelScope.launch {
+
+            preferenceStorage.appTheme
+                .catch {
+
+                }
+                .collect {
+                    _themeSwitch.value = it
+                    _storedAppTheme.value = it
+                }
+
+        }
+
     }
 
 

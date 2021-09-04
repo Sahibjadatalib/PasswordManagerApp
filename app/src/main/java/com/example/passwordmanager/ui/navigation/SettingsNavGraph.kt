@@ -1,5 +1,6 @@
 package com.example.passwordmanager.ui.navigation
 
+import androidx.compose.material.ScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
@@ -14,7 +15,9 @@ import com.example.passwordmanager.ui.viewModel.MainViewModel
 
 fun NavGraphBuilder.addSettingsGraph(
     mainViewModel: MainViewModel,
-    navController: NavController
+    navController: NavController,
+    scaffoldState: ScaffoldState,
+    actions: MainActions
 ){
 
     navigation(

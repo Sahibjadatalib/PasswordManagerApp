@@ -102,7 +102,6 @@ fun FieldsDetails(
             .fillMaxWidth()
             .wrapContentHeight()
             .padding(top = 0.dp, bottom = 16.dp, start = 8.dp, end = 8.dp),
-        color = Color.White,
         shape = RoundedCornerShape(8.dp),
         elevation = 4.dp
     ) {
@@ -295,12 +294,6 @@ fun FieldsDetails(
                 Divider()
 
             }
-
-
-
-
-
-
         }
 
 

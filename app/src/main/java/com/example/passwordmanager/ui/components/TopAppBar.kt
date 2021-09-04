@@ -1,67 +1,94 @@
 package com.example.passwordmanager.ui.components
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
+import com.example.passwordmanager.R
 import com.example.passwordmanager.ui.theme.AmberA700
+import com.example.passwordmanager.ui.theme.Theme
 
 @Composable
 fun HomeTopAppBar(
     topAppBarTitle: String,
     onMenuIconClick: () -> Unit,
     switchState: Boolean,
-    onSwitchIconClick: (Boolean)->Unit,
-    onSettingsIconClick: ()->Unit
+    onSwitchIconClick: (Boolean) -> Unit,
+    onSettingsIconClick: () -> Unit
 ) {
 
-    TopAppBar(
-        title = { Text(text = topAppBarTitle) },
-        backgroundColor = MaterialTheme.colors.background,
-//        navigationIcon = {
-//            IconButton(onClick = { onMenuIconClick() }) {
-//                Icon(
-//                    tint = MaterialTheme.colors.primary,
-//                    imageVector = Icons.Filled.Menu,
-//                    contentDescription = "Hamburger icon"
-//                )
-//            }
-//        },
-        actions = {
+    Surface(
+        elevation = 8.dp
+    ) {
 
-            Switch(
-                checked = switchState,
-                onCheckedChange = { onSwitchIconClick(it)},
-                colors = SwitchDefaults.colors(
-                    checkedThumbColor = AmberA700,
-                    checkedTrackAlpha = AmberA700.blue,
-                    uncheckedThumbColor = MaterialTheme.colors.secondary,
-                    uncheckedTrackAlpha = MaterialTheme.colors.secondary.red
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(8.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Start
+            ) {
+
+                Image(
+                    modifier = Modifier.size(32.dp),
+                    painter = painterResource(id = R.drawable.app_logo_latest),
+                    contentDescription = ""
                 )
-            )
-            
-            Spacer(modifier = Modifier.width(8.dp))
-            
-            IconButton(onClick = { onSettingsIconClick() }) {
-                Icon(
-                    tint = MaterialTheme.colors.secondary,
-                    imageVector = Icons.Default.Settings, contentDescription = "")
+
+                Spacer(modifier = Modifier.width(16.dp))
+
+                Text(
+                    text = topAppBarTitle,
+                    style = Theme.typography.h6
+                )
+
             }
-            
-            Spacer(modifier = Modifier.width(8.dp))
+
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Start
+            ) {
+                Switch(
+                    checked = switchState,
+                    onCheckedChange = { onSwitchIconClick(it) },
+                    colors = SwitchDefaults.colors(
+                        checkedThumbColor = AmberA700,
+                        checkedTrackColor = AmberA700.copy(alpha = 0.4f),
+                        uncheckedThumbColor = Theme.colors.primary,
+                        uncheckedTrackColor = Theme.colors.primary.copy(alpha = 0.4f)
+                    )
+                )
+
+                Spacer(modifier = Modifier.width(4.dp))
+
+                IconButton(onClick = { onSettingsIconClick() }) {
+                    Icon(
+                        tint = Theme.colors.primary,
+                        imageVector = Icons.Default.Settings, contentDescription = ""
+                    )
+                }
+            }
 
 
-        },
-        elevation = 4.dp
-    )
+
+
+        }
+
+    }
+
 }
 
 @Composable
@@ -71,11 +98,14 @@ fun NewItemTopAppBar(
     onCancelIconClick: () -> Unit
 ) {
 
-    TopAppBar(
-        backgroundColor = MaterialTheme.colors.background
+    Surface(
+        elevation = 8.dp
     ) {
+
         Row(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(8.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -101,7 +131,9 @@ fun NewItemTopAppBar(
                 )
             }
         }
+
     }
+
 
 }
 
@@ -114,61 +146,98 @@ fun DetailsTopAppBar(
     onEditIconClick: () -> Unit
 ) {
 
-    TopAppBar(
-        backgroundColor = MaterialTheme.colors.background
+    Surface(
+        elevation = Theme.elevation.medium
     ) {
+
         Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.Start,
-            verticalAlignment = Alignment.CenterVertically
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(Theme.paddings.medium),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            IconButton(onClick = { onBackIconClick() }) {
-                Icon(
-                    modifier = Modifier.weight(1f),
-                    tint = Color.Black,
-                    imageVector = Icons.Default.ArrowBackIos,
-                    contentDescription = ""
+
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Start
+            ) {
+
+                IconButton(onClick = { onBackIconClick() }) {
+                    Icon(
+                        tint = Theme.colors.primary,
+                        imageVector = Icons.Default.ArrowBackIos,
+                        contentDescription = ""
+                    )
+                }
+
+                Spacer(modifier = Modifier.width(4.dp))
+
+                Text(
+                    modifier = Modifier,
+                    text = topAppBarTitle,
+                    fontSize = MaterialTheme.typography.h6.fontSize,
+                    fontWeight = FontWeight.Bold
                 )
             }
 
-            Text(
-                modifier = Modifier.weight(6f),
-                text = topAppBarTitle,
-                fontSize = MaterialTheme.typography.h6.fontSize,
-                fontWeight = FontWeight.Bold
-            )
 
-            IconButton(onClick = { onEditIconClick() }) {
-                Icon(
-                    modifier = Modifier.weight(1f),
-                    tint = MaterialTheme.colors.primary,
-                    imageVector = Icons.Default.Edit,
-                    contentDescription = ""
-                )
+
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Start
+            ){
+
+                IconButton(onClick = { onEditIconClick() }) {
+                    Icon(
+                        modifier = Modifier,
+                        tint = MaterialTheme.colors.primary,
+                        imageVector = Icons.Default.Edit,
+                        contentDescription = ""
+                    )
+                }
+
+                Spacer(modifier = Modifier.width(4.dp))
+
+                IconButton(onClick = { onDeleteIconClick() }) {
+                    Icon(
+                        modifier = Modifier,
+                        tint = Color.Red,
+                        imageVector = Icons.Default.Delete,
+                        contentDescription = ""
+                    )
+                }
+
             }
 
-            IconButton(onClick = { onDeleteIconClick() }) {
-                Icon(
-                    modifier = Modifier.weight(1f),
-                    tint = Color.Red,
-                    imageVector = Icons.Default.Delete,
-                    contentDescription = ""
-                )
-            }
+
+
         }
+
     }
+
+
+
+
+
 
 }
 
 @Composable
 fun SettingsTopAppBar(
-    onBackBtnClick: ()->Unit
+    onBackBtnClick: () -> Unit
 ) {
 
-    TopAppBar(
-        title = { Text(text = "Settings") },
-        backgroundColor = MaterialTheme.colors.background,
-        navigationIcon = {
+    Surface(
+        elevation = Theme.elevation.medium
+    ) {
+
+        Row(
+            modifier = Modifier.fillMaxWidth().padding(8.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Start
+        ){
+
             IconButton(onClick = { onBackBtnClick() }) {
                 Icon(
                     tint = MaterialTheme.colors.primary,
@@ -176,8 +245,16 @@ fun SettingsTopAppBar(
                     contentDescription = ""
                 )
             }
-        },
-        elevation = 4.dp
-    )
+
+            Spacer(modifier = Modifier.width(8.dp))
+
+            Text(
+                style = Theme.typography.h6,
+                text = "Settings"
+            )
+
+        }
+
+    }
 
 }

@@ -6,9 +6,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.passwordmanager.Screen
 import com.example.passwordmanager.data.dataStore.PreferenceStorage
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -25,33 +26,58 @@ class MainViewModel @Inject constructor(
         colorForStatusBar.value = color
     }
 
-    private val _storedHint = mutableStateOf("")
-    val storedHint: State<String> = _storedHint
+    val storedAppTheme = mutableStateOf(false)
+    val storedMasterPassword = mutableStateOf("")
+    val storedPasswordHint = mutableStateOf("")
 
-    private val _storedMasterPassword: MutableState<String?> = mutableStateOf(null)
-    val storedMasterPassword: State<String?> = _storedMasterPassword
+    val currentScreen = mutableStateOf(Screen.WelcomeScreenRoot.route)
+
 
     init {
-        retrieveMasterPassword()
-        retrievePasswordHint()
+        getMasterPassword()
+        getPasswordHint()
+        getAppTheme()
     }
 
 
-    fun retrieveMasterPassword(){
+    fun setCurrentScreen(screen: String){
+        currentScreen.value = screen
+    }
+
+
+    private fun getMasterPassword(){
         viewModelScope.launch {
-            val result = preferenceStorage.masterPassword.firstOrNull()
-            result?.let {
-                _storedMasterPassword.value = result
-            }
+            preferenceStorage.masterPassword
+                .catch {
+
+                }
+                .collect {
+                    storedMasterPassword.value = it
+                }
         }
     }
 
-    fun retrievePasswordHint(){
+    private fun getPasswordHint(){
         viewModelScope.launch {
-            val result = preferenceStorage.passwordHint.firstOrNull()
-            result?.let {
-                _storedHint.value = result
-            }
+            preferenceStorage.passwordHint
+                .catch {
+
+                }
+                .collect {
+                    storedPasswordHint.value = it
+                }
+        }
+    }
+
+    private fun getAppTheme(){
+        viewModelScope.launch {
+            preferenceStorage.appTheme
+                .catch {
+
+                }
+                .collect {
+                    storedAppTheme.value = it
+                }
         }
     }
 

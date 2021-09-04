@@ -1,5 +1,6 @@
 package com.example.passwordmanager.ui.navigation
 
+import androidx.compose.material.ScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
@@ -13,16 +14,19 @@ import com.example.passwordmanager.ui.viewModel.MainViewModel
 
 fun NavGraphBuilder.addWelcomeGraph(
     mainViewModel: MainViewModel,
-    navController: NavController
+    navController: NavController,
+    scaffoldState: ScaffoldState,
+    actions: MainActions
 ) {
+
 
     navigation(
         route = Screen.WelcomeScreenRoot.route,
         startDestination = WelcomeScreen.SignIn.route
     ) {
 
-        addSignUpGraph(mainViewModel, navController)
-        addSignInGraph(mainViewModel, navController)
+        addSignUpGraph(mainViewModel, navController,scaffoldState,actions)
+        addSignInGraph(mainViewModel, navController,scaffoldState,actions)
 
     }
 
@@ -30,7 +34,9 @@ fun NavGraphBuilder.addWelcomeGraph(
 
 private fun NavGraphBuilder.addSignUpGraph(
     mainViewModel: MainViewModel,
-    navController: NavController
+    navController: NavController,
+    scaffoldState: ScaffoldState,
+    actions: MainActions
 ) {
 
     composable(
@@ -47,6 +53,7 @@ private fun NavGraphBuilder.addSignUpGraph(
 
         SignUpScreen(
             mainViewModel = mainViewModel,
+            scaffoldState = scaffoldState,
             navigateToLoginsScreen = navigateToLoginsScreen
         )
     }
@@ -54,7 +61,9 @@ private fun NavGraphBuilder.addSignUpGraph(
 
 private fun NavGraphBuilder.addSignInGraph(
     mainViewModel: MainViewModel,
-    navController: NavController
+    navController: NavController,
+    scaffoldState: ScaffoldState,
+    actions: MainActions
 ) {
 
     composable(
@@ -79,6 +88,8 @@ private fun NavGraphBuilder.addSignInGraph(
 
         SignInScreen(
             mainViewModel = mainViewModel,
+            scaffoldState = scaffoldState,
+            actions = actions,
             navigateToLoginsScreen = navigateToLoginsScreen,
             navigateToSignUpScreen = navigateToSignUpScreen
         )

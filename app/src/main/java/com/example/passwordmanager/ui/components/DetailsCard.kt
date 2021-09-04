@@ -4,16 +4,11 @@ import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.Star
-import androidx.compose.material.icons.outlined.Star
 import androidx.compose.material.icons.rounded.Star
-import androidx.compose.material.icons.rounded.StarOutline
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.*
@@ -23,11 +18,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.example.passwordmanager.ui.theme.AmberA700
+import com.example.passwordmanager.ui.theme.Theme
 
 @Composable
 fun DetailsCard(
@@ -47,7 +41,6 @@ fun DetailsCard(
             .fillMaxWidth()
             .wrapContentHeight()
             .padding(vertical = 16.dp, horizontal = 8.dp),
-        color = MaterialTheme.colors.background,
         shape = RoundedCornerShape(8.dp),
         elevation = 4.dp
     ) {
@@ -173,9 +166,7 @@ fun PasswordStrength(
 
         Text(
             text = (currPercent * number).toInt().toString(),
-            color = Color.Black,
-            fontSize = 12.sp,
-            fontWeight = FontWeight.Bold
+            style = Theme.typography.caption
         )
     }
 

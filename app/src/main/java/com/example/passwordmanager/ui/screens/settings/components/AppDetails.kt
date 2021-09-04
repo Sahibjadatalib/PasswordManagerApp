@@ -47,8 +47,9 @@ fun AppDetails() {
         ) {
 
             Image(
-                modifier = Modifier.padding(top = 16.dp, bottom = 16.dp, start = 16.dp, end = 0.dp),
-                painter = painterResource(id = R.drawable.ic_password_logo_icon_167928), contentDescription = "")
+                modifier = Modifier.padding(top = 16.dp, bottom = 16.dp, start = 16.dp, end = 0.dp)
+                    .size(64.dp),
+                painter = painterResource(id = R.drawable.app_logo_latest), contentDescription = "")
             Spacer(modifier = Modifier.width(8.dp))
 
             Column(

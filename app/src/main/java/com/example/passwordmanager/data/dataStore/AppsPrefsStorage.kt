@@ -3,10 +3,7 @@ package com.example.passwordmanager.data.dataStore
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.dataStoreFile
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.emptyPreferences
-import androidx.datastore.preferences.core.stringPreferencesKey
+import androidx.datastore.preferences.core.*
 import androidx.datastore.preferences.preferencesDataStore
 import com.example.passwordmanager.util.APPS_PREFERENCES
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -37,6 +34,13 @@ class AppsPrefsStorage @Inject constructor(
 
     override suspend fun setPasswordHint(newHint: String) {
         myDataStore.setValue(PreferenceKeys.USER_PASSWORD_HINT,newHint)
+    }
+
+    override val appTheme: Flow<Boolean>
+        get() = myDataStore.getValue(PreferenceKeys.APP_THEME,false)
+
+    override suspend fun setAppTheme(newTheme: Boolean) {
+        myDataStore.setValue(PreferenceKeys.APP_THEME,newTheme)
     }
 
     private fun<T> DataStore<Preferences>.getValue(
@@ -71,6 +75,7 @@ class AppsPrefsStorage @Inject constructor(
     private object PreferenceKeys{
         val USER_MASTER_PASSWORD = stringPreferencesKey("user_master_password")
         val USER_PASSWORD_HINT = stringPreferencesKey("user_password_hint")
+        val APP_THEME = booleanPreferencesKey("app_theme")
     }
 
 }

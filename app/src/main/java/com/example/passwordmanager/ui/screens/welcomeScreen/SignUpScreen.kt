@@ -25,12 +25,12 @@ import kotlinx.coroutines.launch
 fun SignUpScreen(
     modifier: Modifier = Modifier,
     mainViewModel: MainViewModel,
+    scaffoldState: ScaffoldState,
     viewModel: WelcomeViewModel = hiltViewModel(),
     navigateToLoginsScreen: () -> Unit
 ) {
 
 
-    val scaffoldState = rememberScaffoldState()
     val coroutineScope = rememberCoroutineScope()
 
     val showSnackBar: (String, String) -> Unit = { message, action ->

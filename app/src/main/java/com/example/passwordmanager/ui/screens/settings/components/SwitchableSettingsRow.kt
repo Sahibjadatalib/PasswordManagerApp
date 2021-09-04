@@ -1,6 +1,5 @@
 package com.example.passwordmanager.ui.screens.settings.components
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
@@ -13,34 +12,31 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.passwordmanager.model.Settings
-import com.example.passwordmanager.model.dangerZoneSettings
-import com.example.passwordmanager.model.helpsAndAboutSettings
-import com.example.passwordmanager.model.securitySettings
+import com.example.passwordmanager.model.generalSettings
 import com.example.passwordmanager.ui.theme.Theme
 
 @Composable
-fun SettingsRow(
+fun SwitchableSettingsRow(
     item: Settings,
-    onClick: ()->Unit
+    switchState: Boolean,
+    onSwitchClick: (Boolean)->Unit
 ) {
 
-    val lastOfHelpSection = helpsAndAboutSettings.last()
-    val lastOfSecuritySection = securitySettings.last()
-    val lastOfDangerSection = dangerZoneSettings.last()
+    val lastOfGeneral = generalSettings.last()
+
 
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable {
-                onClick()
-            }
             .padding(16.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Start
     ) {
 
         Surface(
-            modifier = Modifier.padding(4.dp),
+            modifier = Modifier
+                .padding(4.dp)
+                .weight(1f),
             shape = CircleShape,
             color = item.iconColor.copy(alpha = 0.25f)
         ) {
@@ -54,7 +50,7 @@ fun SettingsRow(
         Spacer(modifier = Modifier.width(16.dp))
 
         Column(
-            modifier = Modifier,
+            modifier = Modifier.weight(6f),
             horizontalAlignment = Alignment.Start,
             verticalArrangement = Arrangement.Center
         ) {
@@ -77,11 +73,27 @@ fun SettingsRow(
 
         }
 
+        Switch(
+            modifier = Modifier.weight(1f),
+            checked = switchState,
+            onCheckedChange = {onSwitchClick(it)},
+            colors = SwitchDefaults.colors(
+                uncheckedTrackColor = Theme.colors.primary.copy(alpha = 0.4f),
+                uncheckedThumbColor = Theme.colors.primary,
+                checkedTrackColor = Theme.colors.primary.copy(alpha = 0.4f),
+                checkedThumbColor = Theme.colors.primary
+            )
+        )
+
+
+
     }
 
-    if(item != lastOfHelpSection && item != lastOfSecuritySection && item != lastOfDangerSection){
+    if(item != lastOfGeneral){
         Divider(color = Color.LightGray, thickness = 1.dp)
+
     }
+
 
 
 }

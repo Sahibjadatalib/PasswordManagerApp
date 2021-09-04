@@ -1,39 +1,32 @@
 package com.example.passwordmanager.ui.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.darkColors
-import androidx.compose.material.lightColors
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 
 private val DarkColorPalette = darkColors(
-    primary = Purple200,
-    primaryVariant = Purple700,
-    secondary = Teal200,
-    background = Color.White,
-    surface = Color.White,
-    onPrimary = Color.White,
-    onSecondary = Color.Black,
-    onBackground = Color.Black,
-    onSurface = Color.Black,
+    primary = LightBlue200,
+    primaryVariant = LightBlue500,
+    background = Gray900,
+    onPrimary = Color.Black,
+    onBackground = Color.White,
+    onError = ErrorRed
 )
 
 private val LightColorPalette = lightColors(
-    primary = Blue700,
-    primaryVariant = Blue700Dark,
-    secondary = Blue700Light,
+    primary = LightBlue600,
+    primaryVariant = LightBlue900,
     background = Color.White,
-    surface = Color.White,
     onPrimary = Color.White,
-    onSecondary = Color.Black,
     onBackground = Color.Black,
-    onSurface = Color.Black,
     onError = ErrorRed
 )
 
 @Composable
-fun PasswordManagerTheme(
+fun Theme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable() () -> Unit
 ) {
@@ -43,10 +36,41 @@ fun PasswordManagerTheme(
         LightColorPalette
     }
 
-    MaterialTheme(
-        colors = colors,
-        typography = Typography,
-        shapes = Shapes,
-        content = content
-    )
+    CompositionLocalProvider(
+        LocalPaddings provides Paddings(),
+        LocalElevation provides Elevation()
+    ) {
+        MaterialTheme(
+            colors = colors,
+            typography = Typography,
+            shapes = Shapes,
+            content = content
+        )
+    }
+
+}
+
+
+object Theme{
+
+    val colors: Colors
+    @Composable
+    get() = MaterialTheme.colors
+
+    val typography: Typography
+    @Composable
+    get() = MaterialTheme.typography
+
+    val shapes: Shapes
+    @Composable
+    get() = MaterialTheme.shapes
+
+    val paddings: Paddings
+    @Composable
+    get() = LocalPaddings.current
+
+    val elevation: Elevation
+    @Composable
+    get() = LocalElevation.current
+
 }

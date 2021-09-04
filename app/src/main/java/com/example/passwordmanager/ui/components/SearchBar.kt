@@ -1,7 +1,6 @@
 package com.example.passwordmanager.ui.components
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -16,6 +15,7 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import com.example.passwordmanager.ui.theme.Theme
 
 @Composable
 fun SearchBar(
@@ -28,7 +28,7 @@ fun SearchBar(
     Surface(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(top = 16.dp, bottom = 16.dp, start = 8.dp, end = 8.dp),
+            .padding(Theme.paddings.medium),
         elevation = 4.dp,
         shape = RoundedCornerShape(32.dp),
         border = BorderStroke(1.dp,MaterialTheme.colors.primary)

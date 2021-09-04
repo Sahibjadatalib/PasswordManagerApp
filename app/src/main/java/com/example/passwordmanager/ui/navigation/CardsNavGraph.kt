@@ -1,5 +1,6 @@
 package com.example.passwordmanager.ui.screens.cardsScreen
 
+import androidx.compose.material.ScaffoldState
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -9,6 +10,7 @@ import androidx.navigation.navigation
 import com.example.passwordmanager.*
 import com.example.passwordmanager.ui.viewModel.MainViewModel
 import com.example.passwordmanager.Screen
+import com.example.passwordmanager.ui.navigation.MainActions
 import com.example.passwordmanager.ui.screens.home.CardsScreen
 import com.example.passwordmanager.ui.screens.loginsScreen.EditLoginsDetails
 import com.example.passwordmanager.ui.screens.loginsScreen.LoginsDetailsScreen
@@ -16,7 +18,9 @@ import com.example.passwordmanager.ui.screens.newItem.NewCardsScreen
 
 fun NavGraphBuilder.addCardsGraph(
     mainViewModel: MainViewModel,
-    navController: NavHostController
+    navController: NavHostController,
+    scaffoldState: ScaffoldState,
+    actions: MainActions
 ){
 
     navigation(

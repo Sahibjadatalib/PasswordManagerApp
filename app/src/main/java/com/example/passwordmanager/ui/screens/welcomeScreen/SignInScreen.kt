@@ -5,20 +5,21 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Help
-import androidx.compose.material.icons.filled.HelpOutline
-import androidx.compose.material.icons.filled.Person
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.passwordmanager.R
 import com.example.passwordmanager.ui.components.DefaultSnackbar
+import com.example.passwordmanager.ui.navigation.MainActions
 import com.example.passwordmanager.ui.screens.welcomeScreen.components.HintDialog
 import com.example.passwordmanager.ui.screens.welcomeScreen.components.SignInputField
+import com.example.passwordmanager.ui.theme.Theme
 import com.example.passwordmanager.ui.viewModel.MainViewModel
 import com.example.passwordmanager.ui.viewModel.WelcomeViewModel
 import kotlinx.coroutines.launch
@@ -27,19 +28,20 @@ import kotlinx.coroutines.launch
 fun SignInScreen(
     modifier: Modifier = Modifier,
     mainViewModel: MainViewModel,
+    scaffoldState: ScaffoldState,
+    actions: MainActions,
     viewModel: WelcomeViewModel = hiltViewModel(),
     navigateToLoginsScreen: () -> Unit,
     navigateToSignUpScreen: () -> Unit
 ) {
 
-    val scaffoldState = rememberScaffoldState()
     val coroutineScope = rememberCoroutineScope()
 
-    val showSnackBar: (String, String) -> Unit = { message, action ->
-        coroutineScope.launch {
-            scaffoldState.snackbarHostState.showSnackbar(message, action)
-        }
-    }
+//    val showSnackBar: (String, String) -> Unit = { message, action ->
+//        coroutineScope.launch {
+//            scaffoldState.snackbarHostState.showSnackbar(message, action)
+//        }
+//    }
 
     if (viewModel.storedMasterPassword.value.isEmpty()) {
         navigateToSignUpScreen()
@@ -47,8 +49,8 @@ fun SignInScreen(
 
         Column(
             modifier = modifier
-                .fillMaxWidth()
-                .padding(16.dp),
+                .fillMaxSize()
+                .padding(Theme.paddings.medium),
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -57,50 +59,59 @@ fun SignInScreen(
 
             Text(
                 textAlign = TextAlign.Center,
-                text = "Welcome Back",
-                style = MaterialTheme.typography.h4
+                text = stringResource(R.string.welcome_back),
+                style = Theme.typography.h4
             )
 
             Spacer(modifier = Modifier.height(16.dp))
 
             Text(
                 textAlign = TextAlign.Center,
-                text = "Please enter your master password",
-                style = MaterialTheme.typography.body1.copy(fontSize = 20.sp)
+                text = stringResource(R.string.enter_password),
+                style = Theme.typography.subtitle1
             )
 
-            Spacer(modifier = Modifier.height(120.dp))
+            Spacer(modifier = Modifier.height(100.dp))
 
             IconButton(onClick = { viewModel.setHintDialog(true) }) {
                 Icon(
-                    tint = MaterialTheme.colors.primary,
+                    tint = Theme.colors.primary,
                     imageVector = Icons.Default.Help, contentDescription = ""
                 )
+            }
+
+            if (viewModel.hintDialog.value) {
+
+                HintDialog(
+                    onDismiss = { viewModel.setHintDialog(false) },
+                    hint = viewModel.storedHint.value
+                )
+
             }
 
             SignInputField(
                 value = viewModel.masterPassword.value,
                 onValueChange = { viewModel.setMasterPassword(it) },
-                placeholder = "Master Password"
+                placeholder = stringResource(R.string.textfield_hint_master_password)
             )
 
             Surface(
                 modifier = modifier
                     .fillMaxWidth()
-                    .padding(8.dp),
-                shape = RoundedCornerShape(8.dp),
-                elevation = 4.dp
+                    .padding(Theme.paddings.medium),
+                shape = Theme.shapes.medium,
+                elevation = Theme.elevation.medium
             ) {
                 Button(
                     modifier = modifier,
                     onClick = {
-                        viewModel.checkMasterPassword(navigateToLoginsScreen, showSnackBar)
+                        viewModel.checkMasterPassword(navigateToLoginsScreen, actions.showSnackBar)
                     }
                 ) {
                     Text(
-                        modifier = modifier.padding(4.dp),
-                        text = "Continue",
-                        style = MaterialTheme.typography.button.copy(fontSize = 16.sp)
+                        modifier = modifier.padding(Theme.paddings.medium),
+                        text = stringResource(R.string.continue_btn),
+                        style = Theme.typography.button
 
                     )
                 }
@@ -109,24 +120,28 @@ fun SignInScreen(
 
         }
 
-        Box(modifier = Modifier.fillMaxSize()) {
-            DefaultSnackbar(
-                snackbarHostState = scaffoldState.snackbarHostState,
-                onDismiss = {
-                    scaffoldState.snackbarHostState.currentSnackbarData?.dismiss()
-                },
-                modifier = Modifier.align(Alignment.BottomCenter)
-            )
-        }
+//        Scaffold(
+//            scaffoldState = scaffoldState,
+//            snackbarHost = { scaffoldState.snackbarHostState }
+//        ) {
+//
+//
+//
+////            Box(modifier = Modifier.fillMaxSize()) {
+////                DefaultSnackbar(
+////                    snackbarHostState = scaffoldState.snackbarHostState,
+////                    onDismiss = {
+////                        scaffoldState.snackbarHostState.currentSnackbarData?.dismiss()
+////                    },
+////                    modifier = Modifier.align(Alignment.BottomCenter)
+////                )
+////            }
+//
+//
+//
+//        }
 
-        if (viewModel.hintDialog.value) {
 
-            HintDialog(
-                onDismiss = { viewModel.setHintDialog(false) },
-                hint = viewModel.storedHint.value
-            )
-
-        }
 
     }
 

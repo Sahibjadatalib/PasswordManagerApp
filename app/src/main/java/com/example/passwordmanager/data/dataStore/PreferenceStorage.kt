@@ -10,4 +10,7 @@ interface PreferenceStorage {
     val passwordHint: Flow<String>
     suspend fun setPasswordHint(newHint: String)
 
+    val appTheme: Flow<Boolean>
+    suspend fun setAppTheme(newTheme: Boolean)
+
 }

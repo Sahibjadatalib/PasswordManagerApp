@@ -1,17 +1,22 @@
 package com.example.passwordmanager
 
+import androidx.compose.material.ScaffoldState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
+import com.example.passwordmanager.ui.navigation.MainActions
 import com.example.passwordmanager.ui.navigation.addSettingsGraph
 import com.example.passwordmanager.ui.navigation.addWelcomeGraph
 import com.example.passwordmanager.ui.screens.cardsScreen.addCardsGraph
 import com.example.passwordmanager.ui.screens.loginsScreen.addLoginsGraph
 import com.example.passwordmanager.ui.screens.othersScreen.addOthersGraph
 import com.example.passwordmanager.ui.viewModel.MainViewModel
+import kotlinx.coroutines.CoroutineScope
 
 sealed class Screen(
     val route: String
@@ -158,11 +163,17 @@ sealed class SettingsScreen(
 }
 
 
+
+
 @Composable
 fun AppNavGraph(
     mainViewModel: MainViewModel,
     navController: NavHostController,
+    scaffoldState: ScaffoldState,
 ) {
+
+    val coroutineScope = rememberCoroutineScope()
+    val actions = remember(navController){ MainActions(navController,scaffoldState,coroutineScope) }
 
     NavHost(
         navController = navController,
@@ -170,16 +181,18 @@ fun AppNavGraph(
     ) {
 
 
-        addWelcomeGraph(mainViewModel, navController)
-        addLoginsGraph(mainViewModel, navController)
-        addCardsGraph(mainViewModel, navController)
-        addOthersGraph(mainViewModel, navController)
-        addSettingsGraph(mainViewModel, navController)
+        addWelcomeGraph(mainViewModel, navController,scaffoldState,actions)
+        addLoginsGraph(mainViewModel, navController,scaffoldState,actions)
+        addCardsGraph(mainViewModel, navController,scaffoldState,actions)
+        addOthersGraph(mainViewModel, navController,scaffoldState,actions)
+        addSettingsGraph(mainViewModel, navController,scaffoldState,actions)
 
 
     }
 
 }
+
+
 
 
 

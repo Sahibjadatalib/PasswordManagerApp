@@ -10,4 +10,8 @@
 
 
     </string>
+    <string name="welcome_back">Welcome Back</string>
+    <string name="enter_password">Please enter your master password</string>
+    <string name="textfield_hint_master_password">Master Password</string>
+    <string name="continue_btn">Continue</string>
 </resources>

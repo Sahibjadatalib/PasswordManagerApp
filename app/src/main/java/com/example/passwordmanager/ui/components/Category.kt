@@ -18,13 +18,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.passwordmanager.model.Category
-import com.example.passwordmanager.model.loginsCategoryOptions
+import com.example.passwordmanager.ui.theme.Theme
 
 
 @Composable
@@ -39,15 +38,18 @@ fun Category(
     val expended = remember { mutableStateOf(false) }
     val rotateAnimation by animateFloatAsState(targetValue = if (expended.value) 180f else 0f)
 
-    Card(
+    Surface(
+        color = Theme.colors.surface,
+        contentColor = contentColorFor(backgroundColor = Theme.colors.surface),
         modifier = modifier
             .fillMaxWidth()
             .animateContentSize(
                 animationSpec = tween(durationMillis = 300, easing = LinearOutSlowInEasing)
             )
-            .padding(top = 16.dp, bottom = 8.dp, start = 8.dp, end = 8.dp),
+            .padding(Theme.paddings.small),
         shape = RoundedCornerShape(8.dp),
-        elevation = 4.dp
+        elevation = 4.dp,
+
 
     ) {
 
@@ -97,6 +99,8 @@ fun Category(
 
                     Divider(color = Color.LightGray, thickness = 1.dp)
 
+                    val lastElement = categoryList.last()
+
                     categoryList.forEach { category->
 
                         OptionsRow(
@@ -107,7 +111,11 @@ fun Category(
                             setCategory = setCategory,
                             expended = expended
                         )
-                        Divider(color = Color.LightGray, thickness = 1.dp)
+
+                        if(category!=lastElement){
+                            Divider(color = Color.LightGray, thickness = 1.dp)
+                        }
+
                     }
                 }
 
@@ -152,9 +160,7 @@ private fun OptionsRow(
         Text(
             modifier = modifier.weight(8f),
             text = category.title,
-            fontSize = MaterialTheme.typography.body1.fontSize,
-            fontWeight = FontWeight.Normal,
-            fontStyle = FontStyle.Normal
+            style = Theme.typography.subtitle1
         )
         if (selectedCategory == categoryList.indexOf(category)) {
             Icon(
@@ -163,5 +169,7 @@ private fun OptionsRow(
             )
         }
     }
+
+
 
 }

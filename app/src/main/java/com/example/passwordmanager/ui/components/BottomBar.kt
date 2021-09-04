@@ -1,16 +1,13 @@
 package com.example.passwordmanager.ui.components
 
-import androidx.compose.foundation.background
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavController
-import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.passwordmanager.CardsScreen
 import com.example.passwordmanager.LoginsScreen
 import com.example.passwordmanager.OthersScreen
+import com.example.passwordmanager.ui.theme.Theme
 
 @Composable
 fun MyBottomBar(
@@ -22,8 +19,8 @@ fun MyBottomBar(
 ) {
 
     BottomAppBar(
-        modifier = Modifier.background(Color.White),
-        backgroundColor = Color.White
+        modifier = Modifier,
+        backgroundColor = MaterialTheme.colors.background
     ) {
 //        val navBackStackEntry by navController.currentBackStackEntryAsState()
 //        val currentRoute = navBackStackEntry?.destination?.route
@@ -32,8 +29,8 @@ fun MyBottomBar(
             icon = { Icon(imageVector = LoginsScreen.AllLogins.icon, contentDescription = "icon") },
             label = { Text(text = LoginsScreen.AllLogins.label) },
             selected = currentRoute == LoginsScreen.AllLogins.route,
-            selectedContentColor = MaterialTheme.colors.primary,
-            unselectedContentColor = MaterialTheme.colors.onBackground,
+            selectedContentColor = Theme.colors.primary,
+            unselectedContentColor = Theme.colors.onBackground.copy(alpha = 0.6f),
             onClick = {navigateToAllLogins()}
 
         )
@@ -42,8 +39,8 @@ fun MyBottomBar(
             icon = { Icon(imageVector = CardsScreen.AllCards.icon, contentDescription = "icon") },
             label = { Text(text = CardsScreen.AllCards.label) },
             selected = currentRoute == CardsScreen.AllCards.route,
-            selectedContentColor = MaterialTheme.colors.primary,
-            unselectedContentColor = MaterialTheme.colors.onBackground,
+            selectedContentColor = Theme.colors.primary,
+            unselectedContentColor = Theme.colors.onBackground.copy(alpha = 0.6f),
             onClick = {navigateToAllCards()}
 
         )
@@ -53,8 +50,8 @@ fun MyBottomBar(
             icon = { Icon(imageVector = OthersScreen.AllOthers.icon, contentDescription = "icon") },
             label = { Text(text = OthersScreen.AllOthers.label) },
             selected = currentRoute == OthersScreen.AllOthers.route,
-            selectedContentColor = MaterialTheme.colors.primary,
-            unselectedContentColor = MaterialTheme.colors.onBackground,
+            selectedContentColor = Theme.colors.primary,
+            unselectedContentColor = Theme.colors.onBackground.copy(alpha = 0.6f),
             onClick = {navigateToAllOthers()}
 
         )
