@@ -9,7 +9,7 @@ import androidx.room.PrimaryKey
 data class LoginsItems(
 
     @PrimaryKey(autoGenerate = true)
-    val itemId: Int? = null,
+    val itemId: Int = 0,
     val isFavorite: Boolean = false,
     val title: String,
     val category: Int,

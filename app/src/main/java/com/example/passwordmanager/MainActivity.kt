@@ -61,7 +61,7 @@ fun PasswordManagerApp() {
             snackbarHost = { scaffoldState.snackbarHostState }
         ) {
 
-            Box(modifier = Modifier.padding(it)) {
+            Box(modifier = Modifier) {
 
                 AppNavGraph(
                     mainViewModel = mainViewModel,

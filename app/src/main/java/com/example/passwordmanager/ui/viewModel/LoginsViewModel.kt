@@ -13,8 +13,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginsViewModel @Inject constructor(
-    private val repository: LoginsRoomRepository,
-    private val context: Context
+    private val repository: LoginsRoomRepository
 ) : ViewModel() {
 
 
@@ -35,7 +34,7 @@ class LoginsViewModel @Inject constructor(
 
     private val _searchQuery = mutableStateOf("")
     val searchQuery: State<String> = _searchQuery
-    fun setSearchQuery(newText: String){
+    fun setSearchQuery(newText: String) {
         _searchQuery.value = newText
     }
 
@@ -45,8 +44,6 @@ class LoginsViewModel @Inject constructor(
         getAllFavoriteLoginsItems()
 
     }
-
-
 
 
     private val _title = mutableStateOf("")
@@ -72,8 +69,6 @@ class LoginsViewModel @Inject constructor(
     fun setPassword(newText: String) {
         _password.value = newText
     }
-
-
 
 
     fun deleteLoginsItem(itemId: Int) {
@@ -183,9 +178,7 @@ class LoginsViewModel @Inject constructor(
     }
 
 
-
-
-    private fun getAllFavoriteLoginsItems(){
+    private fun getAllFavoriteLoginsItems() {
         viewModelScope.launch {
             repository.getAllFavoriteEntries()
                 .catch { exception ->
@@ -209,11 +202,11 @@ class LoginsViewModel @Inject constructor(
         }
     }
 
-    fun getSearchedEntries(){
+    fun getSearchedEntries() {
         viewModelScope.launch {
 
             repository.getSearchedEntries(_searchQuery.value)
-                .catch { exception->
+                .catch { exception ->
                     exception.printStackTrace()
                 }
                 .collect {
@@ -225,6 +218,5 @@ class LoginsViewModel @Inject constructor(
     fun getItemById(itemId: Int): LiveData<LoginsItems> {
         return repository.getItemById(itemId = itemId).asLiveData()
     }
-
 
 }

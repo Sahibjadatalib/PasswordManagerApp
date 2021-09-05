@@ -136,19 +136,17 @@ fun LoginsScreen(
                                 itemIcon = loginsCategoryOptions[item.category].icon,
                                 itemIconColor = loginsCategoryOptions[item.category].tintColor,
                                 onItemCardClick = {
-                                    item.itemId?.let { id -> navigateToLoginsDetails(id) }
+                                    navigateToLoginsDetails(item.itemId)
                                 },
                                 isFavorite = item.isFavorite,
                                 onStarIconsClick = {
-                                    item.itemId?.let { id -> viewModel.updateIsFavorite(id, it) }
+                                    viewModel.updateIsFavorite(item.itemId, it)
                                 },
-                                onEditMenuClick = { item.itemId?.let { id -> navigateToLoginsEdit(id) } },
+                                onEditMenuClick = { navigateToLoginsEdit(item.itemId) },
                                 onDeleteMenuClick = {
-                                    item.itemId?.let { id ->
-                                        viewModel.deleteLoginsItem(
-                                            id
-                                        )
-                                    }
+                                    viewModel.deleteLoginsItem(
+                                        item.itemId
+                                    )
                                 }
                             )
 

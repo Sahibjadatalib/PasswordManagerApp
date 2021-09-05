@@ -37,11 +37,11 @@ fun SignInScreen(
 
     val coroutineScope = rememberCoroutineScope()
 
-//    val showSnackBar: (String, String) -> Unit = { message, action ->
-//        coroutineScope.launch {
-//            scaffoldState.snackbarHostState.showSnackbar(message, action)
-//        }
-//    }
+    val showSnackBar: (String, String) -> Unit = { message, action ->
+        coroutineScope.launch {
+            scaffoldState.snackbarHostState.showSnackbar(message, action)
+        }
+    }
 
     if (viewModel.storedMasterPassword.value.isEmpty()) {
         navigateToSignUpScreen()
@@ -105,7 +105,7 @@ fun SignInScreen(
                 Button(
                     modifier = modifier,
                     onClick = {
-                        viewModel.checkMasterPassword(navigateToLoginsScreen, actions.showSnackBar)
+                        viewModel.checkMasterPassword(navigateToLoginsScreen, showSnackBar)
                     }
                 ) {
                     Text(

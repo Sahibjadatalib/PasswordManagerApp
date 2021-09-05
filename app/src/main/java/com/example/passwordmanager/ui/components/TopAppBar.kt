@@ -210,18 +210,10 @@ fun DetailsTopAppBar(
 
             }
 
-
-
         }
-
     }
-
-
-
-
-
-
 }
+
 
 @Composable
 fun SettingsTopAppBar(
