@@ -7,7 +7,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -25,6 +25,8 @@ fun HomeTopAppBar(
     onSwitchIconClick: (Boolean) -> Unit,
     onSettingsIconClick: () -> Unit
 ) {
+
+    var isFavorite by remember { mutableStateOf(switchState) }
 
     Surface(elevation = Theme.elevation.medium) {
 
@@ -61,35 +63,18 @@ fun HomeTopAppBar(
                 horizontalArrangement = Arrangement.Start
             ) {
 
-//                val heartTint = if (switchState) {
-//                    Theme.colors.primary
-//                } else {
-//                    Color.Gray
-//                }
-//
-//                val isFavourite = remember { mutableStateOf(switchState) }
-//
-//                IconButton(onClick = {
-//                    isFavourite.value = !isFavourite.value
-//                    onSwitchIconClick(isFavourite.value)
-//                }) {
-//                    Icon(
-//                        tint = heartTint,
-//                        imageVector = Icons.Default.Favorite,
-//                        contentDescription = ""
-//                    )
-//                }
 
-                Switch(
-                    checked = switchState,
-                    onCheckedChange = { onSwitchIconClick(it) },
-                    colors = SwitchDefaults.colors(
-                        checkedThumbColor = AmberA700,
-                        checkedTrackColor = AmberA700.copy(alpha = 0.4f),
-                        uncheckedThumbColor = Theme.colors.primary,
-                        uncheckedTrackColor = Theme.colors.primary.copy(alpha = 0.4f)
+
+                IconButton(onClick = {
+                    isFavorite = !isFavorite
+                    onSwitchIconClick(isFavorite)
+                }) {
+                    Icon(
+                        tint = if(isFavorite) Theme.colors.primary else Color.Gray,
+                        imageVector = Icons.Default.Favorite,
+                        contentDescription = ""
                     )
-                )
+                }
 
                 Spacer(modifier = Modifier.width(4.dp))
 

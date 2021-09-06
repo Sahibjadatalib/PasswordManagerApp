@@ -10,6 +10,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.passwordmanager.ui.theme.Theme
 
@@ -27,6 +28,7 @@ fun ItemDetailRow(
     ) {
 
         Surface(
+            modifier = Modifier.size(36.dp),
             shape = CircleShape,
             color = Theme.colors.primary.copy(alpha = 0.4f)
         ) {
@@ -43,7 +45,7 @@ fun ItemDetailRow(
         Column {
             Text(
                 text = title,
-                style = Theme.typography.subtitle1
+                style = Theme.typography.subtitle1.copy(fontWeight = FontWeight.Black)
             )
 
             Spacer(modifier = Modifier.height(8.dp))

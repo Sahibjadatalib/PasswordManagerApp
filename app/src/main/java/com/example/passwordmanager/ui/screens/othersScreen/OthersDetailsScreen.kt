@@ -6,10 +6,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Computer
-import androidx.compose.material.icons.filled.Note
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.VpnKey
+import androidx.compose.material.icons.filled.*
 import androidx.compose.material.icons.rounded.Star
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
@@ -180,13 +177,12 @@ fun OthersItemHeader(
                     favorite = !favorite
                     onStarIconClick(favorite)
                 }) {
-
                     Icon(
-                        modifier = Modifier.size(64.dp),
-                        tint = if (favorite) AmberA700 else Color.Gray,
-                        imageVector = Icons.Rounded.Star, contentDescription = ""
+                        modifier = Modifier.size(32.dp),
+                        tint = if(item.isFavorite) Theme.colors.primary else Color.Gray,
+                        imageVector = Icons.Default.Favorite,
+                        contentDescription = ""
                     )
-
                 }
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(

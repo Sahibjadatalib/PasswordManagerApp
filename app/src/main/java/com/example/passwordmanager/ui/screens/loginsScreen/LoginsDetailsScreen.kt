@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.VpnKey
 import androidx.compose.material.icons.rounded.Star
@@ -116,7 +117,7 @@ fun LoginsHeader(
             ) {
                 Icon(
                     tint = loginsCategoryOptions[item.category].tintColor,
-                    modifier = Modifier.size(64.dp),
+                    modifier = Modifier.size(48.dp),
                     imageVector = loginsCategoryOptions[item.category].icon,
                     contentDescription = ""
                 )
@@ -167,14 +168,14 @@ fun LoginsHeader(
                     favorite = !favorite
                     onStarIconClick(favorite)
                 }) {
-
                     Icon(
-                        modifier = Modifier.size(64.dp),
-                        tint = if (favorite) AmberA700 else Color.Gray,
-                        imageVector = Icons.Rounded.Star, contentDescription = ""
+                        modifier = Modifier.size(32.dp),
+                        tint = if(item.isFavorite) Theme.colors.primary else Color.Gray,
+                        imageVector = Icons.Default.Favorite,
+                        contentDescription = ""
                     )
-
                 }
+
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
                     text = if (favorite) "Favorite" else "Not Favorite",

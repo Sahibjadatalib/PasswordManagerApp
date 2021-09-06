@@ -24,6 +24,7 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.passwordmanager.ui.theme.AmberA700
+import com.example.passwordmanager.ui.theme.Theme
 import kotlin.math.exp
 
 @Composable
@@ -96,19 +97,16 @@ fun ItemsCard(
 
         }
 
-        IconButton(
-            modifier = modifier.weight(1f),
-            onClick = {
-                favorite = !favorite
-                onStarIconsClick(favorite)
-            }) {
 
+        IconButton(onClick = {
+            favorite = !favorite
+            onStarIconsClick(favorite)
+        }) {
             Icon(
-                tint = if (isFavorite) AmberA700 else Color.Gray,
-                imageVector = Icons.Rounded.StarOutline,
+                tint = if(isFavorite) Theme.colors.primary else Color.Gray,
+                imageVector = Icons.Default.Favorite,
                 contentDescription = ""
             )
-
         }
 
         PopUpMenu(

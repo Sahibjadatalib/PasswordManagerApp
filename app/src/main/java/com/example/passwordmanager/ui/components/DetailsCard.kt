@@ -68,7 +68,8 @@ fun DetailsCard(
 
             Divider(
                 color = Color.LightGray,
-                modifier = Modifier.padding(bottom = 30.dp)
+                modifier = Modifier
+                    .padding(bottom = 30.dp)
                     .height(50.dp)
                     .width(1.dp)
             )
@@ -85,7 +86,8 @@ fun DetailsCard(
 
             Divider(
                 color = Color.LightGray,
-                modifier = Modifier.padding(bottom = 30.dp)
+                modifier = Modifier
+                    .padding(bottom = 30.dp)
                     .height(50.dp)
                     .width(1.dp)
             )
@@ -124,11 +126,12 @@ fun DetailsCard(
 fun PasswordStrength(
     percent: Float,
     number: Int,
-    radius: Dp = 25.dp,
+    radius: Dp = 24.dp,
     strokeWidth: Dp = 4.dp
 ) {
 
     var animationPlayed by remember { mutableStateOf(false) }
+    val color = Theme.colors.primary
 
     val currPercent by animateFloatAsState(
         targetValue = if (animationPlayed) percent else 0f,
@@ -153,7 +156,7 @@ fun PasswordStrength(
         ) {
 
             drawArc(
-                color = Color.Green,
+                color = color,
                 startAngle = 270f,
                 sweepAngle = 360 * currPercent,
                 useCenter = false,
