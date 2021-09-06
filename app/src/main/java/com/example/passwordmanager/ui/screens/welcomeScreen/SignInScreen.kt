@@ -1,7 +1,10 @@
 package com.example.passwordmanager.ui.screens.welcomeScreen
 
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Help
@@ -31,26 +34,19 @@ fun SignInScreen(
     scaffoldState: ScaffoldState,
     actions: MainActions,
     viewModel: WelcomeViewModel = hiltViewModel(),
-    navigateToLoginsScreen: () -> Unit,
-    navigateToSignUpScreen: () -> Unit
 ) {
 
-    val coroutineScope = rememberCoroutineScope()
-
-    val showSnackBar: (String, String) -> Unit = { message, action ->
-        coroutineScope.launch {
-            scaffoldState.snackbarHostState.showSnackbar(message, action)
-        }
-    }
-
     if (viewModel.storedMasterPassword.value.isEmpty()) {
-        navigateToSignUpScreen()
+        actions.navigateToSignUpScreen()
     } else {
+
+        val scrollState = rememberScrollState()
 
         Column(
             modifier = modifier
                 .fillMaxSize()
-                .padding(Theme.paddings.medium),
+                .padding(Theme.paddings.medium)
+                .verticalScroll(scrollState),
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -105,7 +101,10 @@ fun SignInScreen(
                 Button(
                     modifier = modifier,
                     onClick = {
-                        viewModel.checkMasterPassword(navigateToLoginsScreen, showSnackBar)
+                        viewModel.checkMasterPassword(
+                            actions.navigateToAllLoginsFromWelcome,
+                            actions.showSnackBar
+                        )
                     }
                 ) {
                     Text(
@@ -116,34 +115,8 @@ fun SignInScreen(
                     )
                 }
             }
-
-
         }
-
-//        Scaffold(
-//            scaffoldState = scaffoldState,
-//            snackbarHost = { scaffoldState.snackbarHostState }
-//        ) {
-//
-//
-//
-////            Box(modifier = Modifier.fillMaxSize()) {
-////                DefaultSnackbar(
-////                    snackbarHostState = scaffoldState.snackbarHostState,
-////                    onDismiss = {
-////                        scaffoldState.snackbarHostState.currentSnackbarData?.dismiss()
-////                    },
-////                    modifier = Modifier.align(Alignment.BottomCenter)
-////                )
-////            }
-//
-//
-//
-//        }
-
 
 
     }
-
-
 }

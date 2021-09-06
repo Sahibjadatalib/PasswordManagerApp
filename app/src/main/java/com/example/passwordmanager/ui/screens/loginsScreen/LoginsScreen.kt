@@ -1,51 +1,36 @@
 package com.example.passwordmanager.ui.screens.home
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
 import com.example.passwordmanager.*
+import com.example.passwordmanager.data.room.entity.LoginsItems
 import com.example.passwordmanager.model.loginsCategoryOptions
 import com.example.passwordmanager.ui.viewModel.MainViewModel
 import com.example.passwordmanager.ui.components.*
+import com.example.passwordmanager.ui.navigation.MainActions
+import com.example.passwordmanager.ui.theme.Theme
 import com.example.passwordmanager.ui.viewModel.LoginsViewModel
-import kotlinx.coroutines.launch
 
 @Composable
 fun LoginsScreen(
     viewModel: LoginsViewModel = hiltViewModel(),
     mainViewModel: MainViewModel,
-    navController: NavController,
     currentRoute: String,
-    navigateToAllLogins: () -> Unit,
-    navigateToAllCards: () -> Unit,
-    navigateToAllOthers: () -> Unit,
-    navigateToLoginsDetails: (Int) -> Unit,
-    navigateToLoginsEdit: (Int) -> Unit,
-    navigateToNewItem: () -> Unit,
-    navigateToSettings: ()->Unit,
-    popUp: () -> Unit
+    scaffoldState: ScaffoldState,
+    actions: MainActions
 ) {
 
-
-    val scaffoldState = rememberScaffoldState()
-    val coroutineScope = rememberCoroutineScope()
+    val scrollState = rememberScrollState()
 
     var items = if (viewModel.switch.value) {
         viewModel.resultsForFavorites.collectAsState()
@@ -53,40 +38,28 @@ fun LoginsScreen(
         viewModel.results.collectAsState()
     }
 
-    if(viewModel.searchQuery.value.isNotEmpty()){
+    if (viewModel.searchQuery.value.isNotEmpty()) {
         items = viewModel.resultsForSearch.collectAsState()
     }
-
-    val scrollState = rememberScrollState()
-
 
     Scaffold(
         topBar = {
             HomeTopAppBar(
                 topAppBarTitle = LoginsScreen.AllLogins.label,
-                onMenuIconClick = {},
                 switchState = viewModel.switch.value,
                 onSwitchIconClick = { viewModel.setSwitch(it) },
-                onSettingsIconClick = {navigateToSettings()}
+                onSettingsIconClick = { actions.navigateToSettings() }
             )
         },
-        scaffoldState = scaffoldState,
-        snackbarHost = { scaffoldState.snackbarHostState },
         floatingActionButton = {
             MyFloatingBtn(
-                onClick = { navigateToNewItem() }
+                onClick = { actions.navigateToNewLoginsItem() }
             )
-        },
-        drawerContent = {
-            //MyDrawer()
         },
         bottomBar = {
             MyBottomBar(
-                navController = navController,
                 currentRoute = currentRoute,
-                navigateToAllLogins = navigateToAllLogins,
-                navigateToAllCards = navigateToAllCards,
-                navigateToAllOthers = navigateToAllOthers,
+                actions = actions
             )
 
         },
@@ -95,95 +68,84 @@ fun LoginsScreen(
 
         ) {
 
-        Box(modifier = Modifier.fillMaxSize()) {
+        Column(
+            verticalArrangement = Arrangement.Top,
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier.fillMaxSize().verticalScroll(scrollState)
+        ) {
 
-            Column(
-                verticalArrangement = Arrangement.Top,
-                horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(bottom = 48.dp)
-                    .verticalScroll(scrollState)
-            ) {
+            Spacer(modifier = Modifier.height(8.dp))
 
-                SearchBar(
-                    text = viewModel.searchQuery.value,
-                    onTextChange = {
-                        viewModel.setSearchQuery(it)
-                        viewModel.getSearchedEntries()
-                    }
-                )
-
-                Surface(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(8.dp),
-                    elevation = 4.dp,
-                    shape = RoundedCornerShape(8.dp)
-
-                ) {
-
-                    Column(
-                        verticalArrangement = Arrangement.Top,
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                    ) {
-
-                        items.value.forEach { item ->
-
-                            ItemsCard(
-                                title = item.title,
-                                text = item.userName!!,
-                                itemIcon = loginsCategoryOptions[item.category].icon,
-                                itemIconColor = loginsCategoryOptions[item.category].tintColor,
-                                onItemCardClick = {
-                                    navigateToLoginsDetails(item.itemId)
-                                },
-                                isFavorite = item.isFavorite,
-                                onStarIconsClick = {
-                                    viewModel.updateIsFavorite(item.itemId, it)
-                                },
-                                onEditMenuClick = { navigateToLoginsEdit(item.itemId) },
-                                onDeleteMenuClick = {
-                                    viewModel.deleteLoginsItem(
-                                        item.itemId
-                                    )
-                                }
-                            )
-
-                            Divider()
-
-
-                        }
-                    }
-
+            SearchBar(
+                text = viewModel.searchQuery.value,
+                onTextChange = {
+                    viewModel.setSearchQuery(it)
+                    viewModel.getSearchedEntries()
                 }
+            )
 
+            Spacer(modifier = Modifier.height(8.dp))
 
+            LoginsItemsList(
+                items = items,
+                onItemCardClick = {actions.navigateToLoginsDetails(it)},
+                onStarIconClick = viewModel::updateIsFavorite,
+                onEditIconClick = { actions.navigateToLoginsEdit(it) },
+                onDeleteIconClick = viewModel::deleteLoginsItem
+            )
 
-                Spacer(modifier = Modifier.height(90.dp))
-
-            }
-
+            Spacer(modifier = Modifier.height(140.dp))
 
         }
 
 
     }
 
-
-    Box(modifier = Modifier.fillMaxSize()) {
-        DefaultSnackbar(
-            snackbarHostState = scaffoldState.snackbarHostState,
-            onDismiss = {
-                scaffoldState.snackbarHostState.currentSnackbarData?.dismiss()
-            },
-            modifier = Modifier.align(Alignment.BottomCenter)
-        )
-    }
-
-
 }
 
+
+@Composable
+fun LoginsItemsList(
+    items: State<List<LoginsItems>>,
+    onItemCardClick: (Int)->Unit,
+    onStarIconClick: (Int, Boolean) -> Unit,
+    onEditIconClick: (Int) -> Unit,
+    onDeleteIconClick: (Int) -> Unit
+) {
+
+    Surface(
+        modifier = Modifier.fillMaxWidth().padding(Theme.paddings.medium),
+        elevation = Theme.paddings.medium,
+        shape = RoundedCornerShape(8.dp)
+
+    ) {
+
+        Column(
+            verticalArrangement = Arrangement.Top,
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+
+            items.value.forEach { item ->
+
+                ItemsCard(
+                    title = item.title,
+                    text = item.userName!!,
+                    itemIcon = loginsCategoryOptions[item.category].icon,
+                    itemIconColor = loginsCategoryOptions[item.category].tintColor,
+                    onItemCardClick = { onItemCardClick(item.itemId) },
+                    isFavorite = item.isFavorite,
+                    onStarIconsClick = { onStarIconClick(item.itemId, it) },
+                    onEditMenuClick = { onEditIconClick(item.itemId) },
+                    onDeleteMenuClick = { onDeleteIconClick(item.itemId) }
+                )
+
+                Divider()
+            }
+        }
+
+    }
+
+}
 
 
 

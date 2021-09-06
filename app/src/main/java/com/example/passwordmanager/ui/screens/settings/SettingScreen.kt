@@ -1,18 +1,17 @@
 package com.example.passwordmanager.ui.screens.settings
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Scaffold
+import androidx.compose.material.ScaffoldState
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat.startActivity
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.passwordmanager.model.dangerZoneSettings
@@ -21,7 +20,9 @@ import com.example.passwordmanager.model.helpsAndAboutSettings
 import com.example.passwordmanager.model.securitySettings
 import com.example.passwordmanager.ui.components.DefaultSnackbar
 import com.example.passwordmanager.ui.components.SettingsTopAppBar
+import com.example.passwordmanager.ui.navigation.MainActions
 import com.example.passwordmanager.ui.screens.settings.components.*
+import com.example.passwordmanager.ui.viewModel.MainViewModel
 import com.example.passwordmanager.ui.viewModel.SettingsViewModel
 import com.example.passwordmanager.util.contactUsIntent
 import com.example.passwordmanager.util.privacyPolicyIntent
@@ -32,26 +33,18 @@ import kotlinx.coroutines.launch
 @Composable
 fun SettingsScreen(
     viewModel: SettingsViewModel = hiltViewModel(),
-    navigateToSignUpScreen: () -> Unit,
-    popUp: () -> Unit
+    mainViewModel: MainViewModel,
+    scaffoldState: ScaffoldState,
+    actions: MainActions
 ) {
 
     val scrollState = rememberScrollState()
     val context = LocalContext.current
 
-    val scaffoldState = rememberScaffoldState()
-    val coroutineScope = rememberCoroutineScope()
-
-    val showSnackBar: (String, String) -> Unit = { message, action ->
-        coroutineScope.launch {
-            scaffoldState.snackbarHostState.showSnackbar(message, action)
-        }
-    }
-
     Scaffold(
         topBar = {
             SettingsTopAppBar(
-                onBackBtnClick = popUp
+                onBackBtnClick = actions.popUp
             )
         },
     ) {
@@ -62,8 +55,11 @@ fun SettingsScreen(
             verticalArrangement = Arrangement.Top
         ) {
 
+            Spacer(modifier = Modifier.height(8.dp))
 
             AppDetails()
+
+            Spacer(modifier = Modifier.height(8.dp))
 
             SettingsSection(
                 header = "General",
@@ -77,6 +73,7 @@ fun SettingsScreen(
                 }
             )
 
+            Spacer(modifier = Modifier.height(8.dp))
 
             SettingsSection(
                 header = "Help & About",
@@ -104,6 +101,8 @@ fun SettingsScreen(
                 }
             )
 
+            Spacer(modifier = Modifier.height(8.dp))
+
             SettingsSection(
                 header = "Security",
                 content = {
@@ -122,6 +121,8 @@ fun SettingsScreen(
                     )
                 }
             )
+
+            Spacer(modifier = Modifier.height(8.dp))
 
             SettingsSection(
                 header = "Danger Zone",
@@ -142,7 +143,7 @@ fun SettingsScreen(
                 }
             )
 
-
+            Spacer(modifier = Modifier.height(8.dp))
 
 
         }
@@ -160,7 +161,7 @@ fun SettingsScreen(
             confirmNewPassword = viewModel.confirmNewPass.value,
             onConfirmNewPassword = { viewModel.setConfirmNewPass(it) },
             onSaveClick = {
-                viewModel.changePassword(showSnackBar = showSnackBar)
+                viewModel.changePassword(showSnackBar = actions.showSnackBar)
             }
         )
     }
@@ -171,7 +172,7 @@ fun SettingsScreen(
             hint = viewModel.hint.value,
             onchangeHint = { viewModel.setHint(it) },
             onSaveClick = {
-                viewModel.changeHint(showSnackBar = showSnackBar)
+                viewModel.changeHint(showSnackBar = actions.showSnackBar)
                 viewModel.setChangeHintDialog(false)
             },
             currentHint = viewModel.storedHint.value
@@ -180,7 +181,7 @@ fun SettingsScreen(
 
     if (viewModel.deleteDataDialog.value) {
         DeleteDataDialog(onDismiss = { viewModel.setDeleteDataDialog(false) }) {
-            viewModel.deleteAllData(showSnackBar)
+            viewModel.deleteAllData(actions.showSnackBar)
         }
     }
 
@@ -188,21 +189,10 @@ fun SettingsScreen(
         ResetAppDialog(
             onDismiss = { viewModel.setResetAppDialog(false) },
             onConfirmClick = {
-                viewModel.resetApp(showSnackBar, navigateToSignUpScreen)
+                viewModel.resetApp(actions.showSnackBar, actions.navigateToSignUpScreen)
             }
         )
     }
 
-
-
-    Box(modifier = Modifier.fillMaxSize()) {
-        DefaultSnackbar(
-            snackbarHostState = scaffoldState.snackbarHostState,
-            onDismiss = {
-                scaffoldState.snackbarHostState.currentSnackbarData?.dismiss()
-            },
-            modifier = Modifier.align(Alignment.BottomCenter)
-        )
-    }
 
 }

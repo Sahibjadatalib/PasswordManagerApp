@@ -23,21 +23,16 @@ import android.content.Intent
 import androidx.core.content.ContextCompat
 
 import androidx.core.content.ContextCompat.startActivity
-
-
-
+import com.example.passwordmanager.ui.theme.Theme
 
 
 @Composable
 fun AppDetails() {
 
     Surface(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 16.dp, horizontal = 8.dp),
-        color = MaterialTheme.colors.surface,
+        modifier = Modifier.fillMaxWidth().padding(Theme.paddings.medium),
         shape = RoundedCornerShape(8.dp),
-        elevation = 4.dp,
+        elevation = Theme.elevation.medium,
     ) {
 
         Row(
@@ -47,8 +42,7 @@ fun AppDetails() {
         ) {
 
             Image(
-                modifier = Modifier.padding(top = 16.dp, bottom = 16.dp, start = 16.dp, end = 0.dp)
-                    .size(64.dp),
+                modifier = Modifier.padding(top = 16.dp, bottom = 16.dp, start = 16.dp, end = 0.dp).size(64.dp),
                 painter = painterResource(id = R.drawable.app_logo_latest), contentDescription = "")
             Spacer(modifier = Modifier.width(8.dp))
 
@@ -60,26 +54,17 @@ fun AppDetails() {
 
                 Text(
                     text = "Password Manager",
-                    style = TextStyle(
-                        fontSize = 20.sp,
-                        fontWeight = FontWeight.Normal
-                    )
+                    style = Theme.typography.h6
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
                     text = "version - 1.0.0",
-                    style = TextStyle(
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.Light
-                    )
+                    style = Theme.typography.body1
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
                     text = "All rights reserved",
-                    style = TextStyle(
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.ExtraLight
-                    )
+                    style = Theme.typography.body2.copy(fontWeight = FontWeight.Light)
                 )
 
             }

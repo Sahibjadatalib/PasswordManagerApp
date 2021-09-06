@@ -181,11 +181,13 @@ fun AppNavGraph(
     ) {
 
 
-        addWelcomeGraph(mainViewModel, navController,scaffoldState,actions)
-        addLoginsGraph(mainViewModel, navController,scaffoldState,actions)
-        addCardsGraph(mainViewModel, navController,scaffoldState,actions)
-        addOthersGraph(mainViewModel, navController,scaffoldState,actions)
-        addSettingsGraph(mainViewModel, navController,scaffoldState,actions)
+        addWelcomeGraph(mainViewModel,scaffoldState,actions)
+
+        addLoginsGraph(mainViewModel,scaffoldState,actions)
+        addCardsGraph(mainViewModel,scaffoldState,actions)
+        addOthersGraph(mainViewModel,scaffoldState,actions)
+
+        addSettingsGraph(mainViewModel,scaffoldState,actions)
 
 
     }

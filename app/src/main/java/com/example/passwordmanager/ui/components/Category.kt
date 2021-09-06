@@ -41,48 +41,35 @@ fun Category(
     Surface(
         color = Theme.colors.surface,
         contentColor = contentColorFor(backgroundColor = Theme.colors.surface),
-        modifier = modifier
-            .fillMaxWidth()
-            .animateContentSize(
-                animationSpec = tween(durationMillis = 300, easing = LinearOutSlowInEasing)
-            )
-            .padding(Theme.paddings.small),
-        shape = RoundedCornerShape(8.dp),
-        elevation = 4.dp,
-
-
+        modifier = modifier.fillMaxWidth()
+            .animateContentSize(animationSpec = tween(durationMillis = 300, easing = LinearOutSlowInEasing))
+            .padding(Theme.paddings.medium),
+        shape = Theme.shapes.medium,
+        elevation = Theme.elevation.medium,
     ) {
 
         Column {
             Row(
-                modifier = modifier
-                    .clickable(onClick = { expended.value = !expended.value })
-                    .padding(8.dp),
+                modifier = modifier.clickable(onClick = { expended.value = !expended.value }).padding(Theme.paddings.medium),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Start
             ) {
                 Text(
                     modifier = modifier.weight(5f),
                     text = "Category",
-                    fontSize = MaterialTheme.typography.h6.fontSize,
-                    fontStyle = FontStyle.Normal,
-                    fontWeight = FontWeight.Normal
+                    style = Theme.typography.h6
                 )
 
                 Text(
                     modifier = modifier.weight(3f),
                     text = categoryList[selectedCategory].title,
                     color = MaterialTheme.colors.primary,
-                    fontSize = MaterialTheme.typography.h6.fontSize,
-                    fontStyle = FontStyle.Normal,
-                    fontWeight = FontWeight.Normal,
+                    style = Theme.typography.h6,
                     textAlign = TextAlign.End
                 )
 
                 IconButton(
-                    modifier = modifier
-                        .rotate(rotateAnimation)
-                        .weight(1f),
+                    modifier = modifier.rotate(rotateAnimation).weight(1f),
                     onClick = { expended.value = !expended.value }
                 ) {
                     Icon(Icons.Default.ExpandMore, "")
@@ -138,8 +125,7 @@ private fun OptionsRow(
 
 
     Row(
-        modifier = modifier
-            .fillMaxWidth()
+        modifier = modifier.fillMaxWidth()
             .clickable {
                 setCategory(category.index)
                 expended.value = false

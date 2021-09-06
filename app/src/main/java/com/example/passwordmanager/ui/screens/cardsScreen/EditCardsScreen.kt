@@ -8,6 +8,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Scaffold
+import androidx.compose.material.ScaffoldState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material.rememberScaffoldState
@@ -25,6 +26,7 @@ import com.example.passwordmanager.LoginsScreen
 import com.example.passwordmanager.model.cardsCategoryOptions
 import com.example.passwordmanager.model.loginsCategoryOptions
 import com.example.passwordmanager.ui.components.*
+import com.example.passwordmanager.ui.navigation.MainActions
 import com.example.passwordmanager.ui.viewModel.CardsViewModel
 import com.example.passwordmanager.ui.viewModel.LoginsViewModel
 import com.example.passwordmanager.ui.viewModel.MainViewModel
@@ -34,10 +36,9 @@ import kotlinx.coroutines.launch
 fun EditCardsDetails(
     viewModel: CardsViewModel = hiltViewModel(),
     mainViewModel: MainViewModel,
-    navController: NavController,
-    navigateToAllLogins: () -> Unit,
+    scaffoldState: ScaffoldState,
+    actions: MainActions,
     itemId: Int,
-    popUp: ()->Unit
 ) {
 
     val itemById = viewModel.getItemById(itemId).observeAsState()
@@ -55,7 +56,7 @@ fun EditCardsDetails(
 
     mainViewModel.setColorForStatusBar(Color.White)
 
-    val scaffoldState = rememberScaffoldState()
+    //val scaffoldState = rememberScaffoldState()
     val coroutineScope = rememberCoroutineScope()
 
     val showSnackBar: (String, String) -> Unit = { message, action ->
@@ -69,10 +70,10 @@ fun EditCardsDetails(
             NewItemTopAppBar(
                 topAppBarTitle = LoginsScreen.EditLoginsDetails.label,
                 onCancelIconClick = {
-                    popUp()
+                    actions.popUp()
                 },
                 onDoneIconClick = {
-                    viewModel.updateCardsItem(itemId, showSnackBar, popUp)
+                    viewModel.updateCardsItem(itemId, showSnackBar, actions.popUp)
                 }
             )
         },

@@ -1,7 +1,9 @@
 package com.example.passwordmanager.ui.screens.welcomeScreen
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Announcement
@@ -15,6 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.passwordmanager.ui.components.DefaultSnackbar
+import com.example.passwordmanager.ui.navigation.MainActions
 import com.example.passwordmanager.ui.screens.welcomeScreen.components.SignInputField
 import com.example.passwordmanager.ui.screens.welcomeScreen.components.DisclaimerDialog
 import com.example.passwordmanager.ui.viewModel.MainViewModel
@@ -24,25 +27,18 @@ import kotlinx.coroutines.launch
 @Composable
 fun SignUpScreen(
     modifier: Modifier = Modifier,
+    viewModel: WelcomeViewModel = hiltViewModel(),
     mainViewModel: MainViewModel,
     scaffoldState: ScaffoldState,
-    viewModel: WelcomeViewModel = hiltViewModel(),
-    navigateToLoginsScreen: () -> Unit
+    actions: MainActions
 ) {
 
-
-    val coroutineScope = rememberCoroutineScope()
-
-    val showSnackBar: (String, String) -> Unit = { message, action ->
-        coroutineScope.launch {
-            scaffoldState.snackbarHostState.showSnackbar(message, action)
-        }
-    }
+    val scrollState = rememberScrollState()
 
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .padding(16.dp),
+            .padding(16.dp).verticalScroll(scrollState),
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -114,7 +110,7 @@ fun SignUpScreen(
             Button(
                 modifier = modifier,
                 onClick = {
-                    viewModel.saveMasterPassword(navigateToLoginsScreen, showSnackBar)
+                    viewModel.saveMasterPassword(actions.navigateToAllLoginsFromWelcome, actions.showSnackBar)
                 }
             ) {
                 Text(
@@ -128,15 +124,4 @@ fun SignUpScreen(
 
 
     }
-
-    Box(modifier = Modifier.fillMaxSize()) {
-        DefaultSnackbar(
-            snackbarHostState = scaffoldState.snackbarHostState,
-            onDismiss = {
-                scaffoldState.snackbarHostState.currentSnackbarData?.dismiss()
-            },
-            modifier = Modifier.align(Alignment.BottomCenter)
-        )
-    }
-
 }

@@ -18,6 +18,9 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.passwordmanager.ui.screens.cardsScreen.components.DebitCard
 import com.example.passwordmanager.ui.components.DetailsTopAppBar
+import com.example.passwordmanager.ui.components.ItemDetailRow
+import com.example.passwordmanager.ui.navigation.MainActions
+import com.example.passwordmanager.ui.theme.Theme
 import com.example.passwordmanager.ui.viewModel.CardsViewModel
 import com.example.passwordmanager.ui.viewModel.MainViewModel
 
@@ -25,9 +28,8 @@ import com.example.passwordmanager.ui.viewModel.MainViewModel
 fun CardsDetailsScreen(
     viewModel: CardsViewModel = hiltViewModel(),
     mainViewModel: MainViewModel,
-    navigateToAllLogins: () -> Unit,
-    navigateToEditScreen: (Int) -> Unit,
-    popUp: () -> Unit,
+    scaffoldState: ScaffoldState,
+    actions: MainActions,
     itemId: Int
 ) {
 
@@ -35,18 +37,17 @@ fun CardsDetailsScreen(
 
     val scrollState = rememberScrollState()
 
-
     Scaffold(
         topBar = {
-            itemById.value?.title?.let {
+            itemById.value?.let {item->
                 DetailsTopAppBar(
-                    topAppBarTitle = it,
+                    topAppBarTitle = item.title,
                     onDeleteIconClick = {
                         viewModel.deleteCardsItem(itemId)
-                        popUp()
+                        actions.popUp()
                     },
-                    onBackIconClick = {popUp()},
-                    onEditIconClick = { navigateToEditScreen(itemId) }
+                    onBackIconClick = {actions.popUp()},
+                    onEditIconClick = { actions.navigateToCardsEdit(itemId) }
                 )
             }
         }
@@ -55,37 +56,35 @@ fun CardsDetailsScreen(
         Column(
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.verticalScroll(scrollState),
+            modifier = Modifier.fillMaxSize().verticalScroll(scrollState),
         ) {
 
-            itemById.value?.category?.let { category ->
+            itemById.value?.let { item->
                 DebitCard(
-                    cardName = itemById.value?.title.toString(),
-                    cardCategory = category,
-                    cardNumber = itemById.value?.cardNumber.toString(),
-                    cardHolderName = itemById.value?.cardHolderName.toString(),
-                    issueDate = itemById.value?.issueDate.toString(),
-                    expiryDate = itemById.value?.expiryDate.toString(),
-                    cvv = itemById.value?.cvv.toString()
+                    cardName = item.title,
+                    cardCategory = item.category,
+                    cardNumber = item.cardNumber.toString(),
+                    cardHolderName = item.cardHolderName.toString(),
+                    issueDate = item.issueDate.toString(),
+                    expiryDate = item.expiryDate.toString(),
+                    cvv = item.cvv
                 )
             }
 
+            itemById.value?.let {item->
 
-
-            FieldsDetails(
-                cardNumber = itemById.value?.cardNumber.toString(),
-                cardHolderName = itemById.value?.cardHolderName.toString(),
-                pin = itemById.value?.pinNumber.toString(),
-                cvv = itemById.value?.cvv.toString(),
-                issueDate = itemById.value?.issueDate.toString(),
-                expiryDate = itemById.value?.expiryDate.toString()
-            )
+                FieldsDetails(
+                    cardNumber = item.cardNumber.toString(),
+                    cardHolderName = item.cardHolderName.toString(),
+                    pin = item.pinNumber.toString(),
+                    cvv = item.cvv.toString(),
+                    issueDate = item.issueDate.toString(),
+                    expiryDate = item.expiryDate.toString()
+                )
+            }
 
         }
-
-
     }
-
 }
 
 @Composable
@@ -98,17 +97,10 @@ fun FieldsDetails(
     expiryDate: String
 ) {
     Surface(
-        modifier = Modifier
-            .fillMaxWidth()
-            .wrapContentHeight()
-            .padding(top = 0.dp, bottom = 16.dp, start = 8.dp, end = 8.dp),
+        modifier = Modifier.fillMaxWidth().wrapContentHeight().padding(Theme.paddings.medium),
         shape = RoundedCornerShape(8.dp),
         elevation = 4.dp
     ) {
-
-
-
-
 
         Column(
             verticalArrangement = Arrangement.Top,
@@ -116,183 +108,33 @@ fun FieldsDetails(
         ) {
 
             if(cardNumber.isNotEmpty()){
-
-                Row(
-                    modifier = Modifier.padding(4.dp),
-                    horizontalArrangement = Arrangement.Start,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Icon(
-                        modifier = Modifier
-                            .size(64.dp)
-                            .padding(16.dp),
-                        imageVector = Icons.Default.Pin, contentDescription = ""
-                    )
-
-                    Column {
-                        Text(
-                            text = "Card No.",
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Light
-                        )
-                        Spacer(modifier = Modifier.height(8.dp))
-                        Text(text = cardNumber)
-                    }
-
-                }
-
+                ItemDetailRow(icon = Icons.Default.Pin, title = "Card No.", text = cardNumber)
                 Divider()
-
             }
 
             if(cardHolderName.isNotEmpty()){
-
-                Row(
-                    modifier = Modifier.padding(4.dp),
-                    horizontalArrangement = Arrangement.Start,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Icon(
-                        modifier = Modifier
-                            .size(64.dp)
-                            .padding(16.dp),
-                        imageVector = Icons.Default.Person, contentDescription = ""
-                    )
-
-                    Column {
-                        Text(
-                            text = "CardHolder Name",
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Light
-                        )
-                        Spacer(modifier = Modifier.height(8.dp))
-                        Text(text = cardHolderName)
-                    }
-
-                }
-
+                ItemDetailRow(icon = Icons.Default.Person, title = "CardHolder name", text = cardHolderName)
                 Divider()
-
             }
 
             if(pin.isNotEmpty()){
-
-                Row(
-                    modifier = Modifier.padding(4.dp),
-                    horizontalArrangement = Arrangement.Start,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Icon(
-                        modifier = Modifier
-                            .size(64.dp)
-                            .padding(16.dp),
-                        imageVector = Icons.Default.Dialpad, contentDescription = ""
-                    )
-
-                    Column {
-                        Text(
-                            text = "PIN",
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Light
-                        )
-                        Spacer(modifier = Modifier.height(8.dp))
-                        Text(text = pin)
-                    }
-
-                }
-
+                ItemDetailRow(icon = Icons.Default.Dialpad, title = "PIN", text = pin)
                 Divider()
-
             }
 
             if(cvv.isNotEmpty()){
-
-                Row(
-                    modifier = Modifier.padding(4.dp),
-                    horizontalArrangement = Arrangement.Start,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Icon(
-                        modifier = Modifier
-                            .size(64.dp)
-                            .padding(16.dp),
-                        imageVector = Icons.Default.Dialpad, contentDescription = ""
-                    )
-
-                    Column {
-                        Text(
-                            text = "CVV",
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Light
-                        )
-                        Spacer(modifier = Modifier.height(8.dp))
-                        Text(text = cvv)
-                    }
-
-                }
-
+                ItemDetailRow(icon = Icons.Default.Dialpad, title = "CVV", text = cvv)
                 Divider()
-
             }
 
             if(issueDate.isNotEmpty()){
-
-                Row(
-                    modifier = Modifier.padding(4.dp),
-                    horizontalArrangement = Arrangement.Start,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Icon(
-                        modifier = Modifier
-                            .size(64.dp)
-                            .padding(16.dp),
-                        imageVector = Icons.Default.CalendarToday, contentDescription = ""
-                    )
-
-                    Column {
-                        Text(
-                            text = "Issue Date",
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Light
-                        )
-                        Spacer(modifier = Modifier.height(8.dp))
-                        Text(text = issueDate)
-                    }
-
-                }
-
+                ItemDetailRow(icon = Icons.Default.CalendarToday, title = "Issue Date", text = issueDate)
                 Divider()
-
             }
 
             if(expiryDate.isNotEmpty()){
-
-                Row(
-                    modifier = Modifier.padding(4.dp),
-                    horizontalArrangement = Arrangement.Start,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Icon(
-                        modifier = Modifier
-                            .size(64.dp)
-                            .padding(16.dp),
-                        imageVector = Icons.Default.CalendarToday, contentDescription = ""
-                    )
-
-                    Column {
-                        Text(
-                            text = "Expiry Date",
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Light
-                        )
-                        Spacer(modifier = Modifier.height(8.dp))
-                        Text(text = expiryDate)
-                    }
-
-                }
-
+                ItemDetailRow(icon = Icons.Default.CalendarToday, title = "Expiry Date", text = expiryDate)
                 Divider()
-
             }
         }
 

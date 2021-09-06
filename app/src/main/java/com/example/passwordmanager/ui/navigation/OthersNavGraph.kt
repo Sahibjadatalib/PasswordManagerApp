@@ -18,7 +18,6 @@ import com.example.passwordmanager.ui.screens.newItem.NewOthersScreen
 
 fun NavGraphBuilder.addOthersGraph(
     mainViewModel: MainViewModel,
-    navController: NavHostController,
     scaffoldState: ScaffoldState,
     actions: MainActions
 ) {
@@ -27,10 +26,10 @@ fun NavGraphBuilder.addOthersGraph(
         route = Screen.OthersScreenRoot.route,
         startDestination = OthersScreen.AllOthers.route
     ) {
-        addAllOthersGraph(mainViewModel, navController)
-        addNewOthersGraph(mainViewModel, navController)
-        addEditOthersGraph(mainViewModel, navController)
-        addOthersDetailsGraph(mainViewModel, navController)
+        addAllOthersGraph(mainViewModel,scaffoldState,actions)
+        addNewOthersGraph(mainViewModel,scaffoldState,actions)
+        addEditOthersGraph(mainViewModel,scaffoldState,actions)
+        addOthersDetailsGraph(mainViewModel,scaffoldState,actions)
     }
 
 
@@ -38,7 +37,8 @@ fun NavGraphBuilder.addOthersGraph(
 
 private fun NavGraphBuilder.addAllOthersGraph(
     mainViewModel: MainViewModel,
-    navController: NavHostController
+    scaffoldState: ScaffoldState,
+    actions: MainActions
 ) {
 
     composable(
@@ -47,71 +47,12 @@ private fun NavGraphBuilder.addAllOthersGraph(
 
         val currentRoute = it.destination.route
 
-        val navigateToAllLogins: ()->Unit = {
-            navController.navigate(LoginsScreen.AllLogins.route){
-                popUpTo(LoginsScreen.AllLogins.route)
-                launchSingleTop = true
-            }
-        }
-
-        val navigateToAllCards: ()->Unit = {
-            navController.navigate(CardsScreen.AllCards.route){
-                popUpTo(LoginsScreen.AllLogins.route)
-                launchSingleTop = true
-            }
-        }
-
-        val navigateToAllOthers: ()->Unit = {
-            navController.navigate(OthersScreen.AllOthers.route){
-                popUpTo(LoginsScreen.AllLogins.route)
-                launchSingleTop = true
-            }
-        }
-
-
-        val navigateToOthersDetails: (Int)->Unit = {itemId->
-            navController.navigate(OthersScreen.OthersDetails.createRoute(itemId.toString())){
-                popUpTo(OthersScreen.AllOthers.route)
-            }
-        }
-
-        val navigateToNewItem: ()->Unit = {
-            navController.navigate(OthersScreen.NewOthersItem.route){
-                popUpTo(OthersScreen.AllOthers.route)
-            }
-        }
-
-        val navigateToOthersEdit: (Int)->Unit = {itemId->
-            navController.navigate(OthersScreen.EditOthersDetails.createRoute(itemId.toString())){
-                popUpTo(OthersScreen.AllOthers.route)
-            }
-        }
-
-        val navigateToSettings: ()->Unit = {
-            navController.navigate(SettingsScreen.Settings.route){
-                popUpTo(SettingsScreen.Settings.route){
-                    inclusive = true
-                }
-            }
-        }
-
-        val popUp: ()->Unit = {
-            navController.navigateUp()
-        }
-
         if (currentRoute != null) {
             OthersScreen(
                 mainViewModel = mainViewModel,
-                navController = navController,
                 currentRoute = currentRoute,
-                navigateToAllLogins = navigateToAllLogins,
-                navigateToAllCards = navigateToAllCards,
-                navigateToAllOthers = navigateToAllOthers,
-                navigateToOthersDetails = navigateToOthersDetails,
-                navigateToNewItem = navigateToNewItem,
-                navigateToOthersEdit = navigateToOthersEdit,
-                navigateToSettings = navigateToSettings,
-                popUp = popUp
+                scaffoldState = scaffoldState,
+                actions = actions
             )
         }
 
@@ -120,20 +61,17 @@ private fun NavGraphBuilder.addAllOthersGraph(
 
 private fun NavGraphBuilder.addNewOthersGraph(
     mainViewModel: MainViewModel,
-    navController: NavHostController
+    scaffoldState: ScaffoldState,
+    actions: MainActions
 ) {
     composable(
         route = OthersScreen.NewOthersItem.route
     ) {
 
-        val popUp: ()->Unit = {
-            navController.navigateUp()
-        }
-
         NewOthersScreen(
             mainViewModel = mainViewModel,
-            navController = navController,
-            popUp = popUp
+            scaffoldState = scaffoldState,
+            actions = actions
         )
 
 
@@ -142,7 +80,8 @@ private fun NavGraphBuilder.addNewOthersGraph(
 
 private fun NavGraphBuilder.addOthersDetailsGraph(
     mainViewModel: MainViewModel,
-    navController: NavHostController
+    scaffoldState: ScaffoldState,
+    actions: MainActions
 ) {
     composable(
         route = OthersScreen.OthersDetails.route,
@@ -153,24 +92,10 @@ private fun NavGraphBuilder.addOthersDetailsGraph(
 
         val itemId = backStackEntry.arguments?.getInt("itemId")
 
-        val navigateToAllOthers: () -> Unit = {
-            navController.navigate(OthersScreen.AllOthers.route)
-        }
-
-        val navigateToEditScreen: (Int) -> Unit = {id->
-            navController.navigate(OthersScreen.EditOthersDetails.createRoute(id.toString()))
-        }
-
-
-        val popUp: () -> Unit = {
-            navController.navigateUp()
-        }
-
         OthersDetailsScreen(
             mainViewModel = mainViewModel,
-            navigateToAllOthers = navigateToAllOthers,
-            navigateToEditScreen = navigateToEditScreen,
-            popUp = popUp,
+            scaffoldState = scaffoldState,
+            actions = actions,
             itemId = itemId ?: 0
         )
 
@@ -179,7 +104,8 @@ private fun NavGraphBuilder.addOthersDetailsGraph(
 
 private fun NavGraphBuilder.addEditOthersGraph(
     mainViewModel: MainViewModel,
-    navController: NavHostController
+    scaffoldState: ScaffoldState,
+    actions: MainActions
 ) {
     composable(
         route = OthersScreen.EditOthersDetails.route,
@@ -190,23 +116,14 @@ private fun NavGraphBuilder.addEditOthersGraph(
         )
     ) {
 
-        val navigateToAllOthers: () -> Unit = {
-            navController.navigate(OthersScreen.AllOthers.route)
-        }
-
-        val popUp: ()->Unit = {
-            navController.navigateUp()
-        }
-
         val itemId = it.arguments?.getInt("itemId")
 
         if (itemId != null) {
             EditOthersDetails(
                 mainViewModel = mainViewModel,
-                navController = navController,
-                navigateToAllOthers = navigateToAllOthers,
-                itemId = itemId,
-                popUp = popUp
+                scaffoldState = scaffoldState,
+                actions = actions,
+                itemId = itemId
             )
         }
 

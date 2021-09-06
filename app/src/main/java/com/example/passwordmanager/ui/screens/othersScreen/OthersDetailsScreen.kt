@@ -10,7 +10,8 @@ import androidx.compose.material.icons.filled.Computer
 import androidx.compose.material.icons.filled.Note
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.VpnKey
-import androidx.compose.runtime.Composable
+import androidx.compose.material.icons.rounded.Star
+import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -19,10 +20,17 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.passwordmanager.data.room.entity.LoginsItems
+import com.example.passwordmanager.data.room.entity.OthersItems
 import com.example.passwordmanager.model.loginsCategoryOptions
 import com.example.passwordmanager.model.othersCategoryOptions
 import com.example.passwordmanager.ui.components.DetailsCard
 import com.example.passwordmanager.ui.components.DetailsTopAppBar
+import com.example.passwordmanager.ui.components.ItemDetailRow
+import com.example.passwordmanager.ui.components.PasswordStrength
+import com.example.passwordmanager.ui.navigation.MainActions
+import com.example.passwordmanager.ui.theme.AmberA700
+import com.example.passwordmanager.ui.theme.Theme
 import com.example.passwordmanager.ui.viewModel.LoginsViewModel
 import com.example.passwordmanager.ui.viewModel.MainViewModel
 import com.example.passwordmanager.ui.viewModel.OthersViewModel
@@ -31,61 +39,164 @@ import com.example.passwordmanager.ui.viewModel.OthersViewModel
 fun OthersDetailsScreen(
     viewModel: OthersViewModel = hiltViewModel(),
     mainViewModel: MainViewModel,
-    navigateToAllOthers: () -> Unit,
-    navigateToEditScreen: (Int) -> Unit,
-    popUp: () -> Unit,
+    scaffoldState: ScaffoldState,
+    actions: MainActions,
     itemId: Int
 ) {
 
     val itemById = viewModel.getItemById(itemId).observeAsState()
-
+    val scrollState = rememberScrollState()
 
     Scaffold(
         topBar = {
-            itemById.value?.title?.let {
+            itemById.value?.let { item ->
                 DetailsTopAppBar(
-                    topAppBarTitle = it,
+                    topAppBarTitle = item.title,
                     onDeleteIconClick = {
                         viewModel.deleteOthersItem(itemId)
-                        popUp()
+                        actions.popUp()
                     },
-                    onBackIconClick = {popUp()},
-                    onEditIconClick = { navigateToEditScreen(itemId) }
+                    onBackIconClick = { actions.popUp() },
+                    onEditIconClick = { actions.navigateToOthersEdit(itemId) }
                 )
             }
         }
     ) {
 
         Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .verticalScroll(scrollState),
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
-            itemById.value?.category?.let { category ->
-                itemById.value?.passWord?.length?.let { passwordLen ->
-                    itemById.value?.isFavorite?.let { isFavorite ->
-                        DetailsCard(
-                            category = othersCategoryOptions[category].title,
-                            itemIcon = othersCategoryOptions[category].icon,
-                            itemIconTint = othersCategoryOptions[category].tintColor,
-                            passStrength = passwordLen,
-                            isFavorite = isFavorite,
-                            onStarIconClick = {
-                                viewModel.updateIsFavorite(itemId = itemId,isFavorite = it)}
-                        )
-                    }
-                }
+            itemById.value?.let { item ->
+                OthersItemHeader(
+                    item = item,
+                    onStarIconClick = { viewModel.updateIsFavorite(itemId, it) }
+                )
             }
 
-            FieldsDetails(
-                description = itemById.value?.description.toString(),
-                userName = itemById.value?.userName.toString(),
-                password = itemById.value?.passWord.toString(),
-                macAddress = itemById.value?.macAddress.toString()
-            )
+            itemById.value?.let { item->
+                FieldsDetails(
+                    description = item.description.toString(),
+                    userName = item.userName.toString(),
+                    password = item.passWord.toString(),
+                    macAddress = item.macAddress.toString()
+                )
+            }
+
+
 
         }
 
+
+    }
+
+}
+
+@Composable
+fun OthersItemHeader(
+    modifier: Modifier = Modifier,
+    item: OthersItems,
+    onStarIconClick: (Boolean) -> Unit
+) {
+
+    var favorite by remember { mutableStateOf(item.isFavorite) }
+
+    Surface(
+        modifier = modifier
+            .fillMaxWidth()
+            .wrapContentHeight()
+            .padding(Theme.paddings.medium),
+        shape = Theme.shapes.medium,
+        elevation = Theme.elevation.medium
+    ) {
+
+        Row(
+            modifier = modifier.padding(Theme.paddings.medium),
+            horizontalArrangement = Arrangement.SpaceEvenly,
+            verticalAlignment = Alignment.Bottom
+        ) {
+
+            Column(
+                modifier = Modifier.weight(1f),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Icon(
+                    tint = loginsCategoryOptions[item.category].tintColor,
+                    modifier = Modifier.size(64.dp),
+                    imageVector = loginsCategoryOptions[item.category].icon,
+                    contentDescription = ""
+                )
+
+                Spacer(modifier = Modifier.height(8.dp))
+
+                Text(
+                    text = loginsCategoryOptions[item.category].title,
+                    style = Theme.typography.subtitle1
+                )
+
+            }
+
+            Divider(
+                color = Color.LightGray,
+                modifier = Modifier
+                    .padding(bottom = 30.dp)
+                    .height(50.dp)
+                    .width(1.dp)
+            )
+
+            Column(
+                modifier = Modifier.weight(1f),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                item.passWord?.length?.let { PasswordStrength(percent = 1f, number = it) }
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(
+                    text = "Pass Strength",
+                    style = Theme.typography.subtitle1
+                )
+            }
+
+            Divider(
+                color = Color.LightGray,
+                modifier = Modifier
+                    .padding(bottom = 30.dp)
+                    .height(50.dp)
+                    .width(1.dp)
+            )
+
+            Column(
+                modifier = Modifier.weight(1f),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+
+                IconButton(onClick = {
+                    favorite = !favorite
+                    onStarIconClick(favorite)
+                }) {
+
+                    Icon(
+                        modifier = Modifier.size(64.dp),
+                        tint = if (favorite) AmberA700 else Color.Gray,
+                        imageVector = Icons.Rounded.Star, contentDescription = ""
+                    )
+
+                }
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(
+                    text = if (favorite) "Favorite" else "Not Favorite",
+                    style = Theme.typography.subtitle1
+                )
+
+
+            }
+        }
 
     }
 
@@ -99,12 +210,9 @@ fun FieldsDetails(
     macAddress: String
 ) {
     Surface(
-        modifier = Modifier
-            .fillMaxWidth()
-            .wrapContentHeight()
-            .padding(top = 0.dp, bottom = 8.dp, start = 8.dp, end = 8.dp),
+        modifier = Modifier.fillMaxWidth().wrapContentHeight().padding(Theme.paddings.medium),
         shape = RoundedCornerShape(8.dp),
-        elevation = 4.dp
+        elevation = Theme.elevation.medium
     ) {
 
         Column(
@@ -112,122 +220,24 @@ fun FieldsDetails(
             horizontalAlignment = Alignment.Start
         ) {
 
-            if(description.isNotEmpty()){
-                Row(
-                    modifier = Modifier.padding(4.dp),
-                    horizontalArrangement = Arrangement.Start,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    val scrollState = rememberScrollState()
 
-                    Icon(
-                        modifier = Modifier
-                            .size(64.dp)
-                            .padding(16.dp),
-                        imageVector = Icons.Default.Note, contentDescription = ""
-                    )
-
-                    Column(
-                        modifier = Modifier.verticalScroll(scrollState)
-                    ) {
-                        Text(
-                            text = "Description",
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Light
-                        )
-                        Spacer(modifier = Modifier.height(8.dp))
-                        Text(text = description)
-                    }
-
-                }
-
+            if (description.isNotEmpty()) {
+                ItemDetailRow(icon = Icons.Default.Note, title = "Description", text = description)
                 Divider()
             }
 
-            if(userName.isNotEmpty()){
-
-                Row(
-                    modifier = Modifier.padding(4.dp),
-                    horizontalArrangement = Arrangement.Start,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Icon(
-                        modifier = Modifier
-                            .size(64.dp)
-                            .padding(16.dp),
-                        imageVector = Icons.Default.Person, contentDescription = ""
-                    )
-
-                    Column {
-                        Text(
-                            text = "Username",
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Light
-                        )
-                        Spacer(modifier = Modifier.height(8.dp))
-                        Text(text = userName)
-                    }
-
-                }
-
+            if (userName.isNotEmpty()) {
+                ItemDetailRow(icon = Icons.Default.Person, title = "Username", text = userName)
                 Divider()
             }
 
-            if(password.isNotEmpty()){
-
-                Row(
-                    modifier = Modifier.padding(4.dp),
-                    horizontalArrangement = Arrangement.Start,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Icon(
-                        modifier = Modifier
-                            .size(64.dp)
-                            .padding(16.dp),
-                        imageVector = Icons.Default.VpnKey, contentDescription = ""
-                    )
-
-                    Column {
-                        Text(
-                            text = "Password",
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Light
-                        )
-                        Spacer(modifier = Modifier.height(8.dp))
-                        Text(text = password)
-                    }
-
-                }
-
+            if (password.isNotEmpty()) {
+                ItemDetailRow(icon = Icons.Default.VpnKey, title = "Password", text = password)
                 Divider()
             }
 
-            if(macAddress.isNotEmpty()){
-
-                Row(
-                    modifier = Modifier.padding(4.dp),
-                    horizontalArrangement = Arrangement.Start,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Icon(
-                        modifier = Modifier
-                            .size(64.dp)
-                            .padding(16.dp),
-                        imageVector = Icons.Default.Computer, contentDescription = ""
-                    )
-
-                    Column {
-                        Text(
-                            text = "Mac Address",
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Light
-                        )
-                        Spacer(modifier = Modifier.height(8.dp))
-                        Text(text = macAddress)
-                    }
-
-                }
-
+            if (macAddress.isNotEmpty()) {
+                ItemDetailRow(icon = Icons.Default.Computer, title = "MAC Address", text = macAddress)
                 Divider()
             }
 

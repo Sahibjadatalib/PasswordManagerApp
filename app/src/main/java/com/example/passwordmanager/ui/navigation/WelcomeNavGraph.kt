@@ -14,7 +14,6 @@ import com.example.passwordmanager.ui.viewModel.MainViewModel
 
 fun NavGraphBuilder.addWelcomeGraph(
     mainViewModel: MainViewModel,
-    navController: NavController,
     scaffoldState: ScaffoldState,
     actions: MainActions
 ) {
@@ -25,8 +24,8 @@ fun NavGraphBuilder.addWelcomeGraph(
         startDestination = WelcomeScreen.SignIn.route
     ) {
 
-        addSignUpGraph(mainViewModel, navController,scaffoldState,actions)
-        addSignInGraph(mainViewModel, navController,scaffoldState,actions)
+        addSignUpGraph(mainViewModel,scaffoldState,actions)
+        addSignInGraph(mainViewModel,scaffoldState,actions)
 
     }
 
@@ -34,7 +33,6 @@ fun NavGraphBuilder.addWelcomeGraph(
 
 private fun NavGraphBuilder.addSignUpGraph(
     mainViewModel: MainViewModel,
-    navController: NavController,
     scaffoldState: ScaffoldState,
     actions: MainActions
 ) {
@@ -43,25 +41,16 @@ private fun NavGraphBuilder.addSignUpGraph(
         route = WelcomeScreen.SignUp.route
     ) {
 
-        val navigateToLoginsScreen: () -> Unit = {
-            navController.navigate(Screen.LoginsScreenRoot.route) {
-                popUpTo(Screen.WelcomeScreenRoot.route) {
-                    inclusive = true
-                }
-            }
-        }
-
         SignUpScreen(
             mainViewModel = mainViewModel,
             scaffoldState = scaffoldState,
-            navigateToLoginsScreen = navigateToLoginsScreen
+            actions = actions
         )
     }
 }
 
 private fun NavGraphBuilder.addSignInGraph(
     mainViewModel: MainViewModel,
-    navController: NavController,
     scaffoldState: ScaffoldState,
     actions: MainActions
 ) {
@@ -70,28 +59,10 @@ private fun NavGraphBuilder.addSignInGraph(
         route = WelcomeScreen.SignIn.route
     ) {
 
-        val navigateToLoginsScreen: () -> Unit = {
-            navController.navigate(Screen.LoginsScreenRoot.route) {
-                popUpTo(Screen.WelcomeScreenRoot.route) {
-                    inclusive = true
-                }
-            }
-        }
-
-        val navigateToSignUpScreen: () -> Unit = {
-            navController.navigate(WelcomeScreen.SignUp.route) {
-                popUpTo(Screen.WelcomeScreenRoot.route) {
-                    inclusive = true
-                }
-            }
-        }
-
         SignInScreen(
             mainViewModel = mainViewModel,
             scaffoldState = scaffoldState,
             actions = actions,
-            navigateToLoginsScreen = navigateToLoginsScreen,
-            navigateToSignUpScreen = navigateToSignUpScreen
         )
 
 

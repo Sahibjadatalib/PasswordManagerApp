@@ -27,59 +27,25 @@ fun TitleField(
     onTextChange: (String) -> Unit
 ) {
 
-
     val focusManager = LocalFocusManager.current
 
     Surface(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(Theme.paddings.medium),
+        modifier = modifier.fillMaxWidth().padding(Theme.paddings.medium),
         shape = RoundedCornerShape(8.dp),
-        elevation = 4.dp
+        elevation = Theme.elevation.medium
     ) {
 
         OutlinedTextField(
-            modifier = modifier
-                .fillMaxSize()
-                .background(Theme.colors.background),
+            modifier = modifier.fillMaxSize().background(Theme.colors.background),
             textStyle = Theme.typography.h6,
             value = text,
-            placeholder = {
-                Text(
-                    "Title",
-                    style = Theme.typography.h6
-                )
-            },
-            keyboardOptions = KeyboardOptions.Default.copy(
-                keyboardType = KeyboardType.Text,
-                imeAction = ImeAction.Done
-            ),
+            placeholder = { Text("Title", style = Theme.typography.h6) },
+            keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Text, imeAction = ImeAction.Done),
             keyboardActions = KeyboardActions(onDone = {focusManager.clearFocus()}),
             shape = RoundedCornerShape(8.dp),
             onValueChange = { onTextChange(it) },
             maxLines = 1,
             singleLine = true
         )
-    }
-}
-
-
-@Composable
-fun TitleTrailingIcon(
-    onClick: () -> Unit
-) {
-    Surface(
-        shape = CircleShape,
-        elevation = 4.dp,
-        color = Color.White,
-        modifier = Modifier.padding(8.dp)
-    ) {
-        IconButton(onClick = { onClick() }) {
-            Icon(
-                tint = MaterialTheme.colors.secondary,
-                imageVector = Icons.Default.AddAPhoto, contentDescription = ""
-            )
-        }
-
     }
 }

@@ -1,13 +1,11 @@
 package com.example.passwordmanager.ui.screens
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Scaffold
+import androidx.compose.material.ScaffoldState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material.rememberScaffoldState
@@ -18,12 +16,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.passwordmanager.LoginsScreen
 import com.example.passwordmanager.ui.viewModel.MainViewModel
 import com.example.passwordmanager.model.loginsCategoryOptions
 import com.example.passwordmanager.ui.components.*
+import com.example.passwordmanager.ui.navigation.MainActions
 import com.example.passwordmanager.ui.viewModel.LoginsViewModel
 import kotlinx.coroutines.launch
 
@@ -32,45 +32,29 @@ import kotlinx.coroutines.launch
 fun NewLoginsScreen(
     viewModel: LoginsViewModel = hiltViewModel(),
     mainViewModel: MainViewModel,
-    navController: NavController,
-    navigateToAllLogins: () -> Unit,
-    popUp: () -> Unit
+    scaffoldState: ScaffoldState,
+    actions: MainActions
 ) {
-
-    val scrollState = rememberScrollState()
-
-    mainViewModel.setColorForStatusBar(Color.White)
-
-    val scaffoldState = rememberScaffoldState()
-    val coroutineScope = rememberCoroutineScope()
-
-    val showSnackBar: (String, String) -> Unit = { message, action ->
-        coroutineScope.launch {
-            scaffoldState.snackbarHostState.showSnackbar(message, action)
-        }
-    }
 
     Scaffold(
         topBar = {
             NewItemTopAppBar(
                 topAppBarTitle = LoginsScreen.NewLoginsItem.label,
-                onCancelIconClick = { popUp() },
-                onDoneIconClick = {
-                    viewModel.insertLoginsItem(popUp, showSnackBar)
-                }
+                onCancelIconClick = { actions.popUp() },
+                onDoneIconClick = { viewModel.insertLoginsItem(actions.popUp, actions.showSnackBar) }
             )
-        },
-        scaffoldState = scaffoldState,
-        snackbarHost = { scaffoldState.snackbarHostState }
+        }
     ) {
+
+        val scrollState = rememberScrollState()
 
         Column(
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier
-                .fillMaxSize()
-                .verticalScroll(scrollState)
+            modifier = Modifier.fillMaxSize().verticalScroll(scrollState)
         ) {
+
+            Spacer(modifier = Modifier.height(8.dp))
 
             TitleField(
                 text = viewModel.title.value,
@@ -110,15 +94,6 @@ fun NewLoginsScreen(
         }
     }
 
-    Box(modifier = Modifier.fillMaxSize()) {
-        DefaultSnackbar(
-            snackbarHostState = scaffoldState.snackbarHostState,
-            onDismiss = {
-                scaffoldState.snackbarHostState.currentSnackbarData?.dismiss()
-            },
-            modifier = Modifier.align(Alignment.BottomCenter)
-        )
-    }
 
 
 }

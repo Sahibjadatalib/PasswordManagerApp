@@ -8,6 +8,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Scaffold
+import androidx.compose.material.ScaffoldState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.VpnKey
@@ -25,6 +26,7 @@ import androidx.navigation.NavController
 import com.example.passwordmanager.LoginsScreen
 import com.example.passwordmanager.model.loginsCategoryOptions
 import com.example.passwordmanager.ui.components.*
+import com.example.passwordmanager.ui.navigation.MainActions
 import com.example.passwordmanager.ui.viewModel.LoginsViewModel
 import com.example.passwordmanager.ui.viewModel.MainViewModel
 import kotlinx.coroutines.launch
@@ -33,10 +35,9 @@ import kotlinx.coroutines.launch
 fun EditLoginsDetails(
     viewModel: LoginsViewModel = hiltViewModel(),
     mainViewModel: MainViewModel,
-    navController: NavController,
-    navigateToAllLogins: () -> Unit,
+    scaffoldState: ScaffoldState,
+    actions: MainActions,
     itemId: Int,
-    popUp: () -> Unit
 ) {
 
     val itemById = viewModel.getItemById(itemId).observeAsState()
@@ -50,24 +51,15 @@ fun EditLoginsDetails(
 
     mainViewModel.setColorForStatusBar(Color.White)
 
-    val scaffoldState = rememberScaffoldState()
-    val coroutineScope = rememberCoroutineScope()
-
-    val showSnackBar: (String, String) -> Unit = { message, action ->
-        coroutineScope.launch {
-            scaffoldState.snackbarHostState.showSnackbar(message, action)
-        }
-    }
-
     Scaffold(
         topBar = {
             NewItemTopAppBar(
                 topAppBarTitle = LoginsScreen.EditLoginsDetails.label,
                 onCancelIconClick = {
-                    popUp()
+                    actions.popUp()
                 },
                 onDoneIconClick = {
-                    viewModel.updateLoginsItem(itemId, showSnackBar, popUp)
+                    viewModel.updateLoginsItem(itemId, actions.showSnackBar, actions.popUp)
                 }
             )
         },
@@ -119,16 +111,6 @@ fun EditLoginsDetails(
             )
 
         }
-    }
-
-    Box(modifier = Modifier.fillMaxSize()) {
-        DefaultSnackbar(
-            snackbarHostState = scaffoldState.snackbarHostState,
-            onDismiss = {
-                scaffoldState.snackbarHostState.currentSnackbarData?.dismiss()
-            },
-            modifier = Modifier.align(Alignment.BottomCenter)
-        )
     }
 
 

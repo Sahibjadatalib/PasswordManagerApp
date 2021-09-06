@@ -17,6 +17,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.example.passwordmanager.ui.theme.Theme
 import com.vanpra.composematerialdialogs.MaterialDialog
 import com.vanpra.composematerialdialogs.datetime.date.datepicker
 import java.time.format.DateTimeFormatter
@@ -72,12 +73,9 @@ fun PickerInputField(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    modifier = modifier
-                        .padding(8.dp)
-                        .weight(5f),
+                    modifier = modifier.padding(8.dp).weight(5f),
                     text = fieldTitle,
-                    fontSize = MaterialTheme.typography.h6.fontSize,
-                    fontWeight = FontWeight.Bold
+                    style = Theme.typography.subtitle1
                 )
 
 
@@ -112,7 +110,7 @@ fun PickerInputField(
                 shape = RoundedCornerShape(8.dp),
                 singleLine = singleLine,
                 readOnly = true,
-                enabled = true
+                enabled = false
             )
 
 

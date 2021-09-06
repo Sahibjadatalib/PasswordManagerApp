@@ -6,6 +6,8 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -19,20 +21,17 @@ import com.example.passwordmanager.ui.theme.Theme
 @Composable
 fun HomeTopAppBar(
     topAppBarTitle: String,
-    onMenuIconClick: () -> Unit,
     switchState: Boolean,
     onSwitchIconClick: (Boolean) -> Unit,
     onSettingsIconClick: () -> Unit
 ) {
 
-    Surface(
-        elevation = 8.dp
-    ) {
+    Surface(elevation = Theme.elevation.medium) {
 
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(8.dp),
+                .padding(Theme.paddings.medium),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
@@ -61,6 +60,26 @@ fun HomeTopAppBar(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Start
             ) {
+
+//                val heartTint = if (switchState) {
+//                    Theme.colors.primary
+//                } else {
+//                    Color.Gray
+//                }
+//
+//                val isFavourite = remember { mutableStateOf(switchState) }
+//
+//                IconButton(onClick = {
+//                    isFavourite.value = !isFavourite.value
+//                    onSwitchIconClick(isFavourite.value)
+//                }) {
+//                    Icon(
+//                        tint = heartTint,
+//                        imageVector = Icons.Default.Favorite,
+//                        contentDescription = ""
+//                    )
+//                }
+
                 Switch(
                     checked = switchState,
                     onCheckedChange = { onSwitchIconClick(it) },
@@ -83,8 +102,6 @@ fun HomeTopAppBar(
             }
 
 
-
-
         }
 
     }
@@ -98,14 +115,12 @@ fun NewItemTopAppBar(
     onCancelIconClick: () -> Unit
 ) {
 
-    Surface(
-        elevation = 8.dp
-    ) {
+    Surface(elevation = Theme.elevation.medium) {
 
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(8.dp),
+                .padding(Theme.paddings.medium),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -146,9 +161,7 @@ fun DetailsTopAppBar(
     onEditIconClick: () -> Unit
 ) {
 
-    Surface(
-        elevation = Theme.elevation.medium
-    ) {
+    Surface(elevation = Theme.elevation.medium) {
 
         Row(
             modifier = Modifier
@@ -186,7 +199,7 @@ fun DetailsTopAppBar(
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Start
-            ){
+            ) {
 
                 IconButton(onClick = { onEditIconClick() }) {
                     Icon(
@@ -220,15 +233,15 @@ fun SettingsTopAppBar(
     onBackBtnClick: () -> Unit
 ) {
 
-    Surface(
-        elevation = Theme.elevation.medium
-    ) {
+    Surface(elevation = Theme.elevation.medium) {
 
         Row(
-            modifier = Modifier.fillMaxWidth().padding(8.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(8.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Start
-        ){
+        ) {
 
             IconButton(onClick = { onBackBtnClick() }) {
                 Icon(

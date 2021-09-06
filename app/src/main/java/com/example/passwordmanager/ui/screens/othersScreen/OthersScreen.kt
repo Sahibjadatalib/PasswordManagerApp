@@ -6,6 +6,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -17,33 +18,22 @@ import com.example.passwordmanager.ui.viewModel.MainViewModel
 import com.example.passwordmanager.ui.components.*
 import com.example.passwordmanager.ui.viewModel.OthersViewModel
 import com.example.passwordmanager.*
+import com.example.passwordmanager.data.room.entity.CardsItems
+import com.example.passwordmanager.data.room.entity.LoginsItems
+import com.example.passwordmanager.data.room.entity.OthersItems
 import com.example.passwordmanager.model.loginsCategoryOptions
 import com.example.passwordmanager.model.othersCategoryOptions
+import com.example.passwordmanager.ui.navigation.MainActions
+import com.example.passwordmanager.ui.theme.Theme
 
 @Composable
 fun OthersScreen(
     viewModel: OthersViewModel = hiltViewModel(),
     mainViewModel: MainViewModel,
-    navController: NavController,
     currentRoute: String,
-    navigateToAllLogins: ()->Unit,
-    navigateToAllCards: ()->Unit,
-    navigateToAllOthers: ()->Unit,
-    navigateToOthersDetails: (Int)->Unit,
-    navigateToNewItem: ()->Unit,
-    navigateToOthersEdit: (Int)->Unit,
-    navigateToSettings: ()->Unit,
-    popUp: ()->Unit
+    scaffoldState: ScaffoldState,
+    actions: MainActions
 ) {
-
-    mainViewModel.setColorForStatusBar(MaterialTheme.colors.primaryVariant)
-
-
-    mainViewModel.setCurrentScreen(OthersScreen.AllOthers.route)
-
-
-    val scaffoldState = rememberScaffoldState()
-    val coroutineScope = rememberCoroutineScope()
 
     var items = if (viewModel.switch.value) {
         viewModel.resultsForFavorites.collectAsState()
@@ -55,126 +45,112 @@ fun OthersScreen(
         items = viewModel.resultsForSearch.collectAsState()
     }
 
-    val scrollState = rememberScrollState()
+
 
     Scaffold(
         topBar = {
             HomeTopAppBar(
                 topAppBarTitle = OthersScreen.AllOthers.label,
-                onMenuIconClick = {},
                 switchState = viewModel.switch.value,
                 onSwitchIconClick = { viewModel.setSwitch(it) },
-                onSettingsIconClick = {navigateToSettings()}
+                onSettingsIconClick = {actions.navigateToSettings()}
             )
         },
         floatingActionButton = {
             MyFloatingBtn(
-                onClick = {navController.navigate(OthersScreen.NewOthersItem.route)}            )
-        },
-        drawerContent = {
-            //MyDrawer()
+                onClick = {actions.navigateToNewOthersItem()})
         },
         bottomBar = {
             MyBottomBar(
-                navController = navController,
                 currentRoute = currentRoute,
-                navigateToAllLogins = navigateToAllLogins,
-                navigateToAllCards = navigateToAllCards,
-                navigateToAllOthers = navigateToAllOthers,
+                actions = actions
             )
         },
         floatingActionButtonPosition = FabPosition.End,
         isFloatingActionButtonDocked = false
     ) {
 
-        Box(modifier = Modifier.fillMaxSize()) {
+        val scrollState = rememberScrollState()
 
-            Column(
-                verticalArrangement = Arrangement.Top,
-                horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(bottom = 48.dp)
-                    .verticalScroll(scrollState)
-            ) {
+        Column(
+            verticalArrangement = Arrangement.Top,
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier.fillMaxSize().verticalScroll(scrollState)
+        ) {
 
-                SearchBar(
-                    text = viewModel.searchQuery.value,
-                    onTextChange = {
-                        viewModel.setSearchQuery(it)
-                        viewModel.getSearchedEntries()
-                    }
-                )
+            Spacer(modifier = Modifier.height(8.dp))
 
-                Surface(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(8.dp),
-                    elevation = 4.dp,
-                    shape = RoundedCornerShape(8.dp)
-
-                ) {
-
-                    Column(
-                        verticalArrangement = Arrangement.Top,
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                    ) {
-
-                        items.value.forEach { item ->
-
-                            val text = when (othersCategoryOptions[item.category].index) {
-                                0 -> {
-                                    item.description.toString()
-                                }
-                                1 -> {
-                                    item.macAddress.toString()
-                                }
-                                else -> {
-                                    item.userName.toString()
-                                }
-                            }
-
-                            ItemsCard(
-                                title = item.title,
-                                text = text,
-                                itemIcon = othersCategoryOptions[item.category].icon,
-                                itemIconColor = othersCategoryOptions[item.category].tintColor,
-                                onItemCardClick = {
-                                    item.itemId?.let { id -> navigateToOthersDetails(id) }
-                                },
-                                isFavorite = item.isFavorite,
-                                onStarIconsClick = {
-                                    item.itemId?.let { id -> viewModel.updateIsFavorite(id, it) }
-                                },
-                                onEditMenuClick = { item.itemId?.let { id -> navigateToOthersEdit(id) } },
-                                onDeleteMenuClick = {
-                                    item.itemId?.let { id ->
-                                        viewModel.deleteOthersItem(
-                                            id
-                                        )
-                                    }
-                                }
-                            )
-
-                            Divider()
-
-
-                        }
-                    }
-
+            SearchBar(
+                text = viewModel.searchQuery.value,
+                onTextChange = {
+                    viewModel.setSearchQuery(it)
+                    viewModel.getSearchedEntries()
                 }
+            )
 
+            Spacer(modifier = Modifier.height(8.dp))
 
+            OthersItemsList(
+                items = items,
+                onItemCardClick = {actions.navigateToOthersDetails(it)},
+                onStarIconClick = viewModel::updateIsFavorite,
+                onEditIconClick = { actions.navigateToOthersEdit(it) },
+                onDeleteIconClick = viewModel::deleteOthersItem
+            )
 
-                Spacer(modifier = Modifier.height(90.dp))
-
-            }
-
+            Spacer(modifier = Modifier.height(140.dp))
 
         }
+
     }
+}
+
+@Composable
+fun OthersItemsList(
+    items: State<List<OthersItems>>,
+    onItemCardClick: (Int)->Unit,
+    onStarIconClick: (Int, Boolean) -> Unit,
+    onEditIconClick: (Int) -> Unit,
+    onDeleteIconClick: (Int) -> Unit
+) {
+
+    Surface(
+        modifier = Modifier.fillMaxWidth().padding(Theme.paddings.medium),
+        elevation = Theme.elevation.medium,
+        shape = RoundedCornerShape(8.dp)
+    ) {
+
+        Column(
+            verticalArrangement = Arrangement.Top,
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+
+            items.value.forEach { item ->
+
+                val text = when (othersCategoryOptions[item.category].index) {
+                    0 -> item.description.toString()
+                    1 -> item.macAddress.toString()
+                    else -> item.userName.toString()
+                }
+
+                ItemsCard(
+                    title = item.title,
+                    text = text,
+                    itemIcon = othersCategoryOptions[item.category].icon,
+                    itemIconColor = othersCategoryOptions[item.category].tintColor,
+                    onItemCardClick = { onItemCardClick(item.itemId) },
+                    isFavorite = item.isFavorite,
+                    onStarIconsClick = { onStarIconClick(item.itemId, it) },
+                    onEditMenuClick = { onEditIconClick(item.itemId) },
+                    onDeleteMenuClick = { onDeleteIconClick(item.itemId) }
+                )
+
+                Divider()
 
 
+            }
+        }
 
+    }
 
 }

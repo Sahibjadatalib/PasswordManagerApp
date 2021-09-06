@@ -7,15 +7,13 @@ import androidx.navigation.NavController
 import com.example.passwordmanager.CardsScreen
 import com.example.passwordmanager.LoginsScreen
 import com.example.passwordmanager.OthersScreen
+import com.example.passwordmanager.ui.navigation.MainActions
 import com.example.passwordmanager.ui.theme.Theme
 
 @Composable
 fun MyBottomBar(
-    navController: NavController,
     currentRoute: String,
-    navigateToAllLogins: ()->Unit,
-    navigateToAllCards: ()->Unit,
-    navigateToAllOthers: ()->Unit,
+    actions: MainActions
 ) {
 
     BottomAppBar(
@@ -31,7 +29,7 @@ fun MyBottomBar(
             selected = currentRoute == LoginsScreen.AllLogins.route,
             selectedContentColor = Theme.colors.primary,
             unselectedContentColor = Theme.colors.onBackground.copy(alpha = 0.6f),
-            onClick = {navigateToAllLogins()}
+            onClick = {actions.navigateToAllLogins()}
 
         )
 
@@ -41,7 +39,7 @@ fun MyBottomBar(
             selected = currentRoute == CardsScreen.AllCards.route,
             selectedContentColor = Theme.colors.primary,
             unselectedContentColor = Theme.colors.onBackground.copy(alpha = 0.6f),
-            onClick = {navigateToAllCards()}
+            onClick = {actions.navigateToAllCards()}
 
         )
 
@@ -52,7 +50,7 @@ fun MyBottomBar(
             selected = currentRoute == OthersScreen.AllOthers.route,
             selectedContentColor = Theme.colors.primary,
             unselectedContentColor = Theme.colors.onBackground.copy(alpha = 0.6f),
-            onClick = {navigateToAllOthers()}
+            onClick = {actions.navigateToAllOthers()}
 
         )
 

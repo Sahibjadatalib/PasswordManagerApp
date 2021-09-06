@@ -18,7 +18,6 @@ import com.example.passwordmanager.ui.screens.home.LoginsScreen
 
 fun NavGraphBuilder.addLoginsGraph(
     mainViewModel: MainViewModel,
-    navController: NavHostController,
     scaffoldState: ScaffoldState,
     actions: MainActions
 ) {
@@ -28,10 +27,10 @@ fun NavGraphBuilder.addLoginsGraph(
         startDestination = LoginsScreen.AllLogins.route
     ) {
 
-        addAllLoginsGraph(mainViewModel, navController)
-        addNewLoginsGraph(mainViewModel, navController)
-        addLoginsDetailsGraph(mainViewModel, navController)
-        addEditLoginsGraph(mainViewModel, navController)
+        addAllLoginsGraph(mainViewModel,scaffoldState, actions)
+        addNewLoginsGraph(mainViewModel,scaffoldState, actions)
+        addLoginsDetailsGraph(mainViewModel,scaffoldState, actions)
+        addEditLoginsGraph(mainViewModel,scaffoldState, actions)
 
     }
 
@@ -40,7 +39,8 @@ fun NavGraphBuilder.addLoginsGraph(
 
 private fun NavGraphBuilder.addAllLoginsGraph(
     mainViewModel: MainViewModel,
-    navController: NavHostController
+    scaffoldState: ScaffoldState,
+    actions: MainActions
 ) {
 
     composable(
@@ -49,70 +49,12 @@ private fun NavGraphBuilder.addAllLoginsGraph(
 
         val currentRoute = it.destination.route
 
-        val navigateToAllLogins: ()->Unit = {
-            navController.navigate(LoginsScreen.AllLogins.route){
-                popUpTo(LoginsScreen.AllLogins.route)
-                launchSingleTop = true
-            }
-        }
-
-        val navigateToAllCards: ()->Unit = {
-            navController.navigate(CardsScreen.AllCards.route){
-                popUpTo(LoginsScreen.AllLogins.route)
-                launchSingleTop = true
-            }
-        }
-
-        val navigateToAllOthers: ()->Unit = {
-            navController.navigate(OthersScreen.AllOthers.route){
-                popUpTo(LoginsScreen.AllLogins.route)
-                launchSingleTop = true
-            }
-        }
-
-        val navigateToLoginsDetails: (Int)->Unit = {itemId->
-            navController.navigate(LoginsScreen.LoginsDetails.createRoute(itemId.toString())){
-                popUpTo(LoginsScreen.AllLogins.route)
-            }
-        }
-
-        val navigateToNewItem: ()->Unit = {
-            navController.navigate(LoginsScreen.NewLoginsItem.route){
-                popUpTo(LoginsScreen.AllLogins.route)
-            }
-        }
-
-        val navigateToLoginsEdit: (Int)->Unit = {itemId->
-            navController.navigate(LoginsScreen.EditLoginsDetails.createRoute(itemId.toString())){
-                popUpTo(LoginsScreen.AllLogins.route)
-            }
-        }
-
-        val navigateToSettings: ()->Unit = {
-            navController.navigate(SettingsScreen.Settings.route){
-                popUpTo(SettingsScreen.Settings.route){
-                    inclusive = true
-                }
-            }
-        }
-
-        val popUp: ()->Unit = {
-            navController.navigateUp()
-        }
-
         if (currentRoute != null) {
             LoginsScreen(
                 mainViewModel = mainViewModel,
-                navController = navController,
                 currentRoute = currentRoute,
-                navigateToAllLogins = navigateToAllLogins,
-                navigateToAllCards = navigateToAllCards,
-                navigateToAllOthers = navigateToAllOthers,
-                navigateToLoginsDetails = navigateToLoginsDetails,
-                navigateToNewItem = navigateToNewItem,
-                navigateToLoginsEdit = navigateToLoginsEdit,
-                navigateToSettings = navigateToSettings,
-                popUp = popUp
+                scaffoldState = scaffoldState,
+                actions = actions
             )
         }
 
@@ -121,30 +63,21 @@ private fun NavGraphBuilder.addAllLoginsGraph(
 
 private fun NavGraphBuilder.addNewLoginsGraph(
     mainViewModel: MainViewModel,
-    navController: NavHostController
+    scaffoldState: ScaffoldState,
+    actions: MainActions
 ) {
     composable(
         route = LoginsScreen.NewLoginsItem.route
 
     ) {
 
-        val navigateToAllLogins: () -> Unit = {
-            navController.navigate(LoginsScreen.AllLogins.route)
-        }
-
-        val popUp: ()->Unit = {
-            navController.navigateUp()
-        }
-
         val itemId = it.arguments?.getInt("itemId")
 
         if (itemId != null) {
             NewLoginsScreen(
                 mainViewModel = mainViewModel,
-                navController = navController,
-                navigateToAllLogins = navigateToAllLogins,
-                popUp = popUp
-
+                scaffoldState = scaffoldState,
+                actions = actions
             )
         }
 
@@ -155,7 +88,8 @@ private fun NavGraphBuilder.addNewLoginsGraph(
 
 private fun NavGraphBuilder.addLoginsDetailsGraph(
     mainViewModel: MainViewModel,
-    navController: NavHostController
+    scaffoldState: ScaffoldState,
+    actions: MainActions
 ) {
     composable(
         route = LoginsScreen.LoginsDetails.route,
@@ -166,23 +100,11 @@ private fun NavGraphBuilder.addLoginsDetailsGraph(
 
         val itemId = backStackEntry.arguments?.getInt("itemId")
 
-        val navigateToAllLogins: () -> Unit = {
-            navController.navigate(LoginsScreen.AllLogins.route)
-        }
-
-        val navigateToEditScreen: (Int) -> Unit = {id->
-            navController.navigate(LoginsScreen.EditLoginsDetails.createRoute(id.toString()))
-        }
-
-        val popUp: () -> Unit = {
-            navController.navigateUp()
-        }
 
             LoginsDetailsScreen(
                 mainViewModel = mainViewModel,
-                navigateToAllLogins = navigateToAllLogins,
-                navigateToEditScreen = navigateToEditScreen,
-                popUp = popUp,
+                scaffoldState = scaffoldState,
+                actions = actions,
                 itemId = itemId ?: 0
             )
 
@@ -191,7 +113,8 @@ private fun NavGraphBuilder.addLoginsDetailsGraph(
 
 private fun NavGraphBuilder.addEditLoginsGraph(
     mainViewModel: MainViewModel,
-    navController: NavHostController
+    scaffoldState: ScaffoldState,
+    actions: MainActions
 ) {
     composable(
         route = LoginsScreen.EditLoginsDetails.route,
@@ -202,23 +125,15 @@ private fun NavGraphBuilder.addEditLoginsGraph(
         )
     ) {
 
-        val navigateToAllLogins: () -> Unit = {
-            navController.navigate(LoginsScreen.AllLogins.route)
-        }
-
-        val popUp: ()->Unit = {
-            navController.navigateUp()
-        }
 
         val itemId = it.arguments?.getInt("itemId")
 
         if (itemId != null) {
             EditLoginsDetails(
                 mainViewModel = mainViewModel,
-                navController = navController,
-                navigateToAllLogins = navigateToAllLogins,
+                scaffoldState = scaffoldState,
+                actions = actions,
                 itemId = itemId,
-                popUp = popUp
             )
         }
 

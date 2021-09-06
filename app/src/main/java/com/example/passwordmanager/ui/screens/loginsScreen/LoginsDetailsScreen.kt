@@ -12,6 +12,7 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
@@ -22,7 +23,9 @@ import com.example.passwordmanager.model.loginsCategoryOptions
 import com.example.passwordmanager.model.othersCategoryOptions
 import com.example.passwordmanager.ui.components.DetailsCard
 import com.example.passwordmanager.ui.components.DetailsTopAppBar
+import com.example.passwordmanager.ui.components.ItemDetailRow
 import com.example.passwordmanager.ui.components.PasswordStrength
+import com.example.passwordmanager.ui.navigation.MainActions
 import com.example.passwordmanager.ui.theme.AmberA700
 import com.example.passwordmanager.ui.theme.Theme
 import com.example.passwordmanager.ui.viewModel.LoginsViewModel
@@ -33,9 +36,8 @@ import kotlinx.coroutines.flow.collect
 fun LoginsDetailsScreen(
     viewModel: LoginsViewModel = hiltViewModel(),
     mainViewModel: MainViewModel,
-    navigateToAllLogins: () -> Unit,
-    navigateToEditScreen: (Int) -> Unit,
-    popUp: () -> Unit,
+    scaffoldState: ScaffoldState,
+    actions: MainActions,
     itemId: Int
 ) {
 
@@ -43,15 +45,15 @@ fun LoginsDetailsScreen(
 
     Scaffold(
         topBar = {
-            itemById.value?.title?.let {
+            itemById.value?.let { item ->
                 DetailsTopAppBar(
-                    topAppBarTitle = it,
+                    topAppBarTitle = item.title,
                     onDeleteIconClick = {
                         viewModel.deleteLoginsItem(itemId)
-                        popUp()
+                        actions.popUp()
                     },
-                    onBackIconClick = { popUp() },
-                    onEditIconClick = { navigateToEditScreen(itemId) }
+                    onBackIconClick = { actions.popUp() },
+                    onEditIconClick = { actions.navigateToLoginsEdit(itemId) }
                 )
             }
         }
@@ -62,24 +64,25 @@ fun LoginsDetailsScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
+            Spacer(modifier = Modifier.height(8.dp))
+
             itemById.value?.let { item ->
                 LoginsHeader(
                     item = item,
-                    onStarIconClick = {
-                        viewModel.updateIsFavorite(
-                            itemId = itemId,
-                            isFavorite = it
-                        )
-                    })
+                    onStarIconClick = { viewModel.updateIsFavorite(itemId, it) }
+                )
             }
 
-            FieldsDetails(
-                userName = itemById.value?.userName.let { it.toString() },
-                password = itemById.value?.passWord.let { it.toString() }
-            )
+            Spacer(modifier = Modifier.height(8.dp))
+
+            itemById.value?.let { item ->
+                FieldsDetails(
+                    userName = item.userName.toString(),
+                    password = item.passWord.toString()
+                )
+            }
 
         }
-
 
     }
 
@@ -94,12 +97,8 @@ fun LoginsHeader(
 
     var favorite by remember { mutableStateOf(item.isFavorite) }
 
-
     Surface(
-        modifier = modifier
-            .fillMaxWidth()
-            .wrapContentHeight()
-            .padding(Theme.paddings.medium),
+        modifier = modifier.fillMaxWidth().wrapContentHeight().padding(Theme.paddings.medium),
         shape = Theme.shapes.medium,
         elevation = Theme.elevation.medium
     ) {
@@ -122,7 +121,10 @@ fun LoginsHeader(
                     contentDescription = ""
                 )
                 Spacer(modifier = Modifier.height(8.dp))
-                Text(text = loginsCategoryOptions[item.category].title)
+                Text(
+                    text = loginsCategoryOptions[item.category].title,
+                    style = Theme.typography.subtitle1
+                )
 
             }
 
@@ -141,7 +143,10 @@ fun LoginsHeader(
             ) {
                 item.passWord?.length?.let { PasswordStrength(percent = 1f, number = it) }
                 Spacer(modifier = Modifier.height(8.dp))
-                Text(text = "Pass Strength")
+                Text(
+                    text = "Pass Strength",
+                    style = Theme.typography.subtitle1
+                )
             }
 
             Divider(
@@ -171,7 +176,10 @@ fun LoginsHeader(
 
                 }
                 Spacer(modifier = Modifier.height(8.dp))
-                Text(text = if (favorite) "Favorite" else "Not Favorite")
+                Text(
+                    text = if (favorite) "Favorite" else "Not Favorite",
+                    style = Theme.typography.subtitle1
+                )
 
 
             }
@@ -187,12 +195,9 @@ fun FieldsDetails(
     password: String
 ) {
     Surface(
-        modifier = Modifier
-            .fillMaxWidth()
-            .wrapContentHeight()
-            .padding(top = 0.dp, bottom = 8.dp, start = 8.dp, end = 8.dp),
+        modifier = Modifier.fillMaxWidth().wrapContentHeight().padding(Theme.paddings.medium),
         shape = RoundedCornerShape(8.dp),
-        elevation = 4.dp
+        elevation = Theme.elevation.medium
     ) {
 
         Column(
@@ -201,62 +206,11 @@ fun FieldsDetails(
         ) {
 
             if (userName.isNotEmpty()) {
-
-                Row(
-                    modifier = Modifier.padding(4.dp),
-                    horizontalArrangement = Arrangement.Start,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Icon(
-                        modifier = Modifier
-                            .size(64.dp)
-                            .padding(16.dp),
-                        imageVector = Icons.Default.Person, contentDescription = ""
-                    )
-
-                    Column {
-                        Text(
-                            text = "Username",
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Light
-                        )
-                        Spacer(modifier = Modifier.height(8.dp))
-                        Text(text = userName)
-                    }
-
-
-                }
-
+                ItemDetailRow(icon = Icons.Default.Person, title = "Username", text = userName)
                 Divider()
-
             }
-
             if (password.isNotEmpty()) {
-
-                Row(
-                    modifier = Modifier.padding(4.dp),
-                    horizontalArrangement = Arrangement.Start,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Icon(
-                        modifier = Modifier
-                            .size(64.dp)
-                            .padding(16.dp),
-                        imageVector = Icons.Default.VpnKey, contentDescription = ""
-                    )
-
-                    Column {
-                        Text(
-                            text = "Password",
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Light
-                        )
-                        Spacer(modifier = Modifier.height(8.dp))
-                        Text(text = password)
-                    }
-
-                }
-
+                ItemDetailRow(icon = Icons.Default.VpnKey, title = "Password", text = password)
             }
 
 

@@ -15,7 +15,6 @@ import com.example.passwordmanager.ui.viewModel.MainViewModel
 
 fun NavGraphBuilder.addSettingsGraph(
     mainViewModel: MainViewModel,
-    navController: NavController,
     scaffoldState: ScaffoldState,
     actions: MainActions
 ){
@@ -25,7 +24,7 @@ fun NavGraphBuilder.addSettingsGraph(
         startDestination = SettingsScreen.Settings.route
     ){
 
-        addSettings(mainViewModel, navController)
+        addSettings(mainViewModel,scaffoldState,actions)
 
     }
 
@@ -33,28 +32,18 @@ fun NavGraphBuilder.addSettingsGraph(
 
 private fun NavGraphBuilder.addSettings(
     mainViewModel: MainViewModel,
-    navController: NavController
+    scaffoldState: ScaffoldState,
+    actions: MainActions
 ){
 
     composable(
         route = SettingsScreen.Settings.route,
     ){
 
-        val navigateToSignUpScreen: ()->Unit = {
-            navController.navigate(WelcomeScreen.SignUp.route){
-                popUpTo(Screen.LoginsScreenRoot.route){
-                    inclusive = true
-                }
-            }
-        }
-
-        val popUp: ()->Unit = {
-            navController.navigateUp()
-        }
-
         SettingsScreen(
-            navigateToSignUpScreen = navigateToSignUpScreen,
-            popUp = popUp
+            mainViewModel = mainViewModel,
+            scaffoldState = scaffoldState,
+            actions = actions
         )
 
     }

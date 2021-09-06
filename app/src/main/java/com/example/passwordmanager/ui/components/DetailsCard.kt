@@ -29,7 +29,7 @@ fun DetailsCard(
     category: String,
     itemIcon: ImageVector,
     itemIconTint: Color,
-    passStrength: Int,
+    password: String,
     isFavorite: Boolean,
     onStarIconClick: (Boolean) -> Unit
 ) {
@@ -78,7 +78,7 @@ fun DetailsCard(
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                PasswordStrength(percent = 1f, number = passStrength)
+                PasswordStrength(percent = 1f, number = password.length)
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(text = "Pass Strength")
             }

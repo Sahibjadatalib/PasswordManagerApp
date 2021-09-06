@@ -32,11 +32,9 @@ fun InputField(
     val focusManager = LocalFocusManager.current
 
     Surface(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(8.dp),
-        shape = RoundedCornerShape(8.dp),
-        elevation = 4.dp
+        modifier = modifier.fillMaxWidth().padding(Theme.paddings.medium),
+        shape = Theme.shapes.medium,
+        elevation = Theme.elevation.medium
     ) {
         Column() {
             Row(
@@ -44,20 +42,16 @@ fun InputField(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    modifier = modifier
-                        .padding(8.dp)
-                        .weight(5f),
+                    modifier = modifier.padding(8.dp).weight(5f),
                     text = fieldTitle,
-                    style = Theme.typography.h6
+                    style = Theme.typography.subtitle1
                 )
 
 
             }
 
             OutlinedTextField(
-                modifier = modifier
-                    .padding(8.dp)
-                    .fillMaxWidth(),
+                modifier = modifier.padding(Theme.paddings.medium).fillMaxWidth(),
                 leadingIcon = {
                     Icon(
                         tint = MaterialTheme.colors.primary,

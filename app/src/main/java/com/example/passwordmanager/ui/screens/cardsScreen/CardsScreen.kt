@@ -6,41 +6,29 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
 import com.example.passwordmanager.ui.viewModel.MainViewModel
 import com.example.passwordmanager.ui.viewModel.CardsViewModel
 import com.example.passwordmanager.*
+import com.example.passwordmanager.data.room.entity.CardsItems
+import com.example.passwordmanager.data.room.entity.LoginsItems
 import com.example.passwordmanager.model.cardsCategoryOptions
-import com.example.passwordmanager.model.loginsCategoryOptions
 import com.example.passwordmanager.ui.components.*
+import com.example.passwordmanager.ui.navigation.MainActions
 
 @Composable
 fun CardsScreen(
     viewModel: CardsViewModel = hiltViewModel(),
     mainViewModel: MainViewModel,
-    navController: NavController,
     currentRoute: String,
-    navigateToAllLogins: () -> Unit,
-    navigateToAllCards: () -> Unit,
-    navigateToAllOthers: () -> Unit,
-    navigateToNewItem: () -> Unit,
-    navigateToCardsDetails: (Int) -> Unit,
-    navigateToCardsEdit: (Int) -> Unit,
-    navigateToSettings: ()->Unit,
-    popUp: () -> Unit
+    scaffoldState: ScaffoldState,
+    actions: MainActions
 ) {
-
-    mainViewModel.setColorForStatusBar(MaterialTheme.colors.primaryVariant)
-
-
-    val scaffoldState = rememberScaffoldState()
-    val coroutineScope = rememberCoroutineScope()
 
     var items = if (viewModel.switch.value) {
         viewModel.resultsForFavorites.collectAsState()
@@ -52,47 +40,38 @@ fun CardsScreen(
         items = viewModel.resultsForSearch.collectAsState()
     }
 
-    val scrollState = rememberScrollState()
-
-
     Scaffold(
         topBar = {
             HomeTopAppBar(
                 topAppBarTitle = CardsScreen.AllCards.label,
-                onMenuIconClick = {},
                 switchState = viewModel.switch.value,
                 onSwitchIconClick = { viewModel.setSwitch(it) },
-                onSettingsIconClick = {navigateToSettings()}
+                onSettingsIconClick = {actions.navigateToSettings()}
             )
         },
         floatingActionButton = {
             MyFloatingBtn(
-                onClick = { navigateToNewItem() })
-        },
-        drawerContent = {
-            //MyDrawer()
+                onClick = { actions.navigateToNewCardsItem() })
         },
         bottomBar = {
             MyBottomBar(
-                navController = navController,
                 currentRoute = currentRoute,
-                navigateToAllLogins = navigateToAllLogins,
-                navigateToAllCards = navigateToAllCards,
-                navigateToAllOthers = navigateToAllOthers,
+                actions = actions
             )
         },
         floatingActionButtonPosition = FabPosition.End,
         isFloatingActionButtonDocked = false
     ) {
 
+        val scrollState = rememberScrollState()
+
         Column(
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(bottom = 48.dp)
-                .verticalScroll(scrollState)
+            modifier = Modifier.fillMaxSize().verticalScroll(scrollState)
         ) {
+
+            Spacer(modifier = Modifier.height(8.dp))
 
             SearchBar(
                 text = viewModel.searchQuery.value,
@@ -102,68 +81,66 @@ fun CardsScreen(
                 }
             )
 
-            Surface(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(8.dp),
-                elevation = 4.dp,
-                shape = RoundedCornerShape(8.dp)
+            Spacer(modifier = Modifier.height(8.dp))
 
-            ) {
+            CardsItemsList(
+                items = items,
+                onItemCardClick = {actions.navigateToCardsDetails(it)},
+                onStarIconClick = viewModel::updateIsFavorite,
+                onEditIconClick = { actions.navigateToCardsEdit(it) },
+                onDeleteIconClick = viewModel::deleteCardsItem
+            )
 
-                Column(
-                    verticalArrangement = Arrangement.Top,
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                ) {
-
-                    items.value.forEach { item ->
-
-                        ItemsCard(
-                            title = item.title,
-                            text = item.cardNumber!!,
-                            itemIcon = cardsCategoryOptions[item.category].icon,
-                            itemIconColor = cardsCategoryOptions[item.category].tintColor,
-                            onItemCardClick = {
-                                item.itemId?.let { id -> navigateToCardsDetails(id) }
-                            },
-                            isFavorite = item.isFavorite,
-                            onStarIconsClick = {
-                                item.itemId?.let { id -> viewModel.updateIsFavorite(id, it) }
-                            },
-                            onEditMenuClick = { item.itemId?.let { id -> navigateToCardsEdit(id) } },
-                            onDeleteMenuClick = {
-                                item.itemId?.let { id ->
-                                    viewModel.deleteCardsItem(
-                                        id
-                                    )
-                                }
-                            }
-                        )
-
-                        Divider()
-
-
-                    }
-                }
-
-            }
-
-
-
-            Spacer(modifier = Modifier.height(90.dp))
+            Spacer(modifier = Modifier.height(140.dp))
 
         }
 
     }
+}
 
-    Box(modifier = Modifier.fillMaxSize()) {
-        DefaultSnackbar(
-            snackbarHostState = scaffoldState.snackbarHostState,
-            onDismiss = {
-                scaffoldState.snackbarHostState.currentSnackbarData?.dismiss()
-            },
-            modifier = Modifier.align(Alignment.BottomCenter)
-        )
+
+@Composable
+fun CardsItemsList(
+    items: State<List<CardsItems>>,
+    onItemCardClick: (Int)->Unit,
+    onStarIconClick: (Int, Boolean) -> Unit,
+    onEditIconClick: (Int) -> Unit,
+    onDeleteIconClick: (Int) -> Unit
+) {
+
+    Surface(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(8.dp),
+        elevation = 4.dp,
+        shape = RoundedCornerShape(8.dp)
+    ) {
+
+        Column(
+            verticalArrangement = Arrangement.Top,
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+
+            items.value.forEach { item ->
+
+                ItemsCard(
+                    title = item.title,
+                    text = item.cardNumber!!,
+                    itemIcon = cardsCategoryOptions[item.category].icon,
+                    itemIconColor = cardsCategoryOptions[item.category].tintColor,
+                    onItemCardClick = { onItemCardClick(item.itemId) },
+                    isFavorite = item.isFavorite,
+                    onStarIconsClick = { onStarIconClick(item.itemId, it) },
+                    onEditMenuClick = { onEditIconClick(item.itemId) },
+                    onDeleteMenuClick = { onDeleteIconClick(item.itemId) }
+                )
+
+                Divider()
+
+
+            }
+        }
+
     }
 
 }

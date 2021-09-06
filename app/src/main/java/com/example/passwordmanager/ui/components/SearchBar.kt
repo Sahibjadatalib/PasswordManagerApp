@@ -26,30 +26,21 @@ fun SearchBar(
     val focusManager = LocalFocusManager.current
 
     Surface(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(Theme.paddings.medium),
-        elevation = 4.dp,
+        modifier = Modifier.fillMaxWidth().padding(Theme.paddings.medium),
+        elevation = Theme.elevation.medium,
         shape = RoundedCornerShape(32.dp),
         border = BorderStroke(1.dp,MaterialTheme.colors.primary)
     ) {
+
         OutlinedTextField(
             value = text,
             onValueChange = { onTextChange(it) },
-            leadingIcon = {
-                Icon(
-                    imageVector = Icons.Default.Search,
-                    contentDescription = ""
-                )
-            },
+            leadingIcon = { Icon(imageVector = Icons.Default.Search, contentDescription = "") },
             placeholder = { Text("Search") },
             shape = RoundedCornerShape(32.dp),
             singleLine = true,
             maxLines = 1,
-            keyboardOptions = KeyboardOptions.Default.copy(
-                keyboardType = KeyboardType.Text,
-                imeAction = ImeAction.Search
-            ),
+            keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Text, imeAction = ImeAction.Search),
             keyboardActions = KeyboardActions(onSearch = {focusManager.clearFocus()})
 
         )
