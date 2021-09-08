@@ -9,7 +9,7 @@ import com.example.passwordmanager.data.room.dao.OthersDao
 import com.example.passwordmanager.data.room.entity.CardsItems
 import com.example.passwordmanager.data.room.entity.LoginsItems
 import com.example.passwordmanager.data.room.entity.OthersItems
-import com.example.passwordmanager.util.MyTypeConverter
+import com.example.passwordmanager.common.MyTypeConverter
 
 
 @Database(

@@ -4,9 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
-import androidx.compose.material.Surface
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
@@ -16,9 +14,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
-import com.example.passwordmanager.ui.components.DefaultSnackbar
-import com.example.passwordmanager.ui.theme.Theme
-import com.example.passwordmanager.ui.viewModel.MainViewModel
+import com.example.passwordmanager.AppNavGraph
+import com.example.passwordmanager.presentation.common_components.DefaultSnackbar
+import com.example.passwordmanager.presentation.theme.Theme
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
 
