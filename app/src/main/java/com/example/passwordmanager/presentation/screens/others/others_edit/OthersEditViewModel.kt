@@ -40,6 +40,23 @@ class OtherEditViewModel @Inject constructor(
                 showSnackBar("Title field cannot be empty!", "Dismiss")
             } else {
 
+                when(category.value){
+                    0 -> {
+                        userName.value = ""
+                        password.value = ""
+                        macAddress.value = ""
+                    }
+                    1 -> {
+                        userName.value = ""
+                        description.value = ""
+                    }
+                    2 -> {
+                        description.value = ""
+                        macAddress.value = ""
+                    }
+                }
+
+
                 try {
 
                     othersRoomRepository.updateItem(

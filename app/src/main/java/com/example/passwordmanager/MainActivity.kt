@@ -4,6 +4,8 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
@@ -12,11 +14,15 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.core.view.WindowCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
 import com.example.passwordmanager.AppNavGraph
 import com.example.passwordmanager.presentation.common_components.DefaultSnackbar
 import com.example.passwordmanager.presentation.theme.Theme
+import com.google.accompanist.insets.ProvideWindowInsets
+import com.google.accompanist.insets.navigationBarsWithImePadding
+import com.google.accompanist.insets.systemBarsPadding
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -24,6 +30,8 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        //WindowCompat.setDecorFitsSystemWindows(window,false)
 
         setContent {
             PasswordManagerApp()
@@ -41,10 +49,7 @@ fun PasswordManagerApp() {
     val scaffoldState = rememberScaffoldState()
     val coroutineScope = rememberCoroutineScope()
 
-    Theme(
-        darkTheme = mainViewModel.storedAppTheme.value
-    ) {
-
+    Theme(darkTheme = mainViewModel.storedAppTheme.value) {
 
         val colorForStatusBar = Theme.colors.primaryVariant
 
@@ -54,30 +59,36 @@ fun PasswordManagerApp() {
             )
         }
 
-        Scaffold(
-            scaffoldState = scaffoldState,
-            snackbarHost = { scaffoldState.snackbarHostState }
-        ) {
+        ProvideWindowInsets {
 
-            Box(modifier = Modifier) {
+            Scaffold(
+                scaffoldState = scaffoldState,
+                snackbarHost = { scaffoldState.snackbarHostState },
+            ) {
 
-                AppNavGraph(
-                    mainViewModel = mainViewModel,
-                    navController = navController,
-                    scaffoldState = scaffoldState
-                )
+                Box(modifier = Modifier) {
 
-                DefaultSnackbar(
-                    snackbarHostState = scaffoldState.snackbarHostState,
-                    onDismiss = { scaffoldState.snackbarHostState.currentSnackbarData?.dismiss() },
-                    modifier = Modifier.align(Alignment.BottomCenter)
-                )
+                    AppNavGraph(
+                        mainViewModel = mainViewModel,
+                        navController = navController,
+                        scaffoldState = scaffoldState
+                    )
+
+                    DefaultSnackbar(
+                        snackbarHostState = scaffoldState.snackbarHostState,
+                        onDismiss = { scaffoldState.snackbarHostState.currentSnackbarData?.dismiss() },
+                        modifier = Modifier.align(Alignment.BottomCenter)
+                    )
+
+                }
+
 
             }
 
-
         }
+
     }
+
 }
 
 
@@ -85,6 +96,6 @@ fun PasswordManagerApp() {
 @Composable
 fun DefaultPreview() {
     Theme {
-        //PasswordManagerApp()
+        PasswordManagerApp()
     }
 }

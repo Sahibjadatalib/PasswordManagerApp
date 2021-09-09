@@ -149,9 +149,7 @@ fun DetailsTopAppBar(
     Surface(elevation = Theme.elevation.medium) {
 
         Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(Theme.paddings.medium),
+            modifier = Modifier.fillMaxWidth().padding(Theme.paddings.medium),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {

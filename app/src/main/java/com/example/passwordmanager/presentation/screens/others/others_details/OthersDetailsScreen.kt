@@ -22,6 +22,7 @@ import com.example.passwordmanager.presentation.common_components.PasswordStreng
 import com.example.passwordmanager.presentation.navigation.MainActions
 import com.example.passwordmanager.presentation.theme.Theme
 import com.example.passwordmanager.MainViewModel
+import com.example.passwordmanager.domain.models.othersCategoryOptions
 import com.example.passwordmanager.presentation.screens.others.others_details.OtherDetailsViewModel
 
 @Composable
@@ -117,16 +118,16 @@ fun OthersItemHeader(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Icon(
-                    tint = loginsCategoryOptions[item.category].tintColor,
-                    modifier = Modifier.size(64.dp),
-                    imageVector = loginsCategoryOptions[item.category].icon,
+                    tint = othersCategoryOptions[item.category].tintColor,
+                    modifier = Modifier.size(48.dp),
+                    imageVector = othersCategoryOptions[item.category].icon,
                     contentDescription = ""
                 )
 
                 Spacer(modifier = Modifier.height(8.dp))
 
                 Text(
-                    text = loginsCategoryOptions[item.category].title,
+                    text = othersCategoryOptions[item.category].title,
                     style = Theme.typography.subtitle1
                 )
 
