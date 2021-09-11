@@ -21,7 +21,7 @@ class MainActions(
     }
 
     val navigateToAllLoginsFromWelcome: ()->Unit = {
-        navController.navigate(LoginsScreen.AllLogins.route){
+        navController.navigate(Screen.LoginsScreenRoot.route){
             popUpTo(Screen.WelcomeScreenRoot.route){
                 inclusive = true
             }
@@ -31,7 +31,7 @@ class MainActions(
 
     val navigateToAllLogins: ()->Unit = {
         navController.navigate(LoginsScreen.AllLogins.route){
-            popUpTo(LoginsScreen.AllLogins.route)
+            popUpTo(Screen.LoginsScreenRoot.route)
             launchSingleTop = true
         }
     }
@@ -116,11 +116,21 @@ class MainActions(
         }
     }
 
-    val navigateToSignUpScreen: () -> Unit = {
+    val navigateToSignUpScreenAfterReset: () -> Unit = {
         navController.navigate(WelcomeScreen.SignUp.route) {
-            popUpTo(Screen.WelcomeScreenRoot.route) {
+            popUpTo(LoginsScreen.AllLogins.route){
                 inclusive = true
             }
+            launchSingleTop = true
+        }
+    }
+
+    val navigateToSignUpScreen: () -> Unit = {
+        navController.navigate(WelcomeScreen.SignUp.route) {
+            popUpTo(Screen.WelcomeScreenRoot.route){
+                inclusive = true
+            }
+            launchSingleTop = true
         }
     }
 

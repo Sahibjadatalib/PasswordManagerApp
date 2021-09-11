@@ -28,7 +28,7 @@ class SignUpViewModel @Inject constructor(
                 && passwordField.value.isNotEmpty()
             ){
                 preferenceStorage.setMasterPassword(passwordField.value)
-                preferenceStorage.setPasswordHint(passwordField.value)
+                preferenceStorage.setPasswordHint(hintField.value)
                 navigateToLoginsScreen()
             }
             else{

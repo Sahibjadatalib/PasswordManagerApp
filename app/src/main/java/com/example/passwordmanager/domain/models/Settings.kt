@@ -17,8 +17,9 @@ data class Settings(
 val generalSettings = listOf(
     Settings(
         0,
-        Icons.Default.Lightbulb,
+        Icons.Default.DarkMode,
         "Change Theme",
+        iconColor = Color.Gray
     )
 )
 

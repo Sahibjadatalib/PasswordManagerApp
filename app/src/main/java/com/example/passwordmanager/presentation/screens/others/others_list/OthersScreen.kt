@@ -70,35 +70,54 @@ fun OthersScreen(
 
         val scrollState = rememberScrollState()
 
-        Column(
-            verticalArrangement = Arrangement.Top,
-            horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.fillMaxSize().verticalScroll(scrollState)
-        ) {
-
-            Spacer(modifier = Modifier.height(8.dp))
-
-            SearchBar(
-                text = searchQuery,
-                onTextChange = {
-                    searchQuerySetter(it)
-                    viewModel.getSearchedEntries()
-                }
+        val storedItems = viewModel.results.collectAsState()
+        if(storedItems.value.isEmpty()){
+            PlaceholderComponent(
+                title = "No Others Added",
+                description = "Click on + icon to add new others item"
             )
-
-            Spacer(modifier = Modifier.height(8.dp))
-
-            OthersItemsList(
-                items = items,
-                onItemCardClick = {actions.navigateToOthersDetails(it)},
-                onStarIconClick = viewModel::updateIsFavorite,
-                onEditIconClick = { actions.navigateToOthersEdit(it) },
-                onDeleteIconClick = viewModel::deleteOthersItem
-            )
-
-            Spacer(modifier = Modifier.height(140.dp))
-
         }
+        else{
+
+            Column(
+                verticalArrangement = Arrangement.Top,
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier.fillMaxSize().verticalScroll(scrollState)
+            ) {
+
+                Spacer(modifier = Modifier.height(8.dp))
+
+                SearchBar(
+                    text = searchQuery,
+                    onTextChange = {
+                        searchQuerySetter(it)
+                        viewModel.getSearchedEntries()
+                    }
+                )
+
+                Spacer(modifier = Modifier.height(8.dp))
+
+                val searchedItems = viewModel.resultsForSearch.collectAsState()
+                if(searchedItems.value.isEmpty() && searchQuery.isNotEmpty()){
+                    SearchPlaceholder()
+                }
+                else{
+
+                    OthersItemsList(
+                        items = items,
+                        onItemCardClick = {actions.navigateToOthersDetails(it)},
+                        onStarIconClick = viewModel::updateIsFavorite,
+                        onEditIconClick = { actions.navigateToOthersEdit(it) },
+                        onDeleteIconClick = viewModel::deleteOthersItem
+                    )
+
+                    Spacer(modifier = Modifier.height(140.dp))
+                }
+
+
+            }
+        }
+
 
     }
 }

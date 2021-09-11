@@ -1,8 +1,6 @@
 package com.example.passwordmanager.presentation.screens.others
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
@@ -19,6 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.passwordmanager.LoginsScreen
 import com.example.passwordmanager.domain.models.othersCategoryOptions
@@ -70,6 +69,8 @@ fun EditOthersDetails(
                 .fillMaxSize()
                 .verticalScroll(scrollState)
         ) {
+
+            Spacer(modifier = Modifier.height(8.dp))
 
             TitleField(
                 text = viewModel.title.value,

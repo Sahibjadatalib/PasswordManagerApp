@@ -147,7 +147,7 @@ fun SettingsScreen(
         if (viewModel.resetAppDialog.value) {
             ResetAppDialog(
                 onDismiss = { viewModel.resetAppDialog.value = false },
-                onConfirmClick = {viewModel.resetApp(actions.showSnackBar, actions.navigateToSignUpScreen)}
+                onConfirmClick = {viewModel.resetApp(actions.showSnackBar, actions.navigateToSignUpScreenAfterReset)}
             )
         }
 

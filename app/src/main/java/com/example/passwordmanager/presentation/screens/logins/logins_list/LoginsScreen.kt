@@ -18,6 +18,7 @@ import com.example.passwordmanager.domain.models.loginsCategoryOptions
 import com.example.passwordmanager.presentation.common_components.*
 import com.example.passwordmanager.MainViewModel
 import com.example.passwordmanager.presentation.navigation.MainActions
+import com.example.passwordmanager.presentation.screens.cards.CardsItemsList
 import com.example.passwordmanager.presentation.screens.logins.logins_list.LoginsListViewModel
 import com.example.passwordmanager.presentation.theme.Theme
 
@@ -30,7 +31,8 @@ fun LoginsScreen(
     actions: MainActions
 ) {
 
-    val scrollState = rememberScrollState()
+    val (searchQuery, searchQuerySetter) = viewModel.searchQuery
+
 
     var items = if (viewModel.switch.value) {
         viewModel.resultsForFavorites.collectAsState()
@@ -68,35 +70,59 @@ fun LoginsScreen(
 
         ) {
 
-        Column(
-            verticalArrangement = Arrangement.Top,
-            horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.fillMaxSize().verticalScroll(scrollState)
-        ) {
+        val scrollState = rememberScrollState()
 
-            Spacer(modifier = Modifier.height(8.dp))
-
-            SearchBar(
-                text = viewModel.searchQuery.value,
-                onTextChange = {
-                    viewModel.searchQuery.value = it
-                    viewModel.getSearchedEntries()
-                }
+        val storedItems = viewModel.results.collectAsState()
+        if(storedItems.value.isEmpty()){
+            PlaceholderComponent(
+                title = "No Logins Added",
+                description = "Click on + icon to add new logins item"
             )
-
-            Spacer(modifier = Modifier.height(8.dp))
-
-            LoginsItemsList(
-                items = items,
-                onItemCardClick = {actions.navigateToLoginsDetails(it)},
-                onStarIconClick = viewModel::updateIsFavorite,
-                onEditIconClick = { actions.navigateToLoginsEdit(it) },
-                onDeleteIconClick = viewModel::deleteLoginsItem
-            )
-
-            Spacer(modifier = Modifier.height(140.dp))
-
         }
+        else{
+
+            Column(
+                verticalArrangement = Arrangement.Top,
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .verticalScroll(scrollState)
+            ) {
+
+                Spacer(modifier = Modifier.height(8.dp))
+
+                SearchBar(
+                    text = searchQuery,
+                    onTextChange = {
+                        searchQuerySetter(it)
+                        viewModel.getSearchedEntries()
+                    }
+                )
+
+                Spacer(modifier = Modifier.height(8.dp))
+
+                val searchedItems = viewModel.resultsForSearch.collectAsState()
+                if(searchedItems.value.isEmpty() && searchQuery.isNotEmpty()){
+                    SearchPlaceholder()
+                }
+
+                else{
+
+                    LoginsItemsList(
+                        items = items,
+                        onItemCardClick = {actions.navigateToLoginsDetails(it)},
+                        onStarIconClick = viewModel::updateIsFavorite,
+                        onEditIconClick = { actions.navigateToLoginsEdit(it) },
+                        onDeleteIconClick = viewModel::deleteLoginsItem
+                    )
+
+                    Spacer(modifier = Modifier.height(140.dp))
+                }
+
+
+            }
+        }
+
 
 
     }
@@ -114,8 +140,10 @@ fun LoginsItemsList(
 ) {
 
     Surface(
-        modifier = Modifier.fillMaxWidth().padding(Theme.paddings.medium),
-        elevation = Theme.paddings.medium,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(8.dp),
+        elevation = 4.dp,
         shape = RoundedCornerShape(8.dp)
 
     ) {

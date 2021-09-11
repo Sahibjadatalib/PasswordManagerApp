@@ -2,6 +2,7 @@ package com.example.passwordmanager.ui.screens.welcomeScreen.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.AlertDialog
@@ -27,7 +28,9 @@ fun HintDialog(
     val focusManager = LocalFocusManager.current
 
     Surface(
-        elevation = Theme.elevation.large
+        modifier = Modifier,
+        elevation = Theme.elevation.large,
+        shape = RoundedCornerShape(8.dp)
     ) {
 
         AlertDialog(
@@ -35,7 +38,6 @@ fun HintDialog(
             onDismissRequest = {
                 onDismiss()
             },
-            shape = RoundedCornerShape(8.dp),
             text = {
 
                 Column(
@@ -47,20 +49,14 @@ fun HintDialog(
                     Text(
                         modifier = Modifier.padding(4.dp),
                         text = "Hint!",
-                        style = TextStyle(
-                            color = Color.Green,
-                            fontSize = 18.sp,
-                            fontWeight = FontWeight.Black,
-                        )
+                        style = Theme.typography.subtitle1.copy(fontWeight = FontWeight.Black),
+                        color = Theme.colors.primary
                     )
 
                     Text(
                         modifier = Modifier.padding(4.dp),
                         text = hint,
-                        style = TextStyle(
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Normal,
-                        )
+                        style = Theme.typography.body1
                     )
 
                 }

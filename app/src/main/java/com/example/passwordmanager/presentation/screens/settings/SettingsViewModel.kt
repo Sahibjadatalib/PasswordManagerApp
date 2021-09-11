@@ -169,13 +169,12 @@ class SettingsViewModel @Inject constructor(
                 preferenceStorage.setPasswordHint("")
                 changePasswordDialog.value = false
                 showSnackBar("reset done","Dismiss")
-                Log.e(TAG, "resetApp: reset app done successfully")
                 navigateToSignUpScreen()
 
             } catch (e: Exception) {
                 e.printStackTrace()
+                changePasswordDialog.value = false
                 showSnackBar(e.message.toString(),"Dismiss")
-                Log.e(TAG, "resetApp: reset app failed")
             }
 
         }

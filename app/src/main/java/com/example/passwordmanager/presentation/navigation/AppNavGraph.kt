@@ -1,5 +1,6 @@
 package com.example.passwordmanager
 
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
@@ -15,6 +16,9 @@ import com.example.passwordmanager.presentation.navigation.addWelcomeGraph
 import com.example.passwordmanager.ui.screens.cardsScreen.addCardsGraph
 import com.example.passwordmanager.ui.screens.loginsScreen.addLoginsGraph
 import com.example.passwordmanager.ui.screens.othersScreen.addOthersGraph
+import com.google.accompanist.navigation.animation.AnimatedNavHost
+import com.google.accompanist.navigation.animation.navigation
+import com.google.accompanist.navigation.animation.composable
 
 sealed class Screen(
     val route: String
@@ -106,6 +110,8 @@ sealed class SettingsScreen(
 
 
 
+
+@ExperimentalAnimationApi
 @Composable
 fun AppNavGraph(
     mainViewModel: MainViewModel,

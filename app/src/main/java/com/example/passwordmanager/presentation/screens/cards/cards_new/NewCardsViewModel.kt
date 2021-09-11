@@ -34,7 +34,7 @@ class NewCardsViewModel @Inject constructor(
                 showSnackBar("Title field cannot be empty!", "Dismiss")
             } else {
 
-                if(category.value != 0 || category.value != 1){
+                if(category.value != 0 && category.value != 1){
                     cvvNumber.value = ""
                     pinNumber.value = ""
                 }

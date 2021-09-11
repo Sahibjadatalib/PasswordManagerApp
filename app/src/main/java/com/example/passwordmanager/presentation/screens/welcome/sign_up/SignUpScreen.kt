@@ -33,7 +33,7 @@ fun SignUpScreen(
 
     Column(
         modifier = modifier
-            .fillMaxWidth()
+            .fillMaxSize()
             .padding(16.dp).verticalScroll(scrollState),
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
@@ -92,7 +92,7 @@ fun SignUpScreen(
 
         SignInputField(value = viewModel.hintField.value,
             onValueChange = {viewModel.hintField.value= it},
-            placeholder = "hint"
+            placeholder = "hint (optional)"
         )
 
 

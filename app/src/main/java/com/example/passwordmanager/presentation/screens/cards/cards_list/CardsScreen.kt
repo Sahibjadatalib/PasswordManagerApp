@@ -67,37 +67,56 @@ fun CardsScreen(
 
         val scrollState = rememberScrollState()
 
-        Column(
-            verticalArrangement = Arrangement.Top,
-            horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier
-                .fillMaxSize()
-                .verticalScroll(scrollState)
-        ) {
-
-            Spacer(modifier = Modifier.height(8.dp))
-
-            SearchBar(
-                text = searchQuery,
-                onTextChange = {
-                    searchQuerySetter(it)
-                    viewModel.getSearchedEntries()
-                }
+        val storedItems = viewModel.results.collectAsState()
+        if(storedItems.value.isEmpty()){
+            PlaceholderComponent(
+                title = "No Cards Added",
+                description = "Click on + icon to add new cards item"
             )
-
-            Spacer(modifier = Modifier.height(8.dp))
-
-            CardsItemsList(
-                items = items,
-                onItemCardClick = {actions.navigateToCardsDetails(it)},
-                onStarIconClick = viewModel::updateIsFavorite,
-                onEditIconClick = { actions.navigateToCardsEdit(it) },
-                onDeleteIconClick = viewModel::deleteCardsItem
-            )
-
-            Spacer(modifier = Modifier.height(140.dp))
-
         }
+        else{
+
+            Column(
+                verticalArrangement = Arrangement.Top,
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .verticalScroll(scrollState)
+            ) {
+
+                Spacer(modifier = Modifier.height(8.dp))
+
+                SearchBar(
+                    text = searchQuery,
+                    onTextChange = {
+                        searchQuerySetter(it)
+                        viewModel.getSearchedEntries()
+                    }
+                )
+
+                Spacer(modifier = Modifier.height(8.dp))
+
+                val searchedItems = viewModel.resultsForSearch.collectAsState()
+                if(searchedItems.value.isEmpty() && searchQuery.isNotEmpty()){
+                    SearchPlaceholder()
+                }
+                else{
+
+                    CardsItemsList(
+                        items = items,
+                        onItemCardClick = {actions.navigateToCardsDetails(it)},
+                        onStarIconClick = viewModel::updateIsFavorite,
+                        onEditIconClick = { actions.navigateToCardsEdit(it) },
+                        onDeleteIconClick = viewModel::deleteCardsItem
+                    )
+
+                    Spacer(modifier = Modifier.height(140.dp))
+                }
+
+
+            }
+        }
+
 
     }
 }

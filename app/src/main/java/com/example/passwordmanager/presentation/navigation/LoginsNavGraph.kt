@@ -1,5 +1,7 @@
 package com.example.passwordmanager.ui.screens.loginsScreen
 
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.material.ScaffoldState
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
