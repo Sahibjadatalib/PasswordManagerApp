@@ -1,4 +1,4 @@
-package com.example.passwordmanager.ui.screens.cardsScreen
+package com.example.passwordmanager.presentation.navigation
 
 import androidx.compose.material.ScaffoldState
 import androidx.navigation.NavGraphBuilder
@@ -6,10 +6,9 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navArgument
 import androidx.navigation.navigation
-import com.example.passwordmanager.*
+import com.example.passwordmanager.CardsScreen
 import com.example.passwordmanager.MainViewModel
 import com.example.passwordmanager.Screen
-import com.example.passwordmanager.presentation.navigation.MainActions
 import com.example.passwordmanager.presentation.screens.cards.CardsDetailsScreen
 import com.example.passwordmanager.presentation.screens.cards.CardsScreen
 import com.example.passwordmanager.presentation.screens.cards.EditCardsDetails

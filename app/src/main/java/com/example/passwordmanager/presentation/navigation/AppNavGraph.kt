@@ -11,9 +11,9 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import com.example.passwordmanager.presentation.navigation.MainActions
+import com.example.passwordmanager.presentation.navigation.addCardsGraph
 import com.example.passwordmanager.presentation.navigation.addSettingsGraph
 import com.example.passwordmanager.presentation.navigation.addWelcomeGraph
-import com.example.passwordmanager.ui.screens.cardsScreen.addCardsGraph
 import com.example.passwordmanager.ui.screens.loginsScreen.addLoginsGraph
 import com.example.passwordmanager.ui.screens.othersScreen.addOthersGraph
 import com.google.accompanist.navigation.animation.AnimatedNavHost

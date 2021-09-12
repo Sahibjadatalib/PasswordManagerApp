@@ -1,7 +1,10 @@
 package com.example.passwordmanager.presentation.common_components
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.Icon
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AddCircle
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -21,6 +24,7 @@ fun PlaceholderComponent(
         verticalArrangement = Arrangement.Center
     ){
 
+
         Text(
             text = title,
             style = Theme.typography.h5,
@@ -29,10 +33,27 @@ fun PlaceholderComponent(
 
         Spacer(modifier = Modifier.height(4.dp))
 
-        Text(
-            text = description,
-            style = Theme.typography.h6.copy(fontWeight = FontWeight.Light),
-        )
+        Row(
+            modifier = Modifier,
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center
+        ){
+
+            Text(
+                text = "Click on ",
+                style = Theme.typography.h6.copy(fontWeight = FontWeight.Light),
+            )
+            
+            Icon(tint = Theme.colors.primary,imageVector = Icons.Default.AddCircle, contentDescription = "")
+
+            Text(
+                text = " icon to add new items",
+                style = Theme.typography.h6.copy(fontWeight = FontWeight.Light),
+            )
+
+        }
+
+
 
 
     }
