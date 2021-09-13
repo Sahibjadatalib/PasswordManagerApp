@@ -53,7 +53,7 @@ class NewCardsViewModel @Inject constructor(
                 try {
 
                     repository.insertItem(cardsItems = cardsItems)
-                    showSnackBar("saved", "Dismiss")
+                    showSnackBar("Card saved successfully", "Dismiss")
                     popUp()
 
                 } catch (e: Exception) {

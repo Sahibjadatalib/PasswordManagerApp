@@ -32,7 +32,12 @@ class SignUpViewModel @Inject constructor(
                 navigateToLoginsScreen()
             }
             else{
-                showSnackBar("Password mismatch!", "Dismiss")
+                if(passwordField.value != cnfPasswordField.value){
+                    showSnackBar("Password mismatch!", "Dismiss")
+
+                }else if(passwordField.value.isEmpty()){
+                    showSnackBar("Password cannot be empty!","Dismiss")
+                }
             }
 
         }

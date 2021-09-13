@@ -34,10 +34,7 @@ import com.example.passwordmanager.presentation.screens.settings.components.Gene
 import com.example.passwordmanager.presentation.screens.settings.components.HelpAndAboutSection
 import com.example.passwordmanager.presentation.screens.settings.components.SecuritySection
 import com.example.passwordmanager.presentation.theme.Theme
-import com.example.passwordmanager.util.contactUsIntent
-import com.example.passwordmanager.util.privacyPolicyIntent
-import com.example.passwordmanager.util.reportBugIntent
-import com.example.passwordmanager.util.suggestionsIntent
+import com.example.passwordmanager.util.*
 
 @Composable
 fun SettingsScreen(
@@ -87,7 +84,7 @@ fun SettingsScreen(
                 onSentSuggestion = { startActivity(context, suggestionsIntent, null) },
                 onReportBug = { startActivity(context, reportBugIntent, null) },
                 onPrivacy = { startActivity(context, privacyPolicyIntent, null) },
-                onRateApp = { startActivity(context, privacyPolicyIntent, null) }
+                onRateApp = { startActivity(context, rateAppIntent, null) }
             )
 
             Spacer(modifier = Modifier.height(8.dp))

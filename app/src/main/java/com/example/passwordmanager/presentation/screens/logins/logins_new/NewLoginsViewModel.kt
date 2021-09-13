@@ -41,7 +41,7 @@ class NewLoginsViewModel @Inject constructor(
 
                     loginsRoomRepository.insertLoginsItem(loginsItems = loginsItem)
 
-                    showSnackBar("saved", "Dismiss")
+                    showSnackBar("Saved successfully", "Dismiss")
                     popUp()
 
                 } catch (e: Exception) {

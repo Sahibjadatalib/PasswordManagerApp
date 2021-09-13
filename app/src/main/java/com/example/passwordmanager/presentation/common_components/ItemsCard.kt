@@ -70,7 +70,7 @@ fun ItemsCard(
         ) {
             Text(
                 text = title,
-                style = Theme.typography.h6.copy(fontWeight = FontWeight.Normal),
+                style = Theme.typography.subtitle1.copy(fontWeight = FontWeight.W500),
                 overflow = TextOverflow.Ellipsis,
                 maxLines = 1,
                 softWrap = true

@@ -69,7 +69,7 @@ class OtherEditViewModel @Inject constructor(
                         itemId = itemId
                     )
 
-                    showSnackBar("updated", "Dismiss")
+                    showSnackBar("Updated successfully", "Dismiss")
                     popUp()
 
                 } catch (e: Exception) {

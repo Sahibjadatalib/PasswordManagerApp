@@ -1,5 +1,6 @@
 package com.example.passwordmanager.util
 
+import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
 
@@ -25,14 +26,14 @@ val reportBugIntent = Intent(Intent.ACTION_SEND).apply {
     type = "message/rfc822"
 }
 
-//    val rateAppIntent = Intent(Intent.ACTION_VIEW).apply {
-//        data = try {
-//            Uri.parse("market://details?id=$packageName")
-//        }catch (e: ActivityNotFoundException){
-//            Uri.parse("https://play.google.com/store/apps/details?id=$packageName")
-//        }
-//    }
+val rateAppIntent = Intent(Intent.ACTION_VIEW).apply {
+    data = try {
+        Uri.parse("market://details?id=com.example.passwordmanager")
+    } catch (e: ActivityNotFoundException) {
+        Uri.parse("https://play.google.com/store/apps/details?id=com.example.passwordmanager")
+    }
+}
 
 val privacyPolicyIntent = Intent(Intent.ACTION_VIEW).apply {
-    data = Uri.parse("http://www.google.com")
+    data = Uri.parse("https://sites.google.com/view/pk0722/home?authuser=4")
 }

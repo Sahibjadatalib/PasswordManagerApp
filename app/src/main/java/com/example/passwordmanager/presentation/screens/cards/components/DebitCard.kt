@@ -55,7 +55,7 @@ fun DebitCard(
 
                 Text(
                     text = cardName,
-                    style = Theme.typography.h5,
+                    style = Theme.typography.h5.copy(fontFamily = FontFamily.Cursive),
                     color = Color.White
                 )
 
@@ -99,13 +99,13 @@ fun DebitCard(
 
                     Text(
                         text = "CardHolder",
-                        style = Theme.typography.subtitle1,
+                        style = Theme.typography.subtitle1.copy(fontFamily = FontFamily.Cursive),
                         color = Color.White
                     )
 
                     Text(
                         text = cardHolderName,
-                        style = Theme.typography.subtitle1,
+                        style = Theme.typography.subtitle1.copy(fontFamily = FontFamily.Cursive),
                         color = Color.White
                     )
 
@@ -115,13 +115,13 @@ fun DebitCard(
 
                     Text(
                         text = "Issue",
-                        style = Theme.typography.subtitle1,
+                        style = Theme.typography.subtitle1.copy(fontFamily = FontFamily.Cursive),
                         color = Color.White
                     )
 
                     Text(
                         text = issueDate,
-                        style = Theme.typography.subtitle1,
+                        style = Theme.typography.subtitle1.copy(fontFamily = FontFamily.Cursive),
                         color = Color.White
                     )
 
@@ -131,13 +131,13 @@ fun DebitCard(
 
                     Text(
                         text = "Expiry",
-                        style = Theme.typography.subtitle1,
+                        style = Theme.typography.subtitle1.copy(fontFamily = FontFamily.Cursive),
                         color = Color.White
                     )
 
                     Text(
                         text = expiryDate,
-                        style = Theme.typography.subtitle1,
+                        style = Theme.typography.subtitle1.copy(fontFamily = FontFamily.Cursive),
                         color = Color.White
                     )
 

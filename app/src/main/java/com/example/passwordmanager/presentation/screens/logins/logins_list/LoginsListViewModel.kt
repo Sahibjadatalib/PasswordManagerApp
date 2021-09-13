@@ -1,22 +1,25 @@
 package com.example.passwordmanager.presentation.screens.logins.logins_list
 
+import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.passwordmanager.data.repository.LoginsRoomRepository
 import com.example.passwordmanager.data.room.entity.LoginsItems
+import com.example.passwordmanager.domain.use_case.logins_use_cases.GetLoginsItemsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class LoginsListViewModel @Inject constructor(
-    private val loginsRoomRepository: LoginsRoomRepository
+    private val loginsRoomRepository: LoginsRoomRepository,
+    private val getLoginsItemsUseCase: GetLoginsItemsUseCase
 ): ViewModel() {
+
+    private val _states = mutableStateOf(LoginsItemsStates())
+    val states: State<LoginsItemsStates> = _states
 
 
     val switch = mutableStateOf(false)
@@ -51,9 +54,10 @@ class LoginsListViewModel @Inject constructor(
         }
     }
 
+
     private fun getAllLoginsItems() {
         viewModelScope.launch {
-            loginsRoomRepository.getAllLoginsItems()
+            getLoginsItemsUseCase()
                 .catch { exception ->
                     exception.printStackTrace()
                 }
@@ -62,6 +66,18 @@ class LoginsListViewModel @Inject constructor(
                 }
         }
     }
+
+//    private fun getAllLoginsItems() {
+//        viewModelScope.launch {
+//            loginsRoomRepository.getAllLoginsItems()
+//                .catch { exception ->
+//                    exception.printStackTrace()
+//                }
+//                .collect {
+//                    _results.value = it
+//                }
+//        }
+//    }
 
     fun getSearchedEntries() {
         viewModelScope.launch {

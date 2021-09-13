@@ -53,7 +53,7 @@ fun AppDetails() {
             ) {
 
                 Text(
-                    text = "Password Manager",
+                    text = "Password Keeper",
                     style = Theme.typography.h6
                 )
                 Spacer(modifier = Modifier.height(4.dp))

@@ -60,7 +60,7 @@ class OthersNewViewModel @Inject constructor(
 
                     othersRoomRepository.insertItem(othersItems = othersItems)
 
-                    showSnackBar("saved", "Dismiss")
+                    showSnackBar("Saved successfully", "Dismiss")
                     popUp()
 
                 } catch (e: Exception) {

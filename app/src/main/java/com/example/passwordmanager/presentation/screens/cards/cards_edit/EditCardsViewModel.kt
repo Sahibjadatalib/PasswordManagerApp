@@ -59,7 +59,7 @@ class EditCardsViewModel @Inject constructor(
                         itemId = itemId
                     )
 
-                    showSnackBar("updated", "Dismiss")
+                    showSnackBar("Card edited successfully", "Dismiss")
                     popUp()
 
                 } catch (e: Exception) {

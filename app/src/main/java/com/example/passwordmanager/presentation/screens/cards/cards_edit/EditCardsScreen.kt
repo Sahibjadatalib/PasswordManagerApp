@@ -104,7 +104,7 @@ fun EditCardsDetails(
                 fieldTitle = "Cardholder Name",
                 text = viewModel.cardHolderName.value,
                 keyboardOptions = KeyboardOptions.Default.copy(
-                    imeAction = ImeAction.Next,
+                    imeAction = ImeAction.Done,
                     keyboardType = KeyboardType.Text
                 ),
                 onTextChange = { viewModel.cardHolderName.value = it },

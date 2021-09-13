@@ -36,10 +36,12 @@ class SettingsViewModel @Inject constructor(
 
     val themeSwitch = mutableStateOf(false)
 
+    val storedPassword = mutableStateOf("")
     val storedHint = mutableStateOf("")
     val storedTheme = mutableStateOf(false)
 
     init {
+        getCurrentPassword()
         getCurrentHint()
         retrieveTheme()
     }
@@ -52,12 +54,25 @@ class SettingsViewModel @Inject constructor(
 
             try {
 
-                if (newPasswordField.value.isEmpty()) {
-                    showSnackBar("master password cannot be empty", "Dismiss")
-                } else {
+                if (newPasswordField.value.isNotEmpty() &&
+                    newPasswordField.value == cnfNewPasswordField.value &&
+                    currPasswordField.value == storedPassword.value
+                ) {
                     preferenceStorage.setMasterPassword(newPasswordField.value)
                     changePasswordDialog.value = false
-                    showSnackBar("master password changed", "Dismiss")
+                    showSnackBar("Password changed successfully", "Dismiss")
+                } else {
+                    when {
+                        newPasswordField.value.isEmpty() -> {
+                            showSnackBar("Master password cannot be empty", "Dismiss")
+                        }
+                        newPasswordField.value != cnfNewPasswordField.value -> {
+                            showSnackBar("Password mismatch", "Dismiss")
+                        }
+                        currPasswordField.value != newPasswordField.value -> {
+                            showSnackBar("Password mismatch!","Dismiss")
+                        }
+                    }
                 }
 
             } catch (e: Exception) {
@@ -66,6 +81,22 @@ class SettingsViewModel @Inject constructor(
             }
 
         }
+    }
+
+    private fun getCurrentPassword() {
+
+        viewModelScope.launch {
+
+            preferenceStorage.masterPassword
+                .catch {
+
+                }
+                .collect {
+                    storedPassword.value = it
+                }
+
+        }
+
     }
 
     private fun getCurrentHint() {
@@ -94,7 +125,7 @@ class SettingsViewModel @Inject constructor(
                 preferenceStorage.setPasswordHint(newHintField.value)
                 storedHint.value = newHintField.value
                 changeHintDialog.value = false
-                showSnackBar("password hint changed", "Dismiss")
+                showSnackBar("Hint changed successfully", "Dismiss")
             } catch (e: Exception) {
                 e.printStackTrace()
                 showSnackBar(e.message.toString(), "Dismiss")
@@ -103,14 +134,14 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
-    fun changeTheme(switchState: Boolean){
+    fun changeTheme(switchState: Boolean) {
 
         viewModelScope.launch {
 
             try {
                 themeSwitch.value = switchState
                 preferenceStorage.setAppTheme(themeSwitch.value)
-            }catch (e:Exception){
+            } catch (e: Exception) {
                 e.printStackTrace()
             }
 
@@ -118,7 +149,7 @@ class SettingsViewModel @Inject constructor(
 
     }
 
-    private fun retrieveTheme(){
+    private fun retrieveTheme() {
 
         viewModelScope.launch {
 
@@ -145,9 +176,9 @@ class SettingsViewModel @Inject constructor(
                 loginsRoomRepository.deleteAllLogins()
                 othersRoomRepository.deleteAllOthers()
                 cardsRoomRepository.deleteAllCards()
-                showSnackBar("All data deleted","Dismiss")
+                showSnackBar("All data deleted", "Dismiss")
             } catch (e: Exception) {
-                showSnackBar("deletion failed","Dismiss")
+                showSnackBar("Deletion failed!", "Dismiss")
             }
 
         }
@@ -156,7 +187,7 @@ class SettingsViewModel @Inject constructor(
 
     fun resetApp(
         showSnackBar: (String, String) -> Unit,
-        navigateToSignUpScreen: ()->Unit
+        navigateToSignUpScreen: () -> Unit
     ) {
         viewModelScope.launch {
 
@@ -167,14 +198,15 @@ class SettingsViewModel @Inject constructor(
                 cardsRoomRepository.deleteAllCards()
                 preferenceStorage.setMasterPassword("")
                 preferenceStorage.setPasswordHint("")
+                preferenceStorage.setAppTheme(false)
                 changePasswordDialog.value = false
-                showSnackBar("reset done","Dismiss")
+                showSnackBar("Reset done successfully", "Dismiss")
                 navigateToSignUpScreen()
 
             } catch (e: Exception) {
                 e.printStackTrace()
                 changePasswordDialog.value = false
-                showSnackBar(e.message.toString(),"Dismiss")
+                showSnackBar(e.message.toString(), "Dismiss")
             }
 
         }

@@ -89,7 +89,7 @@ fun NewCardsScreen(
                 fieldTitle = "Cardholder Name",
                 text = cardHolderName,
                 keyboardOptions = KeyboardOptions.Default.copy(
-                    imeAction = ImeAction.Next,
+                    imeAction = ImeAction.Done,
                     keyboardType = KeyboardType.Text
                 ),
                 onTextChange = cardHolderNameSetter,

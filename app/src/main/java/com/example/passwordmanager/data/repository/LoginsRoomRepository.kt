@@ -1,10 +1,16 @@
 package com.example.passwordmanager.data.repository
 
+import com.example.passwordmanager.common.Resource
 import com.example.passwordmanager.data.room.dao.CardsDao
 import com.example.passwordmanager.data.room.dao.LoginsDao
 import com.example.passwordmanager.data.room.dao.OthersDao
 import com.example.passwordmanager.data.room.entity.LoginsItems
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import java.lang.Exception
 import javax.inject.Inject
 
 class LoginsRoomRepository @Inject constructor(
@@ -20,6 +26,7 @@ class LoginsRoomRepository @Inject constructor(
     fun getAllLoginsItems(): Flow<List<LoginsItems>> {
         return loginsDao.getAllEntries()
     }
+
 
     fun getAllFavoriteEntries(): Flow<List<LoginsItems>> {
         return loginsDao.getAllFavoriteEntries()
