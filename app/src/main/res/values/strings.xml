@@ -1,8 +1,8 @@
 <resources>
-    <string name="app_name">PasswordManager</string>
+    <string name="app_name">Password Keeper</string>
     <string name="welcome_back">Welcome Back</string>
     <string name="enter_password">Please enter your master password</string>
     <string name="textfield_hint_master_password">Master Password</string>
     <string name="continue_btn">Continue</string>
-    <string name="important_disclaimer">Password manager app is an offline app and we do not store your data on our server. All your data is saved offline in your device.As this app stores all your important data in your device only so once you forgot your master password there is no way to get your data back. Set a strong but easy to remember password.</string>
+    <string name="important_disclaimer">Password manager app is an offline app, and we do not store your data on our server. All your data is saved offline on your device. As this app stores all your important data on your device only so once you forget your master password there is no way to get your data back. Set a strong but easy-to-remember password.</string>
 </resources>

@@ -10,7 +10,7 @@ android {
     compileSdk 31
 
     defaultConfig {
-        applicationId "com.example.passwordmanager"
+        applicationId "com.stalib.passwordmanager"
         minSdk 21
         targetSdk 31
         versionCode 1
