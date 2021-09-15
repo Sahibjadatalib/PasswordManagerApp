@@ -17,7 +17,6 @@
   <li>Dark theme mode available </li>
   <li>All data is stored offline at your device.</li>
   <li>No data is fetched by our server</li>
-  <li>Can mark your favorite data.</li>
 </ul>
 
 
