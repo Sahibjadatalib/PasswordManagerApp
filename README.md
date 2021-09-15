@@ -1,5 +1,11 @@
 # Password Manager App
 
+## Download
+
+<a href = "https://github.com/Sahibjadatalib/PasswordManagerApp/releases/latest">
+  <img border="0" alt="get it on github" src="https://user-images.githubusercontent.com/67537548/133410718-647a332b-8a8f-4ce1-939b-b49b2ea10652.png"/>
+</a>
+
 ## Features
 <ul>
   <li>Can store your - </li>
@@ -29,6 +35,7 @@ https://user-images.githubusercontent.com/67537548/133389488-a58b41db-2bfd-473b-
 <hr>
 
 
+
 ## Screenshots
 
 ![screen_1-small](https://user-images.githubusercontent.com/67537548/133206518-93b21bae-429d-4201-ab66-0d6be3c870ca.png)
@@ -41,11 +48,23 @@ https://user-images.githubusercontent.com/67537548/133389488-a58b41db-2bfd-473b-
 ![screen_8-small](https://user-images.githubusercontent.com/67537548/133206514-702a716e-bb7c-4aec-adb3-4d1fef9f3039.png)
 
 
+## Built with
+<p> Built with MVVM architecture while practicing clean code paradigm (Uncle Bob) </p>
 
-## Download
+<ul>
+    <li><a href="https://kotlinlang.org/">Kotlin</a> </li>
+    <li><a href="https://developer.android.com/training/data-storage/room">Room</a> </li>
+    <li><a href="https://kotlinlang.org/docs/coroutines-overview.html">Coroutines</a> </li>
+    <li><a href="https://developer.android.com/jetpack/compose">Jetpack compose UI</a> </li>
+    <li><a href="https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/-flow/">Flows</a> </li>
+    <li><a href="https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/-state-flow/">StateFlow</a> </li>
+    <li><a href="https://dagger.dev/hilt/">Hilt-dependency injection</a> </li>
+    <li><a href="https://developer.android.com/training/dependency-injection/hilt-jetpack">ViewModels</a> </li>
+    <li><a href="https://developer.android.com/jetpack/compose/navigation">Navigation Component</a> </li>
+    <li>etc.</li>
+  
+</ul>
 
-<a href = "https://github.com/Sahibjadatalib/PasswordManagerApp/releases/latest">
-  <img border="0" alt="get it on github" src="https://user-images.githubusercontent.com/67537548/133410718-647a332b-8a8f-4ce1-939b-b49b2ea10652.png"/>
-</a>
+
 
 
