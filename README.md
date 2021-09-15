@@ -1,6 +1,8 @@
 # Password Manager App
 This is a productivity app
 
+![Password Manager (2)](https://user-images.githubusercontent.com/67537548/133374363-5581ce30-4804-41d4-a5aa-222209c306c5.gif)
+
 ## Screenshots
 
 ![screen_1-small](https://user-images.githubusercontent.com/67537548/133206518-93b21bae-429d-4201-ab66-0d6be3c870ca.png)
