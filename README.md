@@ -2,10 +2,21 @@
 
 ## Features
 <ul>
-<li>First item</li>
-<li>Second item</li>
-<li>Third item</li>
-<li>Fourth item</li>
+  <li>Can store your - </li>
+  <ul>
+    <li>login credentials</li>
+    <li>bank credit and debit cards</li>
+    <li>metro cards, gym cards, gifts cards, immigration cards, etc. </li>
+    <li>Computer passwords with their mac addresses</li>
+    <li>important notes</li>
+  </ul>
+  <li>Edit and delete your data</li>
+  <li>Can search a perticular data</li>
+  <li>Can mark your favorite data.</li>
+  <li>Dark theme mode available </li>
+  <li>All data is stored offline at your device.</li>
+  <li>No data is fetched by our server</li>
+  <li>Can mark your favorite data.</li>
 </ul>
 
 <hr>
@@ -29,6 +40,6 @@ https://user-images.githubusercontent.com/67537548/133389488-a58b41db-2bfd-473b-
 ![screen_7-small](https://user-images.githubusercontent.com/67537548/133206512-e721b6b9-8dd2-45a5-bd2c-2d2f4a3677a7.png)
 ![screen_8-small](https://user-images.githubusercontent.com/67537548/133206514-702a716e-bb7c-4aec-adb3-4d1fef9f3039.png)
 
-## Features
+
 
 
