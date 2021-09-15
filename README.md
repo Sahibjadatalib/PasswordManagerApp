@@ -1,7 +1,11 @@
 # Password Manager App
 This is a productivity app
 
-![Password Manager (2)](https://user-images.githubusercontent.com/67537548/133374363-5581ce30-4804-41d4-a5aa-222209c306c5.gif)
+
+
+<img src = "https://user-images.githubusercontent.com/67537548/133374363-5581ce30-4804-41d4-a5aa-222209c306c5.gif" width="250" height="500"/>
+<img src = "https://user-images.githubusercontent.com/67537548/133374739-088d968e-731b-4d48-8423-e788a17977aa.gif" width="250" height="500"/>
+
 
 ## Screenshots
 
@@ -15,7 +19,5 @@ This is a productivity app
 ![screen_8-small](https://user-images.githubusercontent.com/67537548/133206514-702a716e-bb7c-4aec-adb3-4d1fef9f3039.png)
 
 ## Features
-
-1. 
 
 
