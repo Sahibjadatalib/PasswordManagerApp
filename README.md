@@ -21,15 +21,6 @@
 
 <hr>
 
-## Download
-
-<a href = "https://github.com/Sahibjadatalib/PasswordManagerApp/releases/latest">
-  <img border="0" alt="get it on github" src="https://user-images.githubusercontent.com/67537548/133410718-647a332b-8a8f-4ce1-939b-b49b2ea10652.png"/>
-</a>
-
-
-
-
 
 ## Preview
 
@@ -50,5 +41,11 @@ https://user-images.githubusercontent.com/67537548/133389488-a58b41db-2bfd-473b-
 ![screen_8-small](https://user-images.githubusercontent.com/67537548/133206514-702a716e-bb7c-4aec-adb3-4d1fef9f3039.png)
 
 
+
+## Download
+
+<a href = "https://github.com/Sahibjadatalib/PasswordManagerApp/releases/latest">
+  <img border="0" alt="get it on github" src="https://user-images.githubusercontent.com/67537548/133410718-647a332b-8a8f-4ce1-939b-b49b2ea10652.png"/>
+</a>
 
 
