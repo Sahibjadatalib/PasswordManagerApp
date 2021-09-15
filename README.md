@@ -21,6 +21,11 @@
 
 <hr>
 
+## Download
+
+https://github.com/Sahibjadatalib/PasswordManagerApp/releases/latest
+
+
 
 ## Preview
 
